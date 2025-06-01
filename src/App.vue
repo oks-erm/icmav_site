@@ -13,7 +13,7 @@
 
   <section id="app" class="py-16 bg-gray-50">
     <h2 class="text-3xl font-semibold text-center mb-8" data-aos="fade-up">
-      Baixe o App
+      Transfira a nossa aplicação
     </h2>
     <DownloadApp />
   </section>
