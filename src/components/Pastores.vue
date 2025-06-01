@@ -72,7 +72,7 @@ import { ref, computed, onMounted } from 'vue'
 const pastors = [
     {
         id: 1,
-        name: 'Pr. PJ',
+        name: 'Pr. Paulo João Correia',
         photo: '/src/assets/pj.png',
         bio:
             "daisyUI is built on top of Tailwind CSS's component API. Tailwind CSS as a library provides utility classes and suggests using utility classes for maximum flexibility and customization. However that's means slower development and more code to write.\
@@ -89,39 +89,39 @@ const pastors = [
     },
     {
         id: 2,
-        name: 'Pr. RR',
+        name: 'Pr. Rogério Trindade',
         photo: '/src/assets/rog.png',
         bio:
             'Pr. RR atua no ministério de família, auxiliando novos casais e desenvolvendo estudos de apoio a jovens. Acredita na força da comunidade unida em fé.',
     },
     {
         id: 3,
-        name: 'Pr. João',
+        name: 'Pr. Henrique Pereira',
         photo: '/src/assets/h.png',
         bio:
             'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
     },
     {
         id: 4,
-        name: 'Pr. Maria',
+        name: 'Pr. Manza Garcia',
         photo: '/src/assets/pj.png',
         bio:
             'Pr. Maria lidera o ministério feminino e periodicidade de estudos bíblicos para mulheres de todas as idades. Seu foco é empoderar mulheres para viverem seu propósito.',
     },
     {
         id: 5,
-        name: 'Pr. Pedro',
+        name: 'Pr. Danilo Gujral',
         photo: '/src/assets/h.png',
         bio:
             'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
     },
-    {
-        id: 6,
-        name: 'Pr. Raquel',
-        photo: '/src/assets/rog.png',
-        bio:
-            'Pr. Raquel dirige a área de ensino e estudos bíblicos, organizando seminários semanais e grupos de estudo em pequena escala para discipulado profundo.',
-    },
+    // {
+    //     id: 6,
+    //     name: 'Pr. Raquel',
+    //     photo: '/src/assets/rog.png',
+    //     bio:
+    //         'Pr. Raquel dirige a área de ensino e estudos bíblicos, organizando seminários semanais e grupos de estudo em pequena escala para discipulado profundo.',
+    // },
     // {
     //     id: 7,
     //     name: 'Pr. Pedro',

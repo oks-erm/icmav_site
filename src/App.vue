@@ -44,9 +44,6 @@
 
   <!-- Gallery -->
   <section id="gallery" class="py-10 bg-gray-800 text-base-100">
-    <h2 class="text-3xl font-semibold text-center" data-aos="fade-up">
-      Na Prática
-    </h2>
     <Gallery />
   </section>
 
@@ -62,7 +59,7 @@
   <!-- Oferta -->
   <section id="oferta" class="py-24 bg-base-100">
     <h2 class="text-3xl font-semibold text-center mb-8" data-aos="fade-up">
-      Oferta
+      Contribua
     </h2>
     <Offer />
   </section>

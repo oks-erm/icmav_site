@@ -50,28 +50,28 @@ const ministries = [
         link: '/ministerios/criancas',
         icon: 'fas fa-hands-holding-child',
         bg: 'accent',
-        description: 'Programa infantil com atividades lúdicas e ensinamentos.Encontros quinzenais para juventude, debates e crescimento.',
+        description: 'Programa infantil com atividades lúdicas, ensinamentos e louvor.',
     },
     {
         name: 'Mulheres',
         link: '/ministerios/mulheres',
         icon: 'fas fa-female',
         bg: 'info',
-        description: 'Grupo de apoio e estudo bíblico para mulheres.Encontros quinzenais para juventude, debates e crescimento.',
+        description: 'Grupo de apoio e estudo bíblico para mulheres. Encontros quinzenais para debates e crescimento.',
     },
     {
         name: 'Homens',
         link: '/ministerios/homens',
         icon: 'fas fa-hands-helping',
         bg: 'warning',
-        description: 'Encontros de discipulado e comunhão masculina.Encontros quinzenais para juventude, debates e crescimento.',
+        description: 'Encontros de discipulado e comunhão masculina. Encontros quinzenais para debates e crescimento.',
     },
     {
         name: 'Alcançar',
         link: '/ministerios/alcancar',
         icon: 'fas fa-globe',
         bg: 'error',
-        description: 'Projetos sociais e missões para impactar nossa comunidade. Encontros quinzenais para juventude, debates e crescimento.',
+        description: 'Projetos sociais e missões para impactar nossa comunidade.',
     },
 ]
 </script>

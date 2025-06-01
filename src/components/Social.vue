@@ -13,7 +13,7 @@
 const social = [
     { icon: 'fab fa-facebook-f', link: 'https://facebook.com/icmav' },
     { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav' },
-    { icon: 'fab fa-youtube', link: 'https://youtube.com/icmav' },
+    { icon: 'fab fa-youtube', link: 'https://www.youtube.com/@igrejaICMAV' },
     { icon: 'fab fa-tiktok', link: 'https://tiktok.com/icmav' },
 ]
 </script>
