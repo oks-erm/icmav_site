@@ -24,7 +24,6 @@
 
 <script setup>
 const images = [
-    '/src/assets/gallery1.png',
     '/src/assets/gallery2.png',
     '/src/assets/gallery3.png',
     '/src/assets/gallery4.png',

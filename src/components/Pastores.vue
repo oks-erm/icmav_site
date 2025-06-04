@@ -103,17 +103,17 @@ const pastors = [
     },
     {
         id: 4,
-        name: 'Pr. Manza Garcia',
-        photo: '/src/assets/pj.png',
+        name: 'Pr. Danilo Gujral',
+        photo: '/src/assets/danilo.png',
         bio:
-            'Pr. Maria lidera o ministério feminino e periodicidade de estudos bíblicos para mulheres de todas as idades. Seu foco é empoderar mulheres para viverem seu propósito.',
+            'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
     },
     {
         id: 5,
-        name: 'Pr. Danilo Gujral',
-        photo: '/src/assets/h.png',
+        name: 'Pr. Manza Garcia',
+        photo: '/src/assets/manza.jpeg',
         bio:
-            'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
+            'Pr. Maria lidera o ministério feminino e periodicidade de estudos bíblicos para mulheres de todas as idades. Seu foco é empoderar mulheres para viverem seu propósito.',
     },
     // {
     //     id: 6,

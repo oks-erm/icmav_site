@@ -31,3 +31,7 @@
     padding: 0 2.5em 0 2.5em;
     border: 3px solid;
 }
+
+#iban-box{
+    max-width: 500px;
+}

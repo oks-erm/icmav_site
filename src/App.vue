@@ -11,12 +11,12 @@
   </section> -->
 
 
-  <section id="app" class="py-16 bg-gray-50">
+  <!-- <section id="app" class="py-16 bg-gray-50">
     <h2 class="text-3xl font-semibold text-center mb-8" data-aos="fade-up">
       Transfira a nossa aplicação
     </h2>
     <DownloadApp />
-  </section>
+  </section> -->
 
   <!-- Ministérios -->
   <section id="ministerios" class="py-12 bg-base-100">
@@ -29,7 +29,7 @@
   <!-- Pastores -->
   <section id="pastores" class="py-16 bg-gray-50">
     <h2 class="text-3xl font-semibold text-center mb-10" data-aos="fade-up">
-      Nossa Equipa Pastoral
+      Equipa Pastoral
     </h2>
     <Pastores />
   </section>
@@ -67,7 +67,7 @@
   <!-- Contact Section -->
   <section id="contactos" class="py-16 bg-gray-50">
     <h2 class="text-3xl font-semibold text-center mb-8" data-aos="fade-up">
-      Contactos
+      Entre em contacto
     </h2>
     <Contact />
   </section>
