@@ -17,7 +17,7 @@
         <div class="relative z-10 flex flex-col items-center justify-center h-screen text-center px-4 space-y-6">
             <!-- Headline -->
             <h1 id="hero-text" class="text-5xl md:text-6xl font-extrabold text-white" data-aos="zoom-in">
-                ICMAV uma igreja com propósito
+                ICMAV - Propósito para a vida
             </h1>
 
             <!-- Sub-headline -->

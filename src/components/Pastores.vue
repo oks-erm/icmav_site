@@ -72,6 +72,34 @@ import { ref, computed, onMounted } from 'vue'
 const pastors = [
     {
         id: 1,
+        name: 'Pr. Henrique Pereira',
+        photo: '/src/assets/h.png',
+        bio:
+            'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
+    },
+    {
+        id: 2,
+        name: 'Pr. Manza Garcia',
+        photo: '/src/assets/manza.jpeg',
+        bio:
+            'Pr. Maria lidera o ministério feminino e periodicidade de estudos bíblicos para mulheres de todas as idades. Seu foco é empoderar mulheres para viverem seu propósito.',
+    },
+    {
+        id: 3,
+        name: 'Pr. Rogério Trindade',
+        photo: '/src/assets/rog.png',
+        bio:
+            'Pr. RR atua no ministério de família, auxiliando novos casais e desenvolvendo estudos de apoio a jovens. Acredita na força da comunidade unida em fé.',
+    },
+    {
+        id: 4,
+        name: 'Pr. Danilo Gujral',
+        photo: '/src/assets/danilo.png',
+        bio:
+            'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
+    },
+    {
+        id: 5,
         name: 'Pr. Paulo João Correia',
         photo: '/src/assets/pj.png',
         bio:
@@ -86,34 +114,6 @@ const pastors = [
 \
             But here's the catch: The problem with Bootstrap was not class names! Bootstrap class names were actually really fast to work with. The problem was lack of customization and flexibility. At some point every Bootstrap website looked the same unless you open a CSS file and write tons of custom CSS.\
             Tailwind CSS solves this problem of customization and flexibility but the cost is slower development and more code to write! You wanted customization and flexibility? Good luck making design decisions for every single pixel in your page! Not a practical approach, right?",
-    },
-    {
-        id: 2,
-        name: 'Pr. Rogério Trindade',
-        photo: '/src/assets/rog.png',
-        bio:
-            'Pr. RR atua no ministério de família, auxiliando novos casais e desenvolvendo estudos de apoio a jovens. Acredita na força da comunidade unida em fé.',
-    },
-    {
-        id: 3,
-        name: 'Pr. Henrique Pereira',
-        photo: '/src/assets/h.png',
-        bio:
-            'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
-    },
-    {
-        id: 4,
-        name: 'Pr. Danilo Gujral',
-        photo: '/src/assets/danilo.png',
-        bio:
-            'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
-    },
-    {
-        id: 5,
-        name: 'Pr. Manza Garcia',
-        photo: '/src/assets/manza.jpeg',
-        bio:
-            'Pr. Maria lidera o ministério feminino e periodicidade de estudos bíblicos para mulheres de todas as idades. Seu foco é empoderar mulheres para viverem seu propósito.',
     },
     // {
     //     id: 6,
