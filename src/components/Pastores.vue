@@ -7,17 +7,27 @@
         <div class="relative">
             <!-- We’re still using overflow-x-auto to allow horizontal scrolling -->
             <!-- You can preserve your hide-scrollbar utility so the native scrollbar is hidden -->
-            <div ref="scrollContainer" class="overflow-x-auto scroll-smooth px-8 hide-scrollbar py-6"
+            <div ref="scrollContainer"
+                class="overflow-x-auto scroll-smooth px-8 hide-scrollbar py-6"
                 @scroll="checkArrows">
-                <div class="flex space-x-8 justify-center">
-                    <div v-for="(p, i) in pastors" :key="p.id"
-                        class="m-0 flex-shrink-0 w-36 flex flex-col items-center cursor-pointer transition-transform hover:scale-105"
-                        @click="toggleBio(p.id)" :data-aos="'fade-up'" :data-aos-delay="i * 100">
-                        <div class="w-36 h-36 rounded-full overflow-hidden shadow-lg">
-                            <img :src="p.photo" :alt="p.name" class="object-cover w-full h-full" />
-                        </div>
-                        <p class="mt-2 text-center font-medium">{{ p.name }}</p>
+                <div class="flex justify-center">
+                <div
+                    v-for="(p,i) in pastors" :key="p.id"
+                    @click="toggleBio(p.id)"
+                    class="flex-shrink-0 w-36 flex flex-col items-center cursor-pointer transition-transform hover:scale-105"
+                    :style="{
+                    marginRight: (pastors[i+1] && pastors[i+1].id === p.spouseId)
+                        ? '-0.8rem'
+                        : '3rem'
+                    }"
+                    :data-aos="'fade-up'"
+                    :data-aos-delay="i * 100"
+                >
+                    <div class="w-36 h-36 rounded-full overflow-hidden shadow-lg">
+                    <img :src="p.photo" :alt="p.name" class="object-cover w-full h-full" />
                     </div>
+                    <p class="mt-2 text-center font-medium">{{ p.name }}</p>
+                </div>
                 </div>
             </div>
 
@@ -65,77 +75,80 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-//
-// 1) SAMPLE PASTORES ARRAY
-//    Replace photo paths and bios with your actual data.
-//
+
 const pastors = [
     {
         id: 1,
-        name: 'Pr. Henrique Pereira',
+        name: 'Pr Henrique Pereira',
         photo: '/src/assets/h.png',
         bio:
             'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
+        spouseId: 2,
     },
     {
         id: 2,
-        name: 'Pr. Manza Garcia',
-        photo: '/src/assets/manza.jpeg',
+        name: 'Pra Minita Pereira',
+        photo: '/src/assets/minita.png',
+        bio:
+            'Pra. Minita é a líder do ministério de jovens, organizando retiros e encontros semanais. Seu objetivo é inspirar a próxima geração a viver com propósito e fé.',
+        spouseId: 1,
+    },
+
+    {
+        id: 3,
+        name: 'Pr Rogério Trindade',
+        photo: '/src/assets/rog.png',
+        bio:
+            'Pr. RR atua no ministério de família, auxiliando novos casais e desenvolvendo estudos de apoio a jovens. Acredita na força da comunidade unida em fé.',
+        spouseId: 4,
+    },
+    {
+        id: 4,
+        name: 'Pra Johana Villarroel',
+        photo: '/src/assets/johana.png',
+        bio:
+            'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
+        spouseId: 3,
+    },
+    {
+        id: 5,
+        name: 'Pr Manza Garcia',
+        photo: '/src/assets/manza.png',
         bio:
             'Pr. Maria lidera o ministério feminino e periodicidade de estudos bíblicos para mulheres de todas as idades. Seu foco é empoderar mulheres para viverem seu propósito.',
     },
     {
-        id: 3,
-        name: 'Pr. Rogério Trindade',
-        photo: '/src/assets/rog.png',
-        bio:
-            'Pr. RR atua no ministério de família, auxiliando novos casais e desenvolvendo estudos de apoio a jovens. Acredita na força da comunidade unida em fé.',
-    },
-    {
-        id: 4,
-        name: 'Pr. Danilo Gujral',
+        id: 6,
+        name: 'Pr Danilo Gujral',
         photo: '/src/assets/danilo.png',
         bio:
             'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
+        spouseId: 7,
     },
     {
-        id: 5,
-        name: 'Pr. Paulo João Correia',
+        id: 7,
+        name: 'Pra Havani Gujral',
+        photo: '/src/assets/havani.png',
+        bio:
+            'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
+        spouseId: 6,
+    },
+    {
+        id: 8,
+        name: 'Pr Paulo João Correia',
         photo: '/src/assets/pj.png',
         bio:
-            "daisyUI is built on top of Tailwind CSS's component API. Tailwind CSS as a library provides utility classes and suggests using utility classes for maximum flexibility and customization. However that's means slower development and more code to write.\
-            That's why many people find it hard to use Tailwind CSS for designing interfaces. It takes a professional designer to make design decisions for many details of the UI to make them look good. It also takes a lot of time to write all the utility class names for each part of the UI. Even copying and pasting those huge chunks of utility class names is not helpful, as it makes the codebase hard to read and maintain.\
-\
-            Imagine one side of the spectrum is maximum customization and flexibility and you should make design decisions for every single detail.On the other side of the spectrum is maximum development speed and less code to write, but you have no control over the design.daisyUI and Tailwind CSS together give you the best of both worlds.\
-            Use daisyUI class names to write less code and develop faster, and use Tailwind CSS utility classes to customize the design when you need to.\
-\
-            Is it full circle?\
-            If you've been using Bootstrap many years ago, you may think it doesn't make sense to go back to using components.\
-\
-            But here's the catch: The problem with Bootstrap was not class names! Bootstrap class names were actually really fast to work with. The problem was lack of customization and flexibility. At some point every Bootstrap website looked the same unless you open a CSS file and write tons of custom CSS.\
-            Tailwind CSS solves this problem of customization and flexibility but the cost is slower development and more code to write! You wanted customization and flexibility? Good luck making design decisions for every single pixel in your page! Not a practical approach, right?",
+            "Pr. Paulo é o pastor sênior da igreja, liderando a visão geral e a direção espiritual. Com mais de 20 anos de ministério, ele é um mentor para muitos.",
+        spouseId: 9,
     },
-    // {
-    //     id: 6,
-    //     name: 'Pr. Raquel',
-    //     photo: '/src/assets/rog.png',
-    //     bio:
-    //         'Pr. Raquel dirige a área de ensino e estudos bíblicos, organizando seminários semanais e grupos de estudo em pequena escala para discipulado profundo.',
-    // },
-    // {
-    //     id: 7,
-    //     name: 'Pr. Pedro',
-    //     photo: '/src/assets/h.png',
-    //     bio:
-    //         'Pr. Pedro coordena projetos sociais, cuidando de comunidades locais e missionárias. Tem um coração para levar esperança e ajuda prática àqueles que precisam.',
-    // },
-    // {
-    //     id: 8,
-    //     name: 'Pr. Raquel',
-    //     photo: '/src/assets/rog.png',
-    //     bio:
-    //         'Pr. Raquel dirige a área de ensino e estudos bíblicos, organizando seminários semanais e grupos de estudo em pequena escala para discipulado profundo.',
-    // },
+    {
+        id: 9,
+        name: 'Pra Denise Correia',
+        photo: '/src/assets/denise.png',
+        bio:
+            'Pr. João ministra ao público infantil há mais de 8 anos, criando programas lúdicos e reflexivos que ajudam as crianças a conhecerem mais de Jesus de forma criativa.',
+        spouseId: 8,
+    }
 ]
 
 //

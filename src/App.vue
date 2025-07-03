@@ -3,12 +3,12 @@
   <Hero />
 
   <!-- Live Stream (Visible only when something is on) -->
-  <!-- <section id="live" class="py-16 bg-gray-50">
+  <section id="live" class="py-16 bg-gray-50">
     <h2 class="text-3xl font-semibold text-center mb-8" data-aos="fade-up">
       Transmissão ao Vivo
     </h2>
     <LiveStream />
-  </section> -->
+  </section>
 
 
   <!-- <section id="app" class="py-16 bg-gray-50">
