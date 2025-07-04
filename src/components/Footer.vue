@@ -5,7 +5,7 @@
             <a href="https://facebook.com/icmav" class="m-0 hover:text-white"><i class="fab fa-facebook-f"></i></a>
             <a href="https://instagram.com/icmav" class="hover:text-white"><i class="fab fa-instagram"></i></a>
             <a href="https://www.youtube.com/@igrejaICMAV" class="hover:text-white"><i class="fab fa-youtube"></i></a>
-            <a href="https://tiktok.com/icmav" class="hover:text-white"><i class="fab fa-tiktok"></i></a>
+            <a href='https://wa.me/351934693310' class="hover:text-white"><i class="fab fa-whatsapp"></i></a>
         </div>
     </footer>
 </template>

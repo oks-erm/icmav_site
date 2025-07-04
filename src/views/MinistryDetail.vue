@@ -89,67 +89,77 @@
   {
     slug: 'teens',
     name: 'Teens',
-    media: { type: 'image', src: '/assets/teens.png' },
+    media:   { type: 'image', src: 'src/assets/teens.png' },
     longDescription: [
-      'Um espaço vibrante para adolescentes explorarem perguntas de fé e identidade. Música, debates e eventos criativos fazem parte de cada encontro.',
-      'Nosso objetivo é formar líderes sólidos e relacionamentos saudáveis nesta fase tão importante da vida.'
+      'O grupo Teens é um espaço vibrante para adolescentes explorarem identidade e fé. Com louvor, debates e oficinas criativas, incentivamos a expressão pessoal fundamentada em valores cristãos.',
+      'Realizamos retiros e projetos sociais que desenvolvem liderança e senso de comunidade, ajudando cada jovem a encontrar seu propósito e crescer em responsabilidade.'
     ],
-    leader: 'João Maria Guedelha',
-    leaderPhoto: '/assets/joao-maria.jpg',
-    contact: '+351 912 000 222',
-    instagram: 'https://instagram.com/icmav_teens'
+    leader:       'João Maria Guedelha',
+    leaderPhoto:  'src/assets/joao-maria.png',
+    contact:      '+351 912 000 222',
+    socialMedia: [
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_teens' }
+    ]
   },
   {
     slug: 'jovens',
     name: 'Jovens',
-    media: { type: 'image', src: '/assets/jovens.jpg' },
+    media:   { type: 'image', src: 'src/assets/jovens.png' },
     longDescription: [
-      'Encontros quinzenais para jovens de 18 a 30 anos, com louvor, texto bíblico e muita interação. Queremos inspirar você a viver com propósito e fé autêntica.',
-      'Retiro anual, grupos de discipulado e projetos sociais fazem parte da nossa jornada de crescimento.'
+      'Os encontros de Jovens reúnem pessoas de 18 a 30 anos para momentos de adoração, estudos bíblicos e comunhão. Nosso objetivo é inspirar a geração a viver uma fé ativa no dia a dia.',
+      'Além dos encontros quinzenais, promovemos seminários e missões urbanas que fortalecem a conexão com Deus e com a sociedade, capacitando cada jovem a ser luz em seu meio.'
     ],
-    leader: 'Marcos Pereira',
-    leaderPhoto: '/assets/marcos-pereira.jpg',
-    contact: '+351 912 000 333',
-    instagram: 'https://instagram.com/icmav_jovens'
+    leader:       'Marcos Pereira',
+    leaderPhoto:  'src/assets/marcos.png',
+    contact:      '+351 912 000 333',
+    socialMedia: [
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_jovens' }
+    ]
   },
   {
     slug: 'homens',
     name: 'Homens',
-    media: { type: 'image', src: '/assets/homens.jpg' },
+    media:   { type: 'image', src: 'src/assets/homens.png' },
     longDescription: [
-      'Ministério de homens focado em discipulado, companheirismo e responsabilidade. Encontros mensais com estudo bíblico e atividades ao ar livre.',
-      'Aqui você encontrará suporte para a sua caminhada espiritual e amizades sólidas para a vida inteira.'
+      'O ministério de Homens oferece estudo bíblico e atividades ao ar livre, promovendo discipulado e fortalecimento de laços de amizade em Cristo.',
+      'Também organizamos retiros e grupos de apoio onde os homens podem compartilhar desafios e vitórias em um ambiente de confiança e respeito mútuo.'
     ],
-    leader: 'Paulo João Correia',
-    leaderPhoto: '/assets/paulo-joao.jpg',
-    contact: '+351 912 000 444',
-    instagram: 'https://instagram.com/icmav_homens'
+    leader:       'Paulo João Correia',
+    leaderPhoto:  'src/assets/pj.png',
+    contact:      '+351 912 000 444',
+    socialMedia: [
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_homens' }
+    ]
   },
   {
     slug: 'mulheres',
     name: 'Mulheres',
-    media: { type: 'image', src: '/assets/mulheres.jpg' },
+    media:   { type: 'image', src: 'src/assets/mulheres.png' },
     longDescription: [
-      'Espaço de acolhimento e fortalecimento para mulheres de todas as idades. Nossos encontros incluem estudo bíblico, orações em grupo e eventos especiais.',
-      'Nossa missão é caminhar lado a lado, encorajando cada mulher a descobrir seu valor em Cristo.'
+      'No ministério de Mulheres, cultivamos um espaço de acolhimento e crescimento espiritual através de estudos bíblicos e momentos de oração conjunta.',
+      'Nossos encontros incluem workshops e eventos especiais que inspiram propósito e renovação, fortalecendo cada mulher em sua jornada de fé.'
     ],
-    leader: 'Cristina Silva',
-    leaderPhoto: '/assets/cristina-silva.jpg',
-    contact: '+351 912 000 555',
-    instagram: 'https://instagram.com/icmav_mulheres'
+    leader:       'Cristina Silva',
+    leaderPhoto:  'src/assets/cristina.png',
+    contact:      '+351 912 000 555',
+    socialMedia: [
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
+    ]
   },
   {
     slug: 'casais',
     name: 'Casais',
-    media: { type: 'image', src: '/assets/casais.jpg' },
+    media:   { type: 'image', src: 'src/assets/casais.png' },
     longDescription: [
-      'Para casais que desejam fortalecer o relacionamento à luz do evangelho. Palestras, aconselhamentos e convivências promovem comunicação e intimidade saudável.',
-      'Nosso objetivo é ver famílias transformadas pela graça e pelo amor que aprendemos em Jesus.'
+      'O ministério de Casais promove encontros com palestras, aconselhamentos e dinâmicas que fortalecem o relacionamento conjugal à luz dos princípios bíblicos.',
+      'Também organizamos conferências e retiros que oferecem ferramentas práticas para comunicação e resolução de conflitos, ajudando a construir famílias saudáveis e resilientes.'
     ],
-    leader: 'Pedro Mateus',
-    leaderPhoto: '/assets/pedro-mateus.jpg',
-    contact: '+351 912 000 666',
-    instagram: 'https://instagram.com/icmav_casais'
+    leader:       'Pedro Mateus',
+    leaderPhoto:  'src/assets/pedro-mateus.png',
+    contact:      '+351 912 000 666',
+    socialMedia: [
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }
+    ]
   }
 ]
 

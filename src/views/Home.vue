@@ -54,6 +54,15 @@
     <section id="gallery" class="py-10 bg-gray-800 text-base-100">
       <Gallery />
     </section>
+
+    <section id="help" class="py-16 bg-base-100">
+      <div class="max-w-7xl mx-auto px-4" data-aos="fade-up">
+        <h2 class="text-3xl font-semibold text-center mb-8">
+          O que podemos fazer por ti?
+        </h2>
+        <HelpSection />
+      </div>
+    </section>
   
     <!-- Conecte-se Connosco -->
     <section id="social" class="py-16 bg-primary text-base-100">
@@ -73,8 +82,8 @@
   
     <!-- Contactos -->
     <section id="contactos" class="py-16 bg-gray-50">
-      <h2 class="text-3xl font-semibold text-center mb-8" data-aos="fade-up">
-        Entre em contacto
+      <h2 class="text-3xl font-semibold text-center " data-aos="fade-up">
+        Contactos & Extensões
       </h2>
       <Contact />
     </section>
@@ -95,5 +104,6 @@
   import Offer         from '../components/Offer.vue'
   import Contact       from '../components/Contact.vue'
   import Footer        from '../components/Footer.vue'
+  import HelpSection  from '../components/HelpSection.vue'
   </script>
   
