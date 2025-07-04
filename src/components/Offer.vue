@@ -1,5 +1,5 @@
 <template>
-  <section class="py-16 bg-base-100">
+  <section class="py-6 bg-base-100">
     <div class="max-w-3xl mx-auto">
 
       <!-- Buttons (all on one line) -->

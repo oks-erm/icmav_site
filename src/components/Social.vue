@@ -14,7 +14,10 @@ const social = [
     { icon: 'fab fa-facebook-f', link: 'https://facebook.com/icmav' },
     { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav' },
     { icon: 'fab fa-youtube', link: 'https://www.youtube.com/@igrejaICMAV' },
-    { icon: 'fab fa-tiktok', link: 'https://tiktok.com/icmav' },
+    {
+    icon: 'fab fa-whatsapp',
+    link: 'https://wa.me/351934693310'
+  }
 ]
 </script>
 

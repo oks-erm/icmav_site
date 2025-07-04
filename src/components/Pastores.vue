@@ -18,7 +18,7 @@
                     :style="{
                     marginRight: (pastors[i+1] && pastors[i+1].id === p.spouseId)
                         ? '-0.8rem'
-                        : '3rem'
+                        : '2.5rem'
                     }"
                     :data-aos="'fade-up'"
                     :data-aos-delay="i * 100"

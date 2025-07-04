@@ -1,11 +1,11 @@
 <template>
-    <section id="ministerios" class="py-16 bg-base-100">
+    <section id="ministerios" class="py-12 bg-base-100">
         <div class="max-w-7xl mx-auto px-4">
             <!-- FLEX WRAP CONTAINER -->
             <div class="flex flex-wrap -mx-4" data-aos="fade-up" data-aos-delay="200">
                 <!-- EACH MINISTRY CARD -->
-                <div v-for="m in ministries" :key="m.name" class=" md:w-1/2 lg:w-1/3 px-4 mb-6">
-                    <a :href="m.link" target="_blank"
+                <div v-for="m in ministries" :key="m.slug" class=" md:w-1/2 lg:w-1/3 px-4 mb-6">
+                    <router-link :to="{ name: 'MinistryDetail', params: { slug: m.slug } }"
                         class="flex items-start space-x-4 bg-base-100 rounded-lg shadow-lg hover:shadow-2xl transition p-6 h-full">
                         <!-- ICON CIRCLE -->
                         <div class="flex-shrink-0 w-14 h-14 flex items-center justify-center rounded-full text-3xl text-white"
@@ -20,7 +20,7 @@
                                 {{ m.description }}
                             </p>
                         </div>
-                    </a>
+                    </router-link>
                 </div>
                 <!-- /END EACH CARD -->
             </div>
@@ -32,47 +32,47 @@
 <script setup>
 const ministries = [
     {
-        name: 'Adoração',
-        link: '/ministerios/adoracao',
-        icon: 'fas fa-music',
-        bg: 'primary',
-        description: 'Culto de louvor e adoração, com música e reflexão bíblica. Culto de louvor e adoração, com música e reflexão bíblica.',
-    },
-    {
-        name: 'Jovens',
-        link: '/ministerios/jovens',
-        icon: 'fas fa-heart',
-        bg: 'secondary',
-        description: 'Encontros quinzenais para juventude, debates e crescimento. Encontros quinzenais para juventude, debates e crescimento.',
-    },
-    {
-        name: 'Crianças',
-        link: '/ministerios/criancas',
-        icon: 'fas fa-hands-holding-child',
-        bg: 'accent',
-        description: 'Programa infantil com atividades lúdicas, ensinamentos e louvor.',
-    },
-    {
         name: 'Mulheres',
-        link: '/ministerios/mulheres',
+        slug: 'mulheres',
         icon: 'fas fa-female',
         bg: 'info',
         description: 'Grupo de apoio e estudo bíblico para mulheres. Encontros quinzenais para debates e crescimento.',
     },
     {
         name: 'Homens',
-        link: '/ministerios/homens',
+        slug: 'homens',
         icon: 'fas fa-hands-helping',
         bg: 'warning',
         description: 'Encontros de discipulado e comunhão masculina. Encontros quinzenais para debates e crescimento.',
     },
     {
-        name: 'Alcançar',
-        link: '/ministerios/alcancar',
+        name: 'Casais',
+        slug: 'casais',
         icon: 'fas fa-globe',
         bg: 'error',
         description: 'Projetos sociais e missões para impactar nossa comunidade.',
     },
+    {
+        name: 'Jovens',
+        slug: 'jovens',
+        icon: 'fas fa-heart',
+        bg: 'secondary',
+        description: 'Encontros quinzenais para juventude, debates e crescimento. Encontros quinzenais para juventude, debates e crescimento.',
+    },
+    {
+        name: 'Teens',
+        slug: 'teens',
+        icon: 'fas fa-music',
+        bg: 'primary',
+        description: 'Culto de louvor e adoração, com música e reflexão bíblica. Culto de louvor e adoração, com música e reflexão bíblica.',
+    },
+    {
+        name: 'Crianças',
+        slug: 'criancas',
+        icon: 'fas fa-hands-holding-child',
+        bg: 'accent',
+        description: 'Programa infantil com atividades lúdicas, ensinamentos e louvor.',
+    }
 ]
 </script>
   

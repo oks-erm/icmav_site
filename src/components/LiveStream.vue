@@ -15,8 +15,8 @@
         </div>
 
         <!-- If not live, show when the next stream starts -->
-        <div v-else class="py-8">
-            <p class="text-gray-600">
+        <div v-else class="py-2">
+            <p class="text-gray-600 text-lg text-base-100" >
                 Próxima transmissão ao vivo:
                 <span class="font-semibold">{{ nextWindowText }}</span>
             </p>
