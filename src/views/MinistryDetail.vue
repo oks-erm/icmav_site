@@ -1,78 +1,86 @@
 <!-- src/views/MinistryDetail.vue -->
 <template>
-    <div class="max-w-4xl mx-auto py-16 px-4" data-aos="fade-up">
-  
+    <div class="flex flex-col min-h-screen">
+    <div class="max-w-350 mx-auto h-auto py-16 px-12 flex-grow" data-aos="fade-up">
       <!-- Back button -->
       <button @click="$router.back()" class="btn btn-ghost mb-8">
         ← Voltar
       </button>
   
-      <!-- Title -->
-      <h1 class="text-4xl font-bold mb-6">{{ ministry.name }}</h1>
-  
-      <!-- Hero media (image/video) -->
-      <div class="mb-8">
-        <video
-          v-if="ministry.media.type === 'video'"
-          class="w-full rounded-lg shadow mb-6"
-          :src="ministry.media.src"
-          controls
-        />
-        <img
-          v-else
-          :src="ministry.media.src"
-          alt=""
-          class="w-full rounded-lg shadow mb-6"
-        />
-      </div>
-  
-      <!-- Rich description -->
-      <div class="prose mb-8 text-base-content/90">
-        <p v-for="(para, i) in ministry.longDescription" :key="i">
-          {{ para }}
-        </p>
-      </div>
-  
-      <!-- Leader info -->
-      <div class="flex items-center mb-6">
-        <img
-          :src="ministry.leaderPhoto"
-          :alt="ministry.leader"
-          class="w-24 h-24 rounded-full object-cover shadow-lg mr-4"
-        />
-        <div>
-          <p class="font-bold text-lg">{{ ministry.leader }}</p>
-          <p v-if="ministry.contact" class="text-sm">{{ ministry.contact }}</p>
-        </div>
-      </div>
-  
-      <!-- Social media links -->
-      <div v-if="ministry.socialMedia.length" class="mt-6">
-        <h2 class="text-xl font-semibold mb-2">Siga-nos</h2>
+      <!-- Title + social (inline) -->
+      <div class="flex flex-row md:flex-row items-center justify-center mb-6">
+        <h1 class="text-4xl font-bold mr-2">{{ ministry.name }}</h1>
         <div class="flex space-x-4">
           <a
             v-for="(s, i) in ministry.socialMedia"
             :key="i"
             :href="s.link"
             target="_blank"
-            class="w-10 h-10 flex items-center justify-center rounded-full bg-base-200 text-2xl text-primary hover:bg-base-300 transition"
+            class="w-12 h-12 flex items-center justify-center rounded-full text-3xl text-primary hover:bg-base-300 transition"
+            style="margin-bottom: -3px;"
           >
             <i :class="s.icon"></i>
           </a>
         </div>
       </div>
   
+      <!-- 2-column layout: video left, text right -->
+      <div class="grid grid-cols-5 gap-8 mb-12 items-start">
+        <!-- Left: Hero Video Placeholder -->
+        <div class="col-span-2">
+          <video
+            src="/src/assets/hero.mp4"
+            controls
+            autoplay
+            muted
+            loop
+            playsinline
+            class="w-full h-100 rounded-lg shadow-lg"
+          >
+            Your browser does not support the <code>video</code> element.
+          </video>
+        </div>
+  
+        <!-- Right: Rich Description -->
+        <div class="prose text-base-content/90 col-span-3">
+          <p v-for="(para, i) in ministry.longDescription" :key="i">
+            {{ para }}
+          </p>
+        <div class="flex flex-col md:flex-row items-center mb-8 mt-8">
+        <img
+          :src="ministry.leaderPhoto"
+          :alt="ministry.leader"
+          class="w-24 h-24 rounded-full object-cover shadow-lg mr-0 md:mr-4 mb-4 md:mb-0"
+        />
+        <div class="text-center md:text-left">
+          <p class="flex items-center justify-center md:justify-start space-x-2">
+            <span class="badge badge-sm badge-primary">Líder</span>
+            <span class="font-bold text-lg">{{ ministry.leader }}</span>
+          </p>
+          <p v-if="ministry.contact" class="text-sm">{{ ministry.contact }}</p>
+        </div>
+      </div>
+        </div>
+      </div>
     </div>
+    <Footer />
+</div>
+
   </template>
+  
   
   <script setup>
   import { computed } from 'vue'
+  import Footer from '../components/Footer.vue'
   import { useRoute, useRouter } from 'vue-router'
+  
+  const route  = useRoute()
+  const router = useRouter()
   
   const MINISTRIES = [
   {
     slug: 'criancas',
-    name: 'Crianças / Alfa',
+    name: 'ICMAV Crianças / Alfa',
     media: { type: 'image', src: 'src/assets/criancas.png' },
     longDescription: [
       'O ministério de Crianças é cheio de alegria e descobertas. A cada encontro, contamos histórias bíblicas por meio de teatro, música e brincadeiras que ajudam os pequenos a conhecerem o amor de Deus.',
@@ -83,12 +91,12 @@
     leaderPhoto: 'src/assets/patricia.png',
     contact: '+351 912 000 111',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_criancas' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/alfa.icmav' }
     ]
   },
   {
     slug: 'teens',
-    name: 'Teens',
+    name: 'ICMAV Teens',
     media:   { type: 'image', src: 'src/assets/teens.png' },
     longDescription: [
       'O grupo Teens é um espaço vibrante para adolescentes explorarem identidade e fé. Com louvor, debates e oficinas criativas, incentivamos a expressão pessoal fundamentada em valores cristãos.',
@@ -103,7 +111,7 @@
   },
   {
     slug: 'jovens',
-    name: 'Jovens',
+    name: 'ICMAV Jovens',
     media:   { type: 'image', src: 'src/assets/jovens.png' },
     longDescription: [
       'Os encontros de Jovens reúnem pessoas de 18 a 30 anos para momentos de adoração, estudos bíblicos e comunhão. Nosso objetivo é inspirar a geração a viver uma fé ativa no dia a dia.',
@@ -118,7 +126,7 @@
   },
   {
     slug: 'homens',
-    name: 'Homens',
+    name: 'ICMAV Homens',
     media:   { type: 'image', src: 'src/assets/homens.png' },
     longDescription: [
       'O ministério de Homens oferece estudo bíblico e atividades ao ar livre, promovendo discipulado e fortalecimento de laços de amizade em Cristo.',
@@ -133,7 +141,7 @@
   },
   {
     slug: 'mulheres',
-    name: 'Mulheres',
+    name: 'ICMAV Mulheres',
     media:   { type: 'image', src: 'src/assets/mulheres.png' },
     longDescription: [
       'No ministério de Mulheres, cultivamos um espaço de acolhimento e crescimento espiritual através de estudos bíblicos e momentos de oração conjunta.',
@@ -148,7 +156,7 @@
   },
   {
     slug: 'casais',
-    name: 'Casais',
+    name: 'ICMAV Casais',
     media:   { type: 'image', src: 'src/assets/casais.png' },
     longDescription: [
       'O ministério de Casais promove encontros com palestras, aconselhamentos e dinâmicas que fortalecem o relacionamento conjugal à luz dos princípios bíblicos.',
@@ -162,19 +170,12 @@
     ]
   }
 ]
-
   
-  const route = useRoute()
-  const router = useRouter()
+  const ministry = computed(() =>
+    MINISTRIES.find(m => m.slug === route.params.slug)
+  )
   
-  // find the ministry by the slug param
-  const ministry = computed(() => {
-    return MINISTRIES.find((m) => m.slug === route.params.slug)
-  })
-  
-  // if no match, redirect back to home
   if (!ministry.value) {
     router.replace({ name: 'home' })
   }
   </script>
-  
