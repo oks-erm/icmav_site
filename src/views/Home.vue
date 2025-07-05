@@ -18,10 +18,10 @@
       <Info />
     </section>
   
-    <!-- Nossos Propósitos -->
+    <!-- Os Nossos Propósitos -->
     <section id="propositos" class="py-12 bg-base-100 pb-4">
       <h2 class="text-3xl font-semibold text-center" data-aos="fade-up">
-        Nossos Propósitos
+        Os Nossos Propósitos
       </h2>
       <Propositos />
     </section>
