@@ -1,38 +1,25 @@
 <!-- src/components/ContactExtensions.vue -->
 <template>
-  <div class="max-w-4xl mx-auto py-8 px-4" data-aos="fade-up">
-    <div class="flex flex-col md:flex-row items-center">
-      <!-- Vertical Tabs -->
-      <div class="tabs tabs-vertical flex-shrink-0 mb-6 space-y-2">
-        <a
+    <div class="max-w-4xl mx-auto py-8 px-4" data-aos="fade-up">
+    <div class="flex flex-col items-center md:flex-row">
+      <!-- 🍋 Button “tabs” -->
+      <div class="flex flex-row mb-6">
+        <button
           v-for="(ext, i) in extensions"
           :key="ext.slug"
           @click="selectedIndex = i"
-          :class="[
-            'btn',
-            'cursor-pointer',
-            'min-w-[8rem]',
-            'rounded-full',
-            'flex',
-            'items-center',
-            'justify-center',
-            'text-lg',
-            'font-semibold',
-            'py-2',
-            'px-6',
-            'transition-colors',
-            'duration-200',
-            'ease-in-out',
-            selectedIndex === i
-              ? 'btn-primary'
-              : 'btn-primary btn-outline'
-          ]"
+          class="btn w-40 normal-case text-lg font-semibold rounded-full transition-colors mx-1 duration-200"
+          :class=" selectedIndex === i 
+            ? 'btn-primary' 
+            : 'btn-outline btn-primary hover:btn-secondary' 
+          "
         >
           {{ ext.name }}
-        </a>
+        </button>
       </div>
       <!-- Tab Content (centered text) -->
       <div class="flex-1 md:pl-8 space-y-0.5 text-lg text-center">
+        <div class="mb-6">
         <p>
           <i class="fas fa-envelope"></i>
           Email:
@@ -63,6 +50,7 @@
             {{ current.website }}
           </a>
         </p>
+    </div>
 
         <!-- Map Embed -->
         <div class="h-64 w-full rounded-lg overflow-hidden shadow-lg">
@@ -96,21 +84,21 @@ const extensions = [
   {
     slug: 'caparica',
     name: 'Caparica',
-    email: 'caparica@icmav.org',
-    phone: '+351 212 345 678',
-    address: 'Av. da Caparica 123, 2825-123 Caparica',
+    email: 'icmavmontedecaparica@gmail.com',
+    phone: '+351 934 693 310',
+    address: 'Rua de Bela Vista nº 110 R/C-A. 2825-165 Caparica',
     mapEmbedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!...caparica...',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3115.198258037662!2d-9.194091488196118!3d38.667311471656376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ecad566b62271%3A0xeda658899ac7783!2sR.%20da%20Bela%20Vista%20110%2C%202825-165%20Caparica!5e0!3m2!1sen!2spt!4v1751717000927!5m2!1sen!2spt',
     website: null
   },
   {
     slug: 'setubal',
     name: 'Setúbal',
-    email: 'setubal@icmav.org',
-    phone: '+351 265 123 456',
-    address: 'Rua de Setúbal 45, 2900-456 Setúbal',
+    email: 'ccicmav@gmail.com',
+    phone: '+351 934 069 320',
+    address: 'R. Abel Salazar 14, 2910-372 Setúbal',
     mapEmbedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!...setubal...',
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3121.2323521355816!2d-8.8771158!3d38.52841179999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19439761d6bb03%3A0x7c9346ba04ce5508!2sIgreja%20evang%C3%A9lica%20ICMAV%20-%20Set%C3%BAbal!5e0!3m2!1sen!2spt!4v1751717171155!5m2!1sen!2spt",
     website: null
   },
   {
