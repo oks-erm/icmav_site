@@ -106,7 +106,7 @@
     leaderPhoto:  'src/assets/joao-maria.png',
     contact:      '+351 912 000 222',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_teens' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icteens' }
     ]
   },
   {
@@ -121,7 +121,7 @@
     leaderPhoto:  'src/assets/marcos.png',
     contact:      '+351 912 000 333',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_jovens' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icyouth' }
     ]
   },
   {

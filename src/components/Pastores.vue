@@ -61,7 +61,7 @@
               :alt="activePastor.name"
               class="w-32 h-32 rounded-full object-cover float-left mr-4 mb-4 shadow-md"
             />
-            <p>{{ activePastor.bio }}</p>
+            <p class="whitespace-pre-line prose"> {{ activePastor.bio }}</p>
           </div>
         </div>
       </transition>
@@ -79,7 +79,15 @@
     { id: 5, name: 'Pr Manza Garcia',     photo: '/src/assets/manza.png', bio: '…' },
     { id: 6, name: 'Pr Danilo Gujral',    photo: '/src/assets/danilo.png', bio: '…', spouseId: 7 },
     { id: 7, name: 'Pra Havani Gujral',   photo: '/src/assets/havani.png', bio: '…', spouseId: 6 },
-    { id: 8, name: 'Pr Paulo João Correia',photo: '/src/assets/pj.png',    bio: '…', spouseId: 9 },
+    { id: 8, 
+        name: 'Pr Paulo João Correia',
+        photo: '/src/assets/pj.png',    
+        bio: 
+        `   Paulo João é pastor de louvor e adoração na ICMAV – Igreja Cristã Manancial de Aguas Vivas, onde também lidera o ministério de homens. Casado com Denise, é pai de dois filhos e avô da Salomé. 
+            
+        A sua jornada no ministério começou aos 14 anos, após um encontro marcante com Jesus. Durante 18 anos serviu no Desafio Jovem, desenvolvendo trabalho evangelístico e social junto de comunidades vulneráveis e pessoas em situação de dependência.
+            
+        Desde 2006, dedica-se a tempo inteiro ao ministério pastoral, com ênfase no louvor, na formação de novas gerações e no discipulado de homens. A paternidade e a cultura do Reino no seio familiar são temas centrais da sua missão, procurando levantar líderes que vivam segundo o coração de Deus.`, spouseId: 9 },
     { id: 9, name: 'Pra Denise Correia',  photo: '/src/assets/denise.png', bio: '…', spouseId: 8 },
   ]
   
