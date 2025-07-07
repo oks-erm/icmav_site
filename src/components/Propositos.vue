@@ -1,7 +1,7 @@
 <!-- src/components/PurposeSection.vue -->
 <template>
     <section id="propositos" class="py-8 bg-base-100">
-      <div class="max-w-6xl mx-auto px-4" data-aos="fade-up">
+      <div class="max-w-7xl mx-auto px-4" data-aos="fade-up">
   
         <!-- flex-wrap container with negative margins -->
         <div class="flex flex-wrap -mx-4 flex justify-center">
