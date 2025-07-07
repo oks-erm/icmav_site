@@ -10,18 +10,6 @@
       <!-- Title + social (inline) -->
       <div class="flex flex-row md:flex-row items-center justify-center mb-6">
         <h1 class="text-4xl font-bold mr-2">{{ ministry.name }}</h1>
-        <div class="flex space-x-4">
-          <a
-            v-for="(s, i) in ministry.socialMedia"
-            :key="i"
-            :href="s.link"
-            target="_blank"
-            class="w-12 h-12 flex items-center justify-center rounded-full text-3xl text-primary hover:bg-base-300 transition"
-            style="margin-bottom: -3px;"
-          >
-            <i :class="s.icon"></i>
-          </a>
-        </div>
       </div>
   
       <!-- 2-column layout: video left, text right -->
@@ -39,6 +27,19 @@
           >
             Your browser does not support the <code>video</code> element.
           </video>
+          <div class="flex mt-6 ">
+            <p class=" text-xl font-bold">Siga-nos nas redes sociais:</p>
+          <a
+            v-for="(s, i) in ministry.socialMedia"
+            :key="i"
+            :href="s.link"
+            target="_blank"
+            class="w-12 h-12 px-3 flex rounded-full text-3xl text-primary hover:bg-base-300 transition"
+            style="margin-bottom: -3px;"
+          >
+            <i :class="s.icon"></i>
+          </a>
+        </div>
         </div>
   
         <!-- Right: Rich Description -->
@@ -46,6 +47,9 @@
           <p v-for="(para, i) in ministry.longDescription" :key="i">
             {{ para }}
           </p>
+          <div class="flex">
+        </div>
+
         <div class="flex flex-col md:flex-row items-center mb-8 mt-8">
         <img
           :src="ministry.leaderPhoto"
@@ -60,6 +64,7 @@
           <p v-if="ministry.contact" class="text-sm">{{ ministry.contact }}</p>
         </div>
       </div>
+      
         </div>
       </div>
     </div>
