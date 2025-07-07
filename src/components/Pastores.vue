@@ -104,7 +104,7 @@
         name: 'Pr Paulo João Correia',
         photo: '/src/assets/pj.png',    
         bio: 
-        `   Paulo João é pastor de louvor e adoração na ICMAV – Igreja Cristã Manancial de Aguas Vivas, onde também lidera o ministério de homens. Casado com Denise, é pai de dois filhos e avô da Salomé. 
+        `   Paulo João é pastor de louvor e adoração na ICMAV, onde também lidera o ministério de homens. Casado com Denise, é pai de dois filhos e avô da Salomé. 
             
         A sua jornada no ministério começou aos 14 anos, após um encontro marcante com Jesus. Durante 18 anos serviu no Desafio Jovem, desenvolvendo trabalho evangelístico e social junto de comunidades vulneráveis e pessoas em situação de dependência.
             
