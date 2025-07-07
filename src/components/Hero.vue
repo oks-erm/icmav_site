@@ -43,7 +43,7 @@
                 <i :class="`${p.icon} fa-fw`"></i>
                 </a>
             </div>
-            <button id="main-button" class="btn btn-outline btn-secondary rounded-full btn-wide btn-lg px-8" @click="scrollTo('ministerios')">
+            <button id="main-button" class="btn btn-outline btn-secondary rounded-full btn-wide btn-lg px-8" @click="scrollTo('info')">
                 Começar
             </button>
 
