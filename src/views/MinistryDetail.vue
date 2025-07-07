@@ -44,7 +44,7 @@
   
         <!-- Right: Rich Description -->
         <div class="prose text-base-content/90 col-span-3">
-          <p v-for="(para, i) in ministry.longDescription" :key="i">
+          <p v-for="(para, i) in ministry.longDescription" :key="i" class="py-2">
             {{ para }}
           </p>
           <div class="flex">
@@ -88,10 +88,10 @@
     name: 'ICMAV Crianças / Alfa',
     media: { type: 'image', src: 'src/assets/criancas.png' },
     longDescription: [
-      'O ministério de Crianças é cheio de alegria e descobertas. A cada encontro, contamos histórias bíblicas por meio de teatro, música e brincadeiras que ajudam os pequenos a conhecerem o amor de Deus.',
-      'Na série ALFA Kids, promovemos atividades criativas que envolvem pais e filhos juntos, fortalecendo laços familiares e plantando sementes de fé no coração das gerações mais jovens.',
-      'Além dos encontros semanais, realizamos eventos especiais em datas comemorativas, garantindo um ambiente seguro e acolhedor para todas as crianças.',
-   ],
+        'O ministério das crianças é um espaço cheio de alegria, criatividade e crescimento. Em cada encontro, as crianças são convidadas a mergulhar nas histórias da Bíblia de forma divertida e acessível — através de teatro, música, jogos e atividades que despertam a imaginação e mostram, de forma simples e verdadeira, o amor de Deus.',
+        'Durante a série ALFA Kids, promovemos momentos especiais que envolvem tanto as crianças como os pais. São experiências pensadas para fortalecer os laços familiares e, ao mesmo tempo, lançar as bases da fé no coração dos mais novos. Acreditamos que a caminhada com Deus começa em casa e queremos caminhar ao lado das famílias nesse processo.',
+        'Para além dos encontros semanais, organizamos também eventos temáticos em datas especiais como a Páscoa, o Natal ou o Dia da Criança. Tudo acontece num ambiente seguro, acolhedor e com uma equipa dedicada que cuida, ensina e brinca com os mais pequenos com muito carinho.',
+        ],
     leader: 'Patricia Pinto',
     leaderPhoto: 'src/assets/patricia.png',
     contact: '+351 912 000 111',
@@ -104,9 +104,10 @@
     name: 'ICMAV Teens',
     media:   { type: 'image', src: 'src/assets/teens.png' },
     longDescription: [
-      'O grupo Teens é um espaço vibrante para adolescentes explorarem identidade e fé. Com louvor, debates e oficinas criativas, incentivamos a expressão pessoal fundamentada em valores cristãos.',
-      'Realizamos retiros e projetos sociais que desenvolvem liderança e senso de comunidade, ajudando cada jovem a encontrar seu propósito e crescer em responsabilidade.'
-    ],
+        'O grupo Teens é um espaço vibrante, pensado especialmente para adolescentes que estão a descobrir quem são e em que acreditam. Aqui, combinamos momentos de louvor, conversas reais e oficinas criativas que incentivam a expressão pessoal, sempre com base em princípios cristãos.',
+        'Queremos criar um ambiente onde cada jovem se sinta valorizado, ouvido e desafiado a crescer — não só na fé, mas também nas relações, no caráter e nas escolhas do dia a dia.',
+        'Ao longo do ano, organizamos retiros, encontros temáticos e iniciativas solidárias que desenvolvem a liderança, o espírito de equipa e o sentido de missão. É uma oportunidade única para fazer amigos, servir, descobrir o propósito pessoal e aprender a viver com responsabilidade e intencionalidade.',
+        ],
     leader:       'João Maria Guedelha',
     leaderPhoto:  'src/assets/joao-maria.png',
     contact:      '+351 912 000 222',
@@ -119,9 +120,10 @@
     name: 'ICMAV Jovens',
     media:   { type: 'image', src: 'src/assets/jovens.png' },
     longDescription: [
-      'Os encontros de Jovens reúnem pessoas de 18 a 30 anos para momentos de adoração, estudos bíblicos e comunhão. Nosso objetivo é inspirar a geração a viver uma fé ativa no dia a dia.',
-      'Além dos encontros quinzenais, promovemos seminários e missões urbanas que fortalecem a conexão com Deus e com a sociedade, capacitando cada jovem a ser luz em seu meio.'
-    ],
+        'Os encontros de Jovens juntam pessoas dos 18 aos 30 anos num ambiente descontraído, cheio de propósito. São momentos marcados por adoração, estudo da Palavra e partilha de vida — um espaço seguro para fazer perguntas, crescer na fé e construir amizades verdadeiras.',
+        'Queremos inspirar esta geração a viver uma fé viva e prática, que se reflete nas escolhas diárias, no trabalho, na universidade, em casa e nas relações. Acreditamos que seguir Jesus é uma aventura transformadora que começa no coração e impacta tudo à volta.',
+        'Para além dos encontros quinzenais, dinamizamos seminários, missões urbanas e outros eventos que fortalecem a ligação com Deus e com a cidade. Cada jovem é desafiado a descobrir o seu chamado e a ser luz onde quer que esteja — com coragem, criatividade e compaixão.',
+        ],
     leader:       'Marcos Pereira',
     leaderPhoto:  'src/assets/marcos.png',
     contact:      '+351 912 000 333',
@@ -134,9 +136,10 @@
     name: 'ICMAV Homens',
     media:   { type: 'image', src: 'src/assets/homens.png' },
     longDescription: [
-      'O ministério de Homens oferece estudo bíblico e atividades ao ar livre, promovendo discipulado e fortalecimento de laços de amizade em Cristo.',
-      'Também organizamos retiros e grupos de apoio onde os homens podem compartilhar desafios e vitórias em um ambiente de confiança e respeito mútuo.'
-    ],
+        'O ministério de Homens é um espaço onde homens de todas as idades se juntam para crescer na fé e nas relações uns com os outros. Através de estudos bíblicos, conversas honestas e atividades ao ar livre, queremos promover uma caminhada cristã autêntica, com foco no discipulado e no fortalecimento da identidade em Cristo.',
+        'Mais do que encontros pontuais, este ministério é uma rede de apoio e amizade. Organizamos retiros, caminhadas, pequenos-almoços e grupos de partilha onde os homens podem abrir o coração, partilhar lutas e celebrar vitórias num ambiente de confiança, respeito e encorajamento mútuo.',
+        'Acreditamos que cada homem tem um papel essencial na família, na igreja e na sociedade — e queremos ser parte ativa no processo de crescimento espiritual, emocional e relacional de cada um.',
+        ],
     leader:       'Paulo João Correia',
     leaderPhoto:  'src/assets/pj.png',
     contact:      '+351 912 000 444',
@@ -149,9 +152,10 @@
     name: 'ICMAV Mulheres',
     media:   { type: 'image', src: 'src/assets/mulheres.png' },
     longDescription: [
-      'No ministério de Mulheres, cultivamos um espaço de acolhimento e crescimento espiritual através de estudos bíblicos e momentos de oração conjunta.',
-      'Nossos encontros incluem workshops e eventos especiais que inspiram propósito e renovação, fortalecendo cada mulher em sua jornada de fé.'
-    ],
+        'O ministério de Mulheres é um espaço pensado para acolher, encorajar e fortalecer mulheres em todas as fases da vida. Através de estudos bíblicos, oração e partilha, criamos um ambiente seguro onde cada mulher pode crescer na fé, aprofundar a sua relação com Deus e construir amizades significativas.',
+        'Os nossos encontros incluem workshops, palestras, tempos de louvor e eventos especiais que tocam em temas relevantes do dia a dia — sempre com o objetivo de trazer inspiração, cura, renovação e um sentido mais profundo de propósito.',
+        'Acreditamos que cada mulher tem um valor único e um chamado divino, e queremos caminhar juntas nesta jornada, apoiando-nos umas às outras com graça, verdade e alegria.',
+        ],
     leader:       'Cristina Silva',
     leaderPhoto:  'src/assets/cristina.png',
     contact:      '+351 912 000 555',
@@ -164,9 +168,10 @@
     name: 'ICMAV Casais',
     media:   { type: 'image', src: 'src/assets/casais.png' },
     longDescription: [
-      'O ministério de Casais promove encontros com palestras, aconselhamentos e dinâmicas que fortalecem o relacionamento conjugal à luz dos princípios bíblicos.',
-      'Também organizamos conferências e retiros que oferecem ferramentas práticas para comunicação e resolução de conflitos, ajudando a construir famílias saudáveis e resilientes.'
-    ],
+        'O ministério de Casais existe para apoiar e fortalecer os relacionamentos, ajudando cada casal a crescer em amor, unidade e propósito. Promovemos encontros com temas relevantes, palestras, momentos de oração e dinâmicas práticas baseadas nos princípios da Palavra de Deus.',
+        'Acreditamos que um casamento saudável não acontece por acaso — é construído com intencionalidade, comunicação e graça. Por isso, oferecemos acompanhamento pastoral, aconselhamento e espaços de partilha onde os casais podem aprender, rir, chorar e crescer juntos.',
+        'Também organizamos conferências e retiros especiais que proporcionam tempo de qualidade a dois, ferramentas para lidar com desafios e oportunidades para renovar os votos e a visão do casamento. Queremos ver famílias fortes, resilientes e cheias de fé a impactar o mundo à sua volta.',
+        ],
     leader:       'Pedro Mateus',
     leaderPhoto:  'src/assets/pedro-mateus.png',
     contact:      '+351 912 000 666',

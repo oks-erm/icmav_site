@@ -1,34 +1,78 @@
-<!-- <template>
-    <section id="gallery" class="py-16 bg-gray-800">
-        <div class="carousel carousel-center bg-gray-800 w-full space-x-4 p-4" data-aos="fade-up" data-aos-delay="100">
-            <div v-for="(img, i) in images" :key="i" class="carousel-item flex-shrink-0">
-                <img :src="img" class="rounded-box object-cover h-96 w-144" alt="Galeria Imagem" />
-            </div>
-        </div>
-    </section>
-</template> -->
-  
+<!-- src/components/Gallery.vue -->
 <template>
     <section id="gallery" class="py-10 bg-gray-800">
-        <!-- Carousel wrapper -->
-        <div class="carousel carousel-center w-full rounded-box overflow-x-auto space-x-4 p-4" data-aos="fade-up"
-            data-aos-delay="100">
-            <!-- Each carousel-item holds one image -->
-            <div v-for="(item, idx) in images" :key="idx"
-                class="carousel-item flex-shrink-0 rounded-lg overflow-hidden m-auto">
-                <img :src="item" alt="Galeria Imagem" class="object-cover w-144 h-96" />
-            </div>
+      <div class="relative">
+  
+        <!-- Left Arrow -->
+        <button
+          @click="scrollPrev"
+          class="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/80 rounded-full p-2 hover:bg-white transition"
+          aria-label="Scroll previous"
+        >
+          <i class="fas fa-chevron-left text-xl text-gray-700"></i>
+        </button>
+  
+        <!-- Carousel (overflow-x-auto) -->
+        <div
+          ref="carousel"
+          class="carousel carousel-center w-full rounded-box overflow-x-auto scroll-smooth space-x-4 p-4"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <div
+            v-for="(item, idx) in images"
+            :key="idx"
+            class="carousel-item flex-shrink-0 rounded-lg overflow-hidden"
+          >
+            <img
+              :src="item"
+              alt="Galeria Imagem"
+              class="object-cover w-144 h-96"
+            />
+          </div>
         </div>
+  
+        <!-- Right Arrow -->
+        <button
+          @click="scrollNext"
+          class="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/80 rounded-full p-2 hover:bg-white transition"
+          aria-label="Scroll next"
+        >
+          <i class="fas fa-chevron-right text-xl text-gray-700"></i>
+        </button>
+  
+      </div>
     </section>
-</template>
-
-<script setup>
-const images = [
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue'
+  
+  const images = [
     '/src/assets/gallery2.png',
     '/src/assets/gallery3.png',
     '/src/assets/gallery4.png',
     '/src/assets/gallery5.png',
     '/src/assets/gallery3.png',
-]
-</script>
+  ]
+  
+  const carousel = ref(null)
+  
+  // scroll by the width of one item (or adjust px as you like)
+  const ITEM_WIDTH = 144 + 16 /* img width + space-x-4 */
+  
+  function scrollPrev() {
+    if (!carousel.value) return
+    carousel.value.scrollBy({ left: -ITEM_WIDTH, behavior: 'smooth' })
+  }
+  
+  function scrollNext() {
+    if (!carousel.value) return
+    carousel.value.scrollBy({ left: +ITEM_WIDTH, behavior: 'smooth' })
+  }
+  </script>
+  
+  <style scoped>
+  /* nothing extra needed here */
+  </style>
   
