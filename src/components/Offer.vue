@@ -65,6 +65,22 @@
         </div>
       </div>
 
+      <!-- MBWAY phone number in the box (visible only when showMbway is ture)-->
+      <div v-if="showMbWay" class="mt-8 px-4 flex justify-center">
+        <div
+          id="mbway-box"
+          class="bg-base-100 p-6 rounded-lg shadow-lg text-center"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <p class="text-lg font-semibold mb-2">MB WAY</p>
+          <p class="text-xl font-bold">+351 934 693 310</p>
+          <p class="text-sm text-gray-600 mt-2">
+            (Use este número para pagamentos via MB WAY)
+          </p>
+        </div>
+       </div> 
+
     </div>
   </section>
 </template>
@@ -74,6 +90,8 @@ import { ref } from 'vue'
 
 // Toggle for showing/hiding the IBAN block
 const showIban = ref(false)
+// Toggle for showing/hiding the MB WAY block
+const showMbWay = ref(false)
 
 // Replace with your actual bank details:
 const bankDetails = [
@@ -88,6 +106,7 @@ const copiedIndex = ref(null)
 
 function toggleIban() {
   showIban.value = !showIban.value
+  showMbWay.value = false // Hide MB WAY if IBAN is shown
 }
 
 function copyToClipboard(text, idx) {
@@ -108,7 +127,9 @@ function copyToClipboard(text, idx) {
 
 // Placeholder for MB WAY action
 function onMbWayClick() {
-  // e.g. scroll to a MB WAY section or open a modal
-  console.log('MB WAY clicked')
+  showMbWay.value = !showMbWay.value
+  if (showMbWay.value) {
+    showIban.value = false // Hide IBAN if MB WAY is shown
+  }
 }
 </script>

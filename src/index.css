@@ -12,6 +12,10 @@
 /* 5) Tailwind utilities */
 @tailwind utilities;
 
+html {
+    scroll-behavior: smooth; 
+}
+
 #main-button {
     color: aliceblue;
     border-color: aliceblue;

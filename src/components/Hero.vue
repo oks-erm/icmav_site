@@ -16,24 +16,33 @@
         <!-- 3) Centered headline + subline + words + circles + button -->
         <div class="relative z-10 flex flex-col items-center justify-center h-screen text-center px-4 space-y-6">
             <!-- Headline -->
-            <h1 id="hero-text" class="text-5xl md:text-6xl font-extrabold text-white" data-aos="zoom-in">
+            <h1 id="hero-text" class="text-5xl md:text-6xl font-extrabold text-white mb-4" data-aos="zoom-in">
                 ICMAV - Propósito para a vida
             </h1>
 
             <!-- Sub-headline -->
-            <p class="text-lg md:text-2xl text-white/90" data-aos="fade-up" data-aos-delay="200">
+            <!-- <p class="text-lg md:text-2xl text-white/90" data-aos="fade-up" data-aos-delay="200">
                 Pertencer · Crescer · Servir · Alcançar · Adorar
-            </p>
+            </p> -->
 
             <!-- Row of circles  -->
-            <div class="flex flex-wrap justify-center space-x-8 mt-2" data-aos="fade-up" data-aos-delay="300">
-                <div v-for="(p, i) in propositos" :key="p.title"
-                    class="w-14 h-14 rounded-full flex items-center justify-center text-2xl text-white shadow-lg m-0 transform transition-transform hover:scale-110"
-                    :class="`bg-${p.bg}`" data-aos="zoom-in" :data-aos-delay="300 + i * 150">
-                    <i :class="`${p.icon} fa-fw`"></i>
-                </div>
+            <div
+                class="flex flex-wrap justify-center space-x-8 mt-2"
+                data-aos="fade-up"
+                data-aos-delay="300"
+            >
+                <a
+                v-for="(p, i) in propositos"
+                :key="p.title"
+                href="#propositos"
+                class="w-14 h-14 rounded-full flex items-center justify-center text-2xl text-white shadow-lg m-0 transform transition-transform hover:scale-110"
+                :class="`bg-${p.bg}`"
+                data-aos="zoom-in"
+                :data-aos-delay="300 + i * 150"
+                >
+                <i :class="`${p.icon} fa-fw`"></i>
+                </a>
             </div>
-
             <button id="main-button" class="btn btn-outline btn-secondary rounded-full btn-wide btn-lg px-8" @click="scrollTo('ministerios')">
                 Começar
             </button>
