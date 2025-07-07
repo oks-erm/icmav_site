@@ -17,6 +17,7 @@
               href="https://docs.google.com/forms/d/e/YOUR_PRAYER_FORM_ID/viewform"
               target="_blank"
               class="btn btn-secondary self-start rounded-full"
+              style="font-size: 100%"
             >
               Fazer Pedido de Oração
             </a>
@@ -35,6 +36,7 @@
               href="https://docs.google.com/forms/d/e/YOUR_COUNSEL_FORM_ID/viewform"
               target="_blank"
               class="btn btn-secondary self-start rounded-full"
+              style="font-size: 100%"
             >
               Solicitar Aconselhamento
             </a>
