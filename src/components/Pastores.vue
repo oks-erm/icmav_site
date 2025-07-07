@@ -59,9 +59,9 @@
             <img
               :src="activePastor.photo"
               :alt="activePastor.name"
-              class="w-32 h-32 rounded-full object-cover float-left mr-4 mb-4 shadow-md"
+              class="w-32 h-32 rounded-full object-cover float-left mr-4 mb-4 shadow-md "
             />
-            <p class="whitespace-pre-line prose"> {{ activePastor.bio }}</p>
+            <p class="whitespace-pre-line prose mb-6"> {{ activePastor.bio }}</p>
           </div>
         </div>
       </transition>
@@ -72,13 +72,34 @@
   import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
   
   const pastors = [
-    { id: 1, name: 'Pr Henrique Pereira', photo: '/src/assets/h.png', bio: '…', spouseId: 2 },
-    { id: 2, name: 'Pra Minita Pereira',  photo: '/src/assets/minita.png', bio: '…', spouseId: 1 },
+    { id: 1, 
+        name: 'Pr Henrique Pereira', 
+        photo: '/src/assets/h.png', 
+        bio: '…', 
+        spouseId: 2 },
+    { id: 2, 
+        name: 'Pra Minita Pereira',  
+        photo: '/src/assets/minita.png', 
+        bio: '…', 
+        spouseId: 1 },
     { id: 3, name: 'Pr Rogério Trindade', photo: '/src/assets/rog.png', bio: '…', spouseId: 4 },
     { id: 4, name: 'Pra Johana Villarroel', photo: '/src/assets/johana.png', bio: '…', spouseId: 3 },
     { id: 5, name: 'Pr Manza Garcia',     photo: '/src/assets/manza.png', bio: '…' },
-    { id: 6, name: 'Pr Danilo Gujral',    photo: '/src/assets/danilo.png', bio: '…', spouseId: 7 },
-    { id: 7, name: 'Pra Havani Gujral',   photo: '/src/assets/havani.png', bio: '…', spouseId: 6 },
+    { id: 6, 
+        name: 'Pr Danilo Gujral',    
+        photo: '/src/assets/danilo.png', 
+        bio: 
+        `   Nascido em Moçambique casado com Havani Gujral, pastor na ICMAV desde 2006 tendo já  ocupado várias areas de ministério na igreja. Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. 
+
+        Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.  É produtor do programa  radiofónico "Ponto de Encontro" dirigido aos solteiros, divorciados e viúvos uma parceria com a Rádio Transmundial de Portugal.`, 
+        spouseId: 7 },
+    { id: 7, name: 'Pra Havani Gujral',   
+        photo: '/src/assets/havani.png', 
+        bio:         
+        `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
+
+        Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.`, 
+        spouseId: 6 },
     { id: 8, 
         name: 'Pr Paulo João Correia',
         photo: '/src/assets/pj.png',    
