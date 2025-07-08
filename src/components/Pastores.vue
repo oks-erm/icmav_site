@@ -82,7 +82,14 @@
         photo: '/src/assets/minita.png', 
         bio: '…', 
         spouseId: 1 },
-    { id: 3, name: 'Pr Rogério Trindade', photo: '/src/assets/rog.png', bio: '…', spouseId: 4 },
+    { id: 3, 
+        name: 'Pr Rogério Trindade', 
+        photo: '/src/assets/rog.png', 
+        bio: 
+        `   Rogério Trindade é casado com a Johana Antelo e têm dois filhos, o John e a Zoé. Nasceu na África do Sul, na cidade de Johanesburgo, fazendo parte de uma família de emigrantes portugueses e de cristãos comprometidos no serviço. 
+
+        Foi pastor titular durante 3 anos de uma igreja evangélica local em Espanha, na cidade de Sevilha. É pastor auxiliar na ICMAV desde 2016. É Líder-coordenador da ICMAV com Propósitos e dos Ministérios de Ligação. É também Diretor e formador da ICMAV COLLEGE. Foi fundador da Escola de Liderança com Propósitos (LCP) em 2015, nome anterior da escola. É autor de mais de 30 manuais de treinamento para líderes.`, 
+        spouseId: 4 },
     { id: 4, name: 'Pra Johana Villarroel', photo: '/src/assets/johana.png', bio: '…', spouseId: 3 },
     { id: 5, name: 'Pr Manza Garcia',     photo: '/src/assets/manza.png', bio: '…' },
     { id: 6, 
