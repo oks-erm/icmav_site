@@ -36,7 +36,7 @@
 
     <section id="reuniao" class="py-6 bg-primary text-base-100">
       <h2 class="text-3xl font-semibold text-center mb-1" data-aos="fade-up">
-        Todos os domingos às 10h30 no ICMAV Polima.
+        Todos os domingos às 10h30 no ICMAV Polima
       </h2>
     </section>
   
