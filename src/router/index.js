@@ -6,7 +6,7 @@ import MinistryDetail from '../views/MinistryDetail.vue'
 const routes = [
     { 
         path: '/', 
-        name: 'Home',  
+        name: 'Home',
         component: Home 
     },
     // redirect /oferta → /#oferta
