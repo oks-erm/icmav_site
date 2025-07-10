@@ -42,7 +42,7 @@
       title: 'ADORAR',
       icon: 'fas fa-sun',
       bg:'yellow-300',
-      desc: 'Adorar a Deus é celebrar quem Ele é com todo o nosso coração.',
+      desc: 'Adorar a Deus é celebrar quem Ele é com todo o nosso coração e toda a nossa vida.',
       leader: 'Paulo João',
     },
     {

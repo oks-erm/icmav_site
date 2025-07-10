@@ -33,12 +33,6 @@
       </h2>
       <Pastores />
     </section>
-
-    <section id="reuniao" class="py-6 bg-primary text-base-100">
-      <h2 class="text-3xl font-semibold text-center mb-1" data-aos="fade-up">
-        Todos os domingos às 10h30 no ICMAV Polima.
-      </h2>
-    </section>
   
     <!-- Junta-te a nós -->
     <section id="ministerios" class="py-12 bg-base-100 pb-4">
@@ -46,6 +40,12 @@
         Junta-te a nós
       </h2>
       <MinistryCards />
+    </section>
+
+    <section id="reuniao" class="py-6 bg-primary text-base-100">
+      <h2 class="text-3xl font-semibold text-center mb-1" data-aos="fade-up">
+        Vista-nos aos domingos às 10h30 na ICMAV Polima.
+      </h2>
     </section>
   
     <!-- Pequenos Grupos -->

@@ -35,7 +35,7 @@ const ministries = [
         name: 'Mulheres',
         slug: 'mulheres',
         icon: 'fas fa-female',
-        bg: 'info',
+        bg: 'secondary',
         description: 'Grupo de apoio e estudo bíblico para mulheres. Encontros quinzenais para debates e crescimento.',
     },
     {
@@ -56,7 +56,7 @@ const ministries = [
         name: 'Jovens',
         slug: 'jovens',
         icon: 'fas fa-heart',
-        bg: 'secondary',
+        bg: 'info',
         description: 'Encontros quinzenais para juventude, debates e crescimento. Encontros quinzenais para juventude, debates e crescimento.',
     },
     {
