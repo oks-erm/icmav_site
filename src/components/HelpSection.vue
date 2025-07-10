@@ -9,8 +9,8 @@
             <div class="flex-1">
               <h3 class="text-xl font-bold mb-2 ">Pedidos de Oração</h3>
               <p class="text-base-content/80 mb-4">
-                Tem algo no coração que gostarias que a nossa comunidade levasse em oração? 
-                Partilha connosco o teu pedido e iremos interceder juntos por ti.
+                Podemos orar por ti? 
+                Partilha connosco o teu pedido de oração.
               </p>
             </div>
             <a
@@ -28,8 +28,8 @@
             <div class="flex-1">
               <h3 class="text-xl font-bold mb-2">Aconselhamento Pastoral</h3>
               <p class="text-base-content/80 mb-4">
-                Precisas de alguém que te escute e te aconselhe biblicamente? 
-                Agenda uma conversa confidencial com um dos nossos pastores.
+                Precisas de ser ouvido/a e que alguém te aconselhe? 
+                Agenda uma conversa privada com alguém da nossa equipa pastoral.
               </p>
             </div>
             <a
@@ -38,7 +38,7 @@
               class="btn btn-secondary self-start rounded-full"
               style="font-size: 100%"
             >
-              Solicitar Aconselhamento
+              Solicitar Aconselhamento pastoral
             </a>
           </div>
         </div>

@@ -36,42 +36,42 @@ const ministries = [
         slug: 'mulheres',
         icon: 'fas fa-female',
         bg: 'info',
-        description: 'Grupo de apoio e estudo bíblico para mulheres. Encontros quinzenais para debates e crescimento.',
+        description: 'Um grupo de mulheres que merece um espaço onde é ouvida, valorizada e encorajada.',
     },
     {
         name: 'Homens',
         slug: 'homens',
         icon: 'fas fa-hands-helping',
         bg: 'warning',
-        description: 'Encontros de discipulado e comunhão masculina. Encontros quinzenais para debates e crescimento.',
+        description: 'Grupo de camaradagem, troca e crescimento para todas as fases da vida .',
     },
     {
         name: 'Casais',
         slug: 'casais',
         icon: 'fas fa-globe',
         bg: 'error',
-        description: 'Projetos sociais e missões para impactar nossa comunidade.',
+        description: 'Porque cuidar do relacionamento a dois também é uma forma de amar.',
     },
     {
         name: 'Jovens',
         slug: 'jovens',
         icon: 'fas fa-heart',
         bg: 'secondary',
-        description: 'Encontros quinzenais para juventude, debates e crescimento. Encontros quinzenais para juventude, debates e crescimento.',
+        description: 'Bora lá viver que vai além do comum, com propósito e significado.',
     },
     {
         name: 'Teens',
         slug: 'teens',
         icon: 'fas fa-music',
         bg: 'primary',
-        description: 'Culto de louvor e adoração, com música e reflexão bíblica. Culto de louvor e adoração, com música e reflexão bíblica.',
+        description: 'Aqui é onde começa a tua jornada: com gente real e fé prática.',
     },
     {
         name: 'Crianças',
         slug: 'criancas',
         icon: 'fas fa-hands-holding-child',
         bg: 'accent',
-        description: 'Programa infantil com atividades lúdicas, ensinamentos e louvor.',
+        description: 'Aqui a imaginação voa e o coração aprende o que realmente importa.',
     }
 ]
 </script>

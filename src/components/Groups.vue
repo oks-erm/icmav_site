@@ -4,8 +4,7 @@
         <div class="space-y-4 text-base leading-relaxed text-center md:text-left">
 
             <blockquote class="italic border-l-4 border-info pl-4">
-                “O nosso mundo está cheio de pessoas sozinhas, sequiosas por compreensão, <br/>
-                amor e partilha genuína".<br />
+                “Uma comunidade saudável é ser grande e pequena ao mesmo tempo".<br />
                 <span class="font-medium">— Rick Warren</span>
             </blockquote>
 
