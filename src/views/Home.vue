@@ -28,7 +28,7 @@
   
     <!-- Equipa Pastoral -->
     <section id="pastores" class="py-16 bg-gray-50">
-      <h2 class="text-3xl font-semibold text-center mb-10" data-aos="fade-up">
+      <h2 class="text-3xl font-semibold text-center" data-aos="fade-up">
         Equipa Pastoral
       </h2>
       <Pastores />
