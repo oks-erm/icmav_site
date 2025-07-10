@@ -37,6 +37,7 @@ const ministries = [
         icon: 'fas fa-female',
         bg: 'info',
         description: 'Um grupo de mulheres que merece um espaço onde é ouvida, valorizada e encorajada.',
+
     },
     {
         name: 'Homens',

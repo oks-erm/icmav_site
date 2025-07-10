@@ -95,9 +95,9 @@ const showMbWay = ref(false)
 
 // Replace with your actual bank details:
 const bankDetails = [
-  { label: 'Banco', value: 'Caixa Geral de Depósitos' },
-  { label: 'IBAN', value: 'PT50 0012 3456 7890 1234 5678 90' },
-  { label: 'BIC/SWIFT', value: 'CGDIPTP1' },
+  { label: 'Banco', value: 'NOVO BANCO, SA' },
+  { label: 'IBAN', value: 'PT50 0007 0246 0014 0750 0033 4' },
+  { label: 'BIC/SWIFT', value: 'BESCPTPLXXX' },
   { label: 'Titular', value: 'Igreja ICMAV' },
 ]
 

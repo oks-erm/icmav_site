@@ -16,7 +16,7 @@ const social = [
     { icon: 'fab fa-youtube', link: 'https://www.youtube.com/@igrejaICMAV' },
     {
     icon: 'fab fa-whatsapp',
-    link: 'https://wa.me/351934693310'
+    link: 'https://chat.whatsapp.com/EdGaqNUARdYB7HokXeleHR'
   }
 ]
 </script>
