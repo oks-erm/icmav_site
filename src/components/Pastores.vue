@@ -148,21 +148,6 @@
     { id: 4, name: 'Pra Johana\nVillarroel', photo: '/src/assets/johana.png', bio: '…', spouseId: 3 },
     { id: 5, name: 'Pr Manza\nGarcia',     photo: '/src/assets/manza.png', bio: '…' },
     { id: 6, 
-        name: 'Pr Danilo\nGujral',    
-        photo: '/src/assets/danilo.png', 
-        bio: 
-        `   Nascido em Moçambique casado com Havani Gujral, pastor na ICMAV desde 2006 tendo já  ocupado várias areas de ministério na igreja. Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. 
-
-        Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.  É produtor do programa  radiofónico "Ponto de Encontro" dirigido aos solteiros, divorciados e viúvos uma parceria com a Rádio Transmundial de Portugal.`, 
-        spouseId: 7 },
-    { id: 7, name: 'Pra Havani\nGujral',   
-        photo: '/src/assets/havani.png', 
-        bio:         
-        `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
-
-        Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.`, 
-        spouseId: 6 },
-    { id: 8, 
         name: 'Pr Paulo João\nCorreia',
         photo: '/src/assets/pj.png',    
         bio: 
@@ -170,8 +155,24 @@
             
         A sua jornada no ministério começou aos 14 anos, após um encontro marcante com Jesus. Durante 18 anos serviu no Desafio Jovem, desenvolvendo trabalho evangelístico e social junto de comunidades vulneráveis e pessoas em situação de dependência.
             
-        Desde 2006, dedica-se a tempo inteiro ao ministério pastoral, com ênfase no louvor, na formação de novas gerações e no discipulado de homens. A paternidade e a cultura do Reino no seio familiar são temas centrais da sua missão, procurando levantar líderes que vivam segundo o coração de Deus.`, spouseId: 9 },
-    { id: 9, name: 'Pra Denise\nCorreia',  photo: '/src/assets/denise.png', bio: '…', spouseId: 8 },
+        Desde 2006, dedica-se a tempo inteiro ao ministério pastoral, com ênfase no louvor, na formação de novas gerações e no discipulado de homens. A paternidade e a cultura do Reino no seio familiar são temas centrais da sua missão, procurando levantar líderes que vivam segundo o coração de Deus.`, spouseId: 7 },
+    { id: 7, name: 'Pra Denise\nCorreia',  photo: '/src/assets/denise.png', bio: '…', spouseId: 6 },
+    { id: 8, 
+        name: 'Pr Danilo\nGujral',    
+        photo: '/src/assets/danilo.png', 
+        bio: 
+        `   Nascido em Moçambique casado com Havani Gujral, pastor na ICMAV desde 2006 tendo já  ocupado várias areas de ministério na igreja. Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. 
+
+        Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.  É produtor do programa  radiofónico "Ponto de Encontro" dirigido aos solteiros, divorciados e viúvos uma parceria com a Rádio Transmundial de Portugal.`, 
+        spouseId: 9 },
+    { id: 9, name: 'Pra Havani\nGujral',   
+        photo: '/src/assets/havani.png', 
+        bio:         
+        `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
+
+        Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.`, 
+        spouseId: 8 },
+
   ]
 
   // first two are featured
