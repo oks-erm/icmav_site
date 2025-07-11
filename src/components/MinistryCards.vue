@@ -4,7 +4,7 @@
             <!-- FLEX WRAP CONTAINER -->
             <div class="flex flex-wrap -mx-4" data-aos="fade-up" data-aos-delay="200">
                 <!-- EACH MINISTRY CARD -->
-                <div v-for="m in ministries" :key="m.slug" class=" md:w-1/2 lg:w-1/3 px-4 mb-6">
+                <div v-for="m in ministries" :key="m.slug" class="md:w-1/2 lg:w-1/3 px-4 mb-6">
                     <router-link :to="{ name: 'MinistryDetail', params: { slug: m.slug } }"
                         class="flex items-start space-x-4 bg-base-100 rounded-lg shadow-lg hover:shadow-2xl transition p-6 h-full">
                         <!-- ICON CIRCLE -->
