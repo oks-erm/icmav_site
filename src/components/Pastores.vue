@@ -129,44 +129,44 @@
   const pastors = [
     { id: 1, 
         name: 'Pr Henrique\nPereira', 
-        photo: '/src/assets/h.png', 
+        photo: '/src/assets/photos/people/henrique.png', 
         bio: '…', 
         spouseId: 2 },
     { id: 2, 
         name: 'Pra Minita\nPereira',  
-        photo: '/src/assets/minita.png', 
+        photo: '/src/assets/photos/people/minita.png', 
         bio: '…', 
         spouseId: 1 },
     { id: 3, 
         name: 'Pr Rogério\nTrindade', 
-        photo: '/src/assets/rog.png', 
+        photo: '/src/assets/photos/people/rog.png', 
         bio: 
         `   Rogério Trindade é casado com a Johana Antelo e têm dois filhos, o John e a Zoé. Nasceu na África do Sul, na cidade de Johanesburgo, fazendo parte de uma família de emigrantes portugueses e de cristãos comprometidos no serviço. 
 
         Foi pastor titular durante 3 anos de uma igreja evangélica local em Espanha, na cidade de Sevilha. É pastor auxiliar na ICMAV desde 2016. É Líder-coordenador da ICMAV com Propósitos e dos Ministérios de Ligação. É também Diretor e formador da ICMAV COLLEGE. Foi fundador da Escola de Liderança com Propósitos (LCP) em 2015, nome anterior da escola. É autor de mais de 30 manuais de treinamento para líderes.`, 
         spouseId: 4 },
-    { id: 4, name: 'Pra Johana\nVillarroel', photo: '/src/assets/johana.png', bio: '…', spouseId: 3 },
-    { id: 5, name: 'Pr Manza\nGarcia',     photo: '/src/assets/manza.png', bio: '…' },
+    { id: 4, name: 'Pra Johana\nVillarroel', photo: '/src/assets/photos/people/johana.png', bio: '…', spouseId: 3 },
+    { id: 5, name: 'Pr Manza\nGarcia',     photo: '/src/assets/photos/people/manza.png', bio: '…' },
     { id: 6, 
         name: 'Pr Paulo João\nCorreia',
-        photo: '/src/assets/pj.png',    
+        photo: '/src/assets/photos/people/pj.png',    
         bio: 
         `   Paulo João é pastor de louvor e adoração na ICMAV, onde também lidera o ministério de homens. Casado com Denise, é pai de dois filhos e avô da Salomé. 
             
         A sua jornada no ministério começou aos 14 anos, após um encontro marcante com Jesus. Durante 18 anos serviu no Desafio Jovem, desenvolvendo trabalho evangelístico e social junto de comunidades vulneráveis e pessoas em situação de dependência.
             
         Desde 2006, dedica-se a tempo inteiro ao ministério pastoral, com ênfase no louvor, na formação de novas gerações e no discipulado de homens. A paternidade e a cultura do Reino no seio familiar são temas centrais da sua missão, procurando levantar líderes que vivam segundo o coração de Deus.`, spouseId: 7 },
-    { id: 7, name: 'Pra Denise\nCorreia',  photo: '/src/assets/denise.png', bio: '…', spouseId: 6 },
+    { id: 7, name: 'Pra Denise\nCorreia',  photo: '/src/assets/photos/people/denise.png', bio: '…', spouseId: 6 },
     { id: 8, 
         name: 'Pr Danilo\nGujral',    
-        photo: '/src/assets/danilo.png', 
+        photo: '/src/assets/photos/people/danilo.png', 
         bio: 
         `   Nascido em Moçambique casado com Havani Gujral, pastor na ICMAV desde 2006 tendo já  ocupado várias areas de ministério na igreja. Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. 
 
         Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.  É produtor do programa  radiofónico "Ponto de Encontro" dirigido aos solteiros, divorciados e viúvos uma parceria com a Rádio Transmundial de Portugal.`, 
         spouseId: 9 },
     { id: 9, name: 'Pra Havani\nGujral',   
-        photo: '/src/assets/havani.png', 
+        photo: '/src/assets/photos/people/havani.png', 
         bio:         
         `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
 

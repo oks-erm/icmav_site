@@ -17,8 +17,7 @@
         <!-- Left: Hero Video Placeholder -->
         <div class="col-span-2">
           <video
-            src="/src/assets/hero.mp4"
-            controls
+            src="/src/assets/videos/hero.mp4"
             autoplay
             muted
             loop
@@ -93,7 +92,7 @@
         'Para além dos encontros semanais, organizamos também eventos temáticos em datas especiais como a Páscoa, o Natal ou o Dia da Criança. Tudo acontece num ambiente seguro, acolhedor e com uma equipa dedicada que cuida, ensina e brinca com os mais pequenos com muito carinho.',
         ],
     leader: 'Patricia Pinto',
-    leaderPhoto: 'src/assets/patricia.png',
+    leaderPhoto: 'src/assets/photos/people/patricia.png',
     contact: '+351 912 000 111',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/alfa.icmav' }
@@ -102,14 +101,14 @@
   {
     slug: 'teens',
     name: 'ICMAV Teens',
-    media:   { type: 'image', src: 'src/assets/teens.png' },
+    media:   { type: 'image', src: 'src/assets/videos/teens.mp4' },
     longDescription: [
         'O grupo Teens é um espaço vibrante, pensado especialmente para adolescentes que estão a descobrir quem são e em que acreditam. Aqui, combinamos momentos de louvor, conversas reais e oficinas criativas que incentivam a expressão pessoal, sempre com base em princípios cristãos.',
         'Queremos criar um ambiente onde cada jovem se sinta valorizado, ouvido e desafiado a crescer — não só na fé, mas também nas relações, no caráter e nas escolhas do dia a dia.',
         'Ao longo do ano, organizamos retiros, encontros temáticos e iniciativas solidárias que desenvolvem a liderança, o espírito de equipa e o sentido de missão. É uma oportunidade única para fazer amigos, servir, descobrir o propósito pessoal e aprender a viver com responsabilidade e intencionalidade.',
         ],
     leader:       'João Maria Guedelha',
-    leaderPhoto:  'src/assets/joao-maria.png',
+    leaderPhoto:  'src/assets/photos/people/joao-maria.png',
     contact:      '+351 912 000 222',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icteens' }
@@ -125,7 +124,7 @@
         'Para além dos encontros quinzenais, dinamizamos seminários, missões urbanas e outros eventos que fortalecem a ligação com Deus e com a cidade. Cada jovem é desafiado a descobrir o seu chamado e a ser luz onde quer que esteja — com coragem, criatividade e compaixão.',
         ],
     leader:       'Marcos Pereira',
-    leaderPhoto:  'src/assets/marcos.png',
+    leaderPhoto:  'src/assets/photos/people/marcos.png',
     contact:      '+351 912 000 333',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icyouth' }
@@ -141,7 +140,7 @@
         'Acreditamos que cada homem tem um papel essencial na família, na igreja e na sociedade — e queremos ser parte ativa no processo de crescimento espiritual, emocional e relacional de cada um.',
         ],
     leader:       'Paulo João Correia',
-    leaderPhoto:  'src/assets/pj.png',
+    leaderPhoto:  'src/assets/photos/people/pj.png',
     contact:      '+351 912 000 444',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_homens' }
@@ -157,7 +156,7 @@
         'Acreditamos que cada mulher tem um valor único e um chamado divino, e queremos caminhar juntas nesta jornada, apoiando-nos umas às outras com graça, verdade e alegria.',
         ],
     leader:       'Cristina Silva',
-    leaderPhoto:  'src/assets/cristina.png',
+    leaderPhoto:  'src/assets/photos/people/cristina.png',
     contact:      '+351 912 000 555',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
@@ -173,7 +172,7 @@
         'Também organizamos conferências e retiros especiais que proporcionam tempo de qualidade a dois, ferramentas para lidar com desafios e oportunidades para renovar os votos e a visão do casamento. Queremos ver famílias fortes, resilientes e cheias de fé a impactar o mundo à sua volta.',
         ],
     leader:       'Pedro Mateus',
-    leaderPhoto:  'src/assets/pedro-mateus.png',
+    leaderPhoto:  'src/assets/photos/people/pedro-mateus.png',
     contact:      '+351 912 000 666',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }

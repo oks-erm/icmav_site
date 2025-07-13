@@ -4,10 +4,10 @@
         <!-- 1) Video background -->
         <video v-if="useVideo" class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline
             data-aos="fade-in">
-            <source src="/src/assets/hero.mp4" type="video/mp4" />
+            <source src="/src/assets/videos/hero.mp4" type="video/mp4" />
             <!-- Fallback if video fails -->
         </video>
-        <img v-else src="/src/assets/hero.jpg" alt="Hero Background"
+        <img v-else src="/src/assets/fallbacks/hero.jpg" alt="Hero Background"
             class="absolute inset-0 w-full h-full object-cover" />
 
         <!-- 2) Dark overlay for better contrast -->

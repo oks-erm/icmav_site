@@ -49,11 +49,11 @@
   import { ref } from 'vue'
   
   const images = [
-    '/src/assets/gallery2.png',
-    '/src/assets/gallery3.png',
-    '/src/assets/gallery4.png',
-    '/src/assets/gallery5.png',
-    '/src/assets/gallery3.png',
+    '/src/assets/photos/gallery/gallery2.png',
+    '/src/assets/photos/gallery/gallery3.png',
+    '/src/assets/photos/gallery/gallery4.png',
+    '/src/assets/photos/gallery/gallery5.png',
+    '/src/assets/photos/gallery/gallery3.png',
   ]
   
   const carousel = ref(null)
