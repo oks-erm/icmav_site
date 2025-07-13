@@ -11,7 +11,7 @@
             class="absolute inset-0 w-full h-full object-cover" />
 
         <!-- 2) Dark overlay for better contrast -->
-        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute inset-0 bg-black/40"></div>
 
         <!-- 3) Centered headline + subline + words + circles + button -->
         <div class="relative z-10 flex flex-col items-center justify-center h-screen text-center px-4 space-y-6">
