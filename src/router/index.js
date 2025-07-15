@@ -2,12 +2,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import MinistryDetail from '../views/MinistryDetail.vue'
+import Maintenance from '../views/Maintenance.vue'
 
 const routes = [
     { 
         path: '/', 
+        name: 'Maintenance',
+        component: Maintenance
+    },
+    {
+        path: '/igrejaicmav',
         name: 'Home',
-        component: Home 
+        component: Home
     },
     // redirect /oferta → /#oferta
     {
