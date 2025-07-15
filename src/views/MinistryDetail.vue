@@ -1,33 +1,43 @@
 <!-- src/views/MinistryDetail.vue -->
+<!-- src/views/MinistryDetail.vue -->
 <template>
-    <div class="flex flex-col min-h-screen">
-    <div class="max-w-350 mx-auto h-auto py-16 px-12 flex-grow" data-aos="fade-up">
+  <div class="flex flex-col min-h-screen">
+      <div class="max-w-350 mx-auto h-auto py-16 px-12 flex-grow" data-aos="fade-up">
       <!-- Back button -->
       <button @click="$router.back()" class="btn btn-ghost mb-8">
         ← Voltar
       </button>
-  
-      <!-- Title + social (inline) -->
+
+      <!-- Title  -->
       <div class="flex flex-row md:flex-row items-center justify-center mb-6">
         <h1 class="text-4xl font-bold mr-2">{{ ministry.name }}</h1>
       </div>
-  
-      <!-- 2-column layout: video left, text right -->
-      <div class="grid grid-cols-5 gap-8 mb-12 items-start">
-        <!-- Left: Hero Video Placeholder -->
+
+      <!-- 2-col layout -->
+        <div class="grid grid-cols-5 gap-8 mb-12 items-start">
+        <!-- Left media -->
         <div class="col-span-2">
+          <!-- Video if defined -->
           <video
-            src="/src/assets/videos/hero.mp4"
+            v-if="ministry.media.type === 'video' && ministry.media.src"
+            :src="ministry.media.src"
             autoplay
             muted
             loop
             playsinline
-            class="w-full h-100 rounded-lg shadow-lg"
+            class="w-full aspect-w-16 aspect-h-9 rounded-lg shadow-lg"
           >
             Your browser does not support the <code>video</code> element.
           </video>
-          <div class="flex mt-6 ">
-            <p class=" text-xl font-bold">Siga-nos nas redes sociais:</p>
+          <!-- Fallback image -->
+      <img
+        v-else
+        :src="ministry.media.placeholder"
+        alt="Placeholder image"
+        class="w-full rounded-lg shadow-lg"
+      />
+      <div class="flex mt-6 ">
+            <p class=" text-xl">Segue-nos nas redes sociais:</p>
           <a
             v-for="(s, i) in ministry.socialMedia"
             :key="i"
@@ -40,38 +50,40 @@
           </a>
         </div>
         </div>
-  
-        <!-- Right: Rich Description -->
+
+        <!-- Right description -->
         <div class="prose text-base-content/90 col-span-3">
-          <p v-for="(para, i) in ministry.longDescription" :key="i" class="py-2">
+          <p
+            v-for="(para, i) in ministry.longDescription"
+            :key="i"
+            class="py-2"
+          >
             {{ para }}
           </p>
-          <div class="flex">
-        </div>
 
-        <div class="flex flex-col md:flex-row items-center mb-8 mt-8">
-        <img
-          :src="ministry.leaderPhoto"
-          :alt="ministry.leader"
-          class="w-24 h-24 rounded-full object-cover shadow-lg mr-0 md:mr-4 mb-4 md:mb-0"
-        />
-        <div class="text-center md:text-left">
-          <p class="flex items-center justify-center md:justify-start space-x-2">
-            <span class="badge badge-sm badge-primary">Líder</span>
-            <span class="font-bold text-lg">{{ ministry.leader }}</span>
-          </p>
-          <p v-if="ministry.contact" class="text-sm">{{ ministry.contact }}</p>
-        </div>
-      </div>
-      
+          <!-- Leader info -->
+          <div class="flex flex-col md:flex-row items-center mt-8 space-y-4 md:space-y-0 ">
+            <img
+              :src="ministry.leaderPhoto"
+              :alt="ministry.leader"
+              class="w-24 h-24 rounded-full object-cover shadow-lg mb-2"
+            />
+            <div class="text-center md:text-left">
+              <p class="flex flex-col items-center justify-center md:justify-start">
+                <div class="badge badge-sm badge-primary">Líder</div>
+                <div class="font-bold text-lg">{{ ministry.leader }}</div>
+              </p>
+              <p v-if="ministry.contact" class="text-sm">{{ ministry.contact }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <Footer />
-</div>
 
-  </template>
-  
+    <!-- page footer -->
+    <Footer />
+  </div>
+</template>
   
   <script setup>
   import { computed } from 'vue'
@@ -85,7 +97,11 @@
   {
     slug: 'criancas',
     name: 'ICMAV Crianças / Alfa',
-    media: { type: 'image', src: 'src/assets/criancas.png' },
+    media: {
+    type: 'video',
+    src: '/src/assets/videos/hero.mp4',
+    placeholder: '/src/assets/fallbacks/hero.jpg'
+  },
     longDescription: [
         'O ministério das crianças é um espaço cheio de alegria, criatividade e crescimento. Em cada encontro, as crianças são convidadas a mergulhar nas histórias da Bíblia de forma divertida e acessível — através de teatro, música, jogos e atividades que despertam a imaginação e mostram, de forma simples e verdadeira, o amor de Deus.',
         'Durante a série ALFA Kids, promovemos momentos especiais que envolvem tanto as crianças como os pais. São experiências pensadas para fortalecer os laços familiares e, ao mesmo tempo, lançar as bases da fé no coração dos mais novos. Acreditamos que a caminhada com Deus começa em casa e queremos caminhar ao lado das famílias nesse processo.',
@@ -101,7 +117,11 @@
   {
     slug: 'teens',
     name: 'ICMAV Teens',
-    media:   { type: 'image', src: 'src/assets/videos/teens.mp4' },
+    media: {
+    type: 'video',
+    src: '/src/assets/videos/teens.mp4',
+    placeholder: '/src/assets/fallbacks/hero.jpg'
+  },
     longDescription: [
         'O grupo Teens é um espaço vibrante, pensado especialmente para adolescentes que estão a descobrir quem são e em que acreditam. Aqui, combinamos momentos de louvor, conversas reais e oficinas criativas que incentivam a expressão pessoal, sempre com base em princípios cristãos.',
         'Queremos criar um ambiente onde cada jovem se sinta valorizado, ouvido e desafiado a crescer — não só na fé, mas também nas relações, no caráter e nas escolhas do dia a dia.',
@@ -117,7 +137,11 @@
   {
     slug: 'jovens',
     name: 'ICMAV Jovens',
-    media:   { type: 'image', src: 'src/assets/jovens.png' },
+    media: {
+    type: 'video',
+    src: '/src/assets/videos/hero.mp4',
+    placeholder: '/src/assets/fallbacks/hero.jpg'
+  },
     longDescription: [
         'Os encontros de Jovens juntam pessoas dos 18 aos 30 anos num ambiente descontraído, cheio de propósito. São momentos marcados por adoração, estudo da Palavra e partilha de vida — um espaço seguro para fazer perguntas, crescer na fé e construir amizades verdadeiras.',
         'Queremos inspirar esta geração a viver uma fé viva e prática, que se reflete nas escolhas diárias, no trabalho, na universidade, em casa e nas relações. Acreditamos que seguir Jesus é uma aventura transformadora que começa no coração e impacta tudo à volta.',
@@ -133,7 +157,11 @@
   {
     slug: 'homens',
     name: 'ICMAV Homens',
-    media:   { type: 'image', src: 'src/assets/homens.png' },
+    media: {
+    type: 'video',
+    src: '/src/assets/videos/hero.mp4',
+    placeholder: '/src/assets/fallbacks/hero.jpg'
+  },
     longDescription: [
         'O ministério de Homens é um espaço onde homens de todas as idades se juntam para crescer na fé e nas relações uns com os outros. Através de estudos bíblicos, conversas honestas e atividades ao ar livre, queremos promover uma caminhada cristã autêntica, com foco no discipulado e no fortalecimento da identidade em Cristo.',
         'Mais do que encontros pontuais, este ministério é uma rede de apoio e amizade. Organizamos retiros, caminhadas, pequenos-almoços e grupos de partilha onde os homens podem abrir o coração, partilhar lutas e celebrar vitórias num ambiente de confiança, respeito e encorajamento mútuo.',
@@ -149,7 +177,11 @@
   {
     slug: 'mulheres',
     name: 'ICMAV Mulheres',
-    media:   { type: 'image', src: 'src/assets/mulheres.png' },
+    media: {
+    type: 'video',
+    src: '/src/assets/videos/hero.mp4',
+    placeholder: '/src/assets/fallbacks/hero.jpg'
+  },
     longDescription: [
         'O ministério de Mulheres é um espaço pensado para acolher, encorajar e fortalecer mulheres em todas as fases da vida. Através de estudos bíblicos, oração e partilha, criamos um ambiente seguro onde cada mulher pode crescer na fé, aprofundar a sua relação com Deus e construir amizades significativas.',
         'Os nossos encontros incluem workshops, palestras, tempos de louvor e eventos especiais que tocam em temas relevantes do dia a dia — sempre com o objetivo de trazer inspiração, cura, renovação e um sentido mais profundo de propósito.',
@@ -165,7 +197,11 @@
   {
     slug: 'casais',
     name: 'ICMAV Casais',
-    media:   { type: 'image', src: 'src/assets/casais.png' },
+    media: {
+    type: 'video',
+    src: '/src/assets/videos/hero.mp4',
+    placeholder: '/src/assets/fallbacks/hero.jpg'
+  },
     longDescription: [
         'O ministério de Casais existe para apoiar e fortalecer os relacionamentos, ajudando cada casal a crescer em amor, unidade e propósito. Promovemos encontros com temas relevantes, palestras, momentos de oração e dinâmicas práticas baseadas nos princípios da Palavra de Deus.',
         'Acreditamos que um casamento saudável não acontece por acaso — é construído com intencionalidade, comunicação e graça. Por isso, oferecemos acompanhamento pastoral, aconselhamento e espaços de partilha onde os casais podem aprender, rir, chorar e crescer juntos.',
