@@ -69,10 +69,10 @@
               class="w-24 h-24 rounded-full object-cover shadow-lg mb-2"
             />
             <div class="text-center md:text-left">
-              <p class="flex flex-col items-center justify-center md:justify-start">
+              <div class="flex flex-col items-center justify-center md:justify-start">
                 <div class="badge badge-sm badge-primary">Líder</div>
                 <div class="font-bold text-lg">{{ ministry.leader }}</div>
-              </p>
+              </div>
               <p v-if="ministry.contact" class="text-sm">{{ ministry.contact }}</p>
             </div>
           </div>
@@ -221,6 +221,6 @@
   )
   
   if (!ministry.value) {
-    router.replace({ name: 'home' })
+    router.replace({ name: 'Home' })
   }
   </script>

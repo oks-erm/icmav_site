@@ -5,12 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@plugin 'daisyui' {
+/* @plugin 'daisyui' {
     themes: light --default, dark --prefersdark, cmyk;
-}
-
-/* 5) Tailwind utilities */
-@tailwind utilities;
+} */
 
 html {
     scroll-behavior: smooth; 
