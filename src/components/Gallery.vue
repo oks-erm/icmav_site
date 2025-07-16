@@ -48,14 +48,15 @@
   <script setup>
   import { ref } from 'vue'
   
+  const pathBase = process.env.BASE_URL
   const images = [
-    '/src/assets/photos/gallery/gallery2.png',
-    '/src/assets/photos/gallery/gallery3.png',
-    '/src/assets/photos/gallery/gallery4.png',
-    '/src/assets/photos/gallery/gallery5.png',
-    '/src/assets/photos/gallery/gallery3.png',
+    `${pathBase}photos/gallery/gallery2.png`,
+    `${pathBase}photos/gallery/gallery3.png`,
+    `${pathBase}photos/gallery/gallery4.png`,
+    `${pathBase}photos/gallery/gallery5.png`,
+    `${pathBase}photos/gallery/gallery3.png`
   ]
-  
+
   const carousel = ref(null)
   
   // scroll by the width of one item (or adjust px as you like)
