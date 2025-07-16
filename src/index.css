@@ -1,8 +1,6 @@
 /* AOS animations */
 @import 'aos/dist/aos.css';
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
 @plugin 'daisyui' {

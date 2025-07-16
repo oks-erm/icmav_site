@@ -10,10 +10,10 @@
           v-for="(p, i) in pastors.slice(0, 2)"
           :key="p.id"
           @click="toggleBio(p.id)"
-          class="flex flex-col items-center cursor-pointer transition-transform hover:scale-102"
+          class="flex-shrink-0 w-36 flex flex-col items-center cursor-pointer transition-transform hover:scale-102"
           :style="{ marginRight: i === 0 ? '-0.8rem' : '0' }"
         >
-          <div class="w-38 h-38 rounded-full overflow-hidden shadow-lg">
+          <div class="w-36 h-36 rounded-full overflow-hidden shadow-lg">
             <img :src="p.photo" :alt="p.name" class="object-cover w-full h-full" />
           </div>
           <p class="mt-3 text-center font-medium whitespace-pre-line">{{ p.name }}</p>

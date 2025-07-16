@@ -1,14 +1,19 @@
 // tailwind.config.cjs
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
         './public/index.html',
         './src/**/*.{vue,js,ts,jsx,tsx}'
     ],
-    theme: { extend: {} },
+    theme: {
+        extend: {},
+    },
     plugins: [
-        require('@tailwindcss/aspect-ratio'),
         require('daisyui'),
+        require('@tailwindcss/aspect-ratio'),
     ],
-    daisyui: { themes: ['light', 'dark', 'cmyk'], defaultTheme: 'light' }
-}
-  
+    daisyui: {
+        themes: ['light', 'dark', 'cmyk'],
+    },
+  };
