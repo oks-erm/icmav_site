@@ -2,17 +2,15 @@
 const path = require('path')
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
-        ? '/icmav_site/'
-        : '/',
+    publicPath: '/',
 
     css: {
         loaderOptions: {
             postcss: {
                 postcssOptions: {
                     plugins: [
-                        require('@tailwindcss/postcss')(),  // Tailwind v4 plugin
-                        require('autoprefixer')(),          // vendor prefixes
+                        require('@tailwindcss/postcss')(), 
+                        require('autoprefixer')(),  
                     ]
                 }
             }
