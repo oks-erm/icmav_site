@@ -156,7 +156,12 @@
         Foi pastor titular durante 3 anos de uma igreja evangélica local em Espanha, na cidade de Sevilha. É pastor auxiliar na ICMAV desde 2016. É Líder-coordenador da ICMAV com Propósitos e dos Ministérios de Ligação. É também Diretor e formador da ICMAV COLLEGE. Foi fundador da Escola de Liderança com Propósitos (LCP) em 2015, nome anterior da escola. É autor de mais de 30 manuais de treinamento para líderes.`, 
         spouseId: 4 },
     { id: 4, name: 'Pra Johana\nVillarroel', photo: `${pathBase}photos/people/johana.png`, bio: '…', spouseId: 3 },
-    { id: 5, name: 'Pr Manza\nGarcia',     photo: `${pathBase}photos/people/manza.png`, bio: '…' },
+    { id: 5, name: 'Pr Manza\nGarcia',     photo: `${pathBase}photos/people/manza.png`, bio: 
+        `   O Pr. Manza Garcia nasceu na República Democrática do Congo. Com 19 anos foi para Angola onde frequentou uma igreja baptista onde serviu a Deus como cantor durante 3 anos. A seguir foi para o sul de Angola durante 2 anos, voltando depois para Luanda onde começou o ministério como evangelista a pregar na igreja e em campanhas de massas com centenas de pessoas.
+        
+        Em 1989 veio para Portugal onde fundou uma igreja junto com uns amigos, onde ficou até 1995 quando o Pr. Leitão da igreja de Cascais o convidou para vir para a ICMAV, onde actualmente serve como pastor em Cascais e no Monte da Caparica.
+        
+        A ICMAV é uma igreja que está no seu coração, sendo uma comunidade que é relevante e que serve a Deus estendendo o Reino de Deus aqui na Terra. Acredita que a igreja não é para ser pequena, mas para crescer e continuar a ganhar espaço, querendo contribuir para esta expansão do Reino de Deus aqui na Terra na sua forma espiritual e física.` },
     { id: 6, 
         name: 'Pr Paulo João\nCorreia',
         photo: `${pathBase}photos/people/pj.png`,    
@@ -186,7 +191,9 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         bio:         
         `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
 
-        Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.`, 
+        Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja.
+        
+        Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.`, 
         spouseId: 8 },
 
   ]
