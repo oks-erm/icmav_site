@@ -46,7 +46,7 @@
         data-aos-delay="200"
       >
         <p class="text-center text-gray-600">
-          É com grande alegria que acolho você em nossa comunidade de fé, onde cada coração é valorizado e amado por Deus. Aqui caminhamos juntos, apoiando-nos mutuamente em oração, amor e serviço, para crescer cada vez mais na graça de Cristo. Que você se sinta em casa, encontrando neste lar espiritual um lugar de paz, esperança e renovação.
+            O nosso  desejo é que cada pessoa que chegue até nós se sinta em casa, seja inspirada pela Palavra de Deus e encontre o apoio necessário para viver uma vida plena e com muito significado. És muito bem vindo à nossa comunidade queremos muito conhecer-te e partilhar contigo a alegria de caminhar na fé juntos!
         </p>
       </div>
   

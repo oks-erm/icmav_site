@@ -1,7 +1,7 @@
 <!-- src/components/ContactExtensions.vue -->
 <template>
     <div class="max-w-4xl mx-auto py-8 px-4" data-aos="fade-up">
-    <div class="flex flex-col items-center md:flex-row">
+    <div class="flex !flex-col items-center">
       <!-- 🍋 Button “tabs” -->
       <div class="flex flex-row mb-6">
         <button

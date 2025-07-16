@@ -1,9 +1,9 @@
 <template>
     <div class="max-w-3xl mx-auto px-4 space-y-6" data-aos="fade-up">
         <!-- Intro copy -->
-        <div class="space-y-4 text-base leading-relaxed text-center md:text-left">
+        <div class="space-y-4 text-base leading-relaxed text-center">
 
-            <blockquote class="italic border-l-4 border-info pl-4">
+            <blockquote class="italic text-center border-l-4 border-info pl-4">
                 “Uma comunidade saudável é ser grande e pequena ao mesmo tempo".<br />
                 <span class="font-medium">— Rick Warren</span>
             </blockquote>

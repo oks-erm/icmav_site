@@ -62,13 +62,13 @@
           </p>
 
           <!-- Leader info -->
-          <div class="flex flex-col md:flex-row items-center mt-8 space-y-4 md:space-y-0 ">
+          <div class="flex !flex-col items-center mt-8 space-y-4 md:space-y-0 ">
             <img
               :src="ministry.leaderPhoto"
               :alt="ministry.leader"
               class="w-24 h-24 rounded-full object-cover shadow-lg mb-2"
             />
-            <div class="text-center md:text-left">
+            <div class="text-center">
               <div class="flex flex-col items-center justify-center md:justify-start">
                 <div class="badge badge-sm badge-primary">Líder</div>
                 <div class="font-bold text-lg">{{ ministry.leader }}</div>
