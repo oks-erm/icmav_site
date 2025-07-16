@@ -92,6 +92,8 @@
   
   const route  = useRoute()
   const router = useRouter()
+
+  const pathBase = process.env.BASE_URL
   
   const MINISTRIES = [
   {
@@ -99,8 +101,8 @@
     name: 'ICMAV Crianças / Alfa',
     media: {
     type: 'video',
-    src: '/src/assets/videos/hero.mp4',
-    placeholder: '/src/assets/fallbacks/hero.jpg'
+    src: `${pathBase}videos/hero.mp4`,
+    placeholder: `${pathBase}fallbacks/hero.jpg`
   },
     longDescription: [
         'O ministério das crianças é um espaço cheio de alegria, criatividade e crescimento. Em cada encontro, as crianças são convidadas a mergulhar nas histórias da Bíblia de forma divertida e acessível — através de teatro, música, jogos e atividades que despertam a imaginação e mostram, de forma simples e verdadeira, o amor de Deus.',
@@ -108,7 +110,7 @@
         'Para além dos encontros semanais, organizamos também eventos temáticos em datas especiais como a Páscoa, o Natal ou o Dia da Criança. Tudo acontece num ambiente seguro, acolhedor e com uma equipa dedicada que cuida, ensina e brinca com os mais pequenos com muito carinho.',
         ],
     leader: 'Patricia Pinto',
-    leaderPhoto: 'src/assets/photos/people/patricia.png',
+    leaderPhoto: `${pathBase}photos/people/patricia.png`,
     contact: '+351 912 000 111',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/alfa.icmav' }
@@ -119,8 +121,8 @@
     name: 'ICMAV Teens',
     media: {
     type: 'video',
-    src: '/src/assets/videos/teens.mp4',
-    placeholder: '/src/assets/fallbacks/hero.jpg'
+    src: `${pathBase}videos/teens.mp4`,
+    placeholder: `${pathBase}fallbacks/hero.jpg`
   },
     longDescription: [
         'O grupo Teens é um espaço vibrante, pensado especialmente para adolescentes que estão a descobrir quem são e em que acreditam. Aqui, combinamos momentos de louvor, conversas reais e oficinas criativas que incentivam a expressão pessoal, sempre com base em princípios cristãos.',
@@ -128,7 +130,7 @@
         'Ao longo do ano, organizamos retiros, encontros temáticos e iniciativas solidárias que desenvolvem a liderança, o espírito de equipa e o sentido de missão. É uma oportunidade única para fazer amigos, servir, descobrir o propósito pessoal e aprender a viver com responsabilidade e intencionalidade.',
         ],
     leader:       'João Maria Guedelha',
-    leaderPhoto:  'src/assets/photos/people/joao-maria.png',
+    leaderPhoto:  `${pathBase}photos/people/joao-maria.png`,
     contact:      '+351 912 000 222',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icteens' }
@@ -139,8 +141,8 @@
     name: 'ICMAV Jovens',
     media: {
     type: 'video',
-    src: '/src/assets/videos/hero.mp4',
-    placeholder: '/src/assets/fallbacks/hero.jpg'
+    src: `${pathBase}videos/hero.mp4`,
+    placeholder: `${pathBase}fallbacks/hero.jpg`
   },
     longDescription: [
         'Os encontros de Jovens juntam pessoas dos 18 aos 30 anos num ambiente descontraído, cheio de propósito. São momentos marcados por adoração, estudo da Palavra e partilha de vida — um espaço seguro para fazer perguntas, crescer na fé e construir amizades verdadeiras.',
@@ -148,7 +150,7 @@
         'Para além dos encontros quinzenais, dinamizamos seminários, missões urbanas e outros eventos que fortalecem a ligação com Deus e com a cidade. Cada jovem é desafiado a descobrir o seu chamado e a ser luz onde quer que esteja — com coragem, criatividade e compaixão.',
         ],
     leader:       'Marcos Pereira',
-    leaderPhoto:  'src/assets/photos/people/marcos.png',
+    leaderPhoto:  `${pathBase}photos/people/marcos.png`,
     contact:      '+351 912 000 333',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icyouth' }
@@ -159,8 +161,8 @@
     name: 'ICMAV Homens',
     media: {
     type: 'video',
-    src: '/src/assets/videos/hero.mp4',
-    placeholder: '/src/assets/fallbacks/hero.jpg'
+    src: `${pathBase}videos/hero.mp4`,
+    placeholder: `${pathBase}fallbacks/hero.jpg`
   },
     longDescription: [
         'O ministério de Homens é um espaço onde homens de todas as idades se juntam para crescer na fé e nas relações uns com os outros. Através de estudos bíblicos, conversas honestas e atividades ao ar livre, queremos promover uma caminhada cristã autêntica, com foco no discipulado e no fortalecimento da identidade em Cristo.',
@@ -168,7 +170,7 @@
         'Acreditamos que cada homem tem um papel essencial na família, na igreja e na sociedade — e queremos ser parte ativa no processo de crescimento espiritual, emocional e relacional de cada um.',
         ],
     leader:       'Paulo João Correia',
-    leaderPhoto:  'src/assets/photos/people/pj.png',
+    leaderPhoto:  `${pathBase}photos/people/pj.png`,
     contact:      '+351 912 000 444',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_homens' }
@@ -179,8 +181,8 @@
     name: 'ICMAV Mulheres',
     media: {
     type: 'video',
-    src: '/src/assets/videos/hero.mp4',
-    placeholder: '/src/assets/fallbacks/hero.jpg'
+    src: `${pathBase}videos/hero.mp4`,
+    placeholder: `${pathBase}fallbacks/hero.jpg`
   },
     longDescription: [
         'O ministério de Mulheres é um espaço pensado para acolher, encorajar e fortalecer mulheres em todas as fases da vida. Através de estudos bíblicos, oração e partilha, criamos um ambiente seguro onde cada mulher pode crescer na fé, aprofundar a sua relação com Deus e construir amizades significativas.',
@@ -188,7 +190,7 @@
         'Acreditamos que cada mulher tem um valor único e um chamado divino, e queremos caminhar juntas nesta jornada, apoiando-nos umas às outras com graça, verdade e alegria.',
         ],
     leader:       'Cristina Silva',
-    leaderPhoto:  'src/assets/photos/people/cristina.png',
+    leaderPhoto:  `${pathBase}photos/people/cristina.png`,
     contact:      '+351 912 000 555',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
@@ -199,8 +201,8 @@
     name: 'ICMAV Casais',
     media: {
     type: 'video',
-    src: '/src/assets/videos/hero.mp4',
-    placeholder: '/src/assets/fallbacks/hero.jpg'
+    src: `${pathBase}videos/hero.mp4`,
+    placeholder: `${pathBase}fallbacks/hero.jpg`
   },
     longDescription: [
         'O ministério de Casais existe para apoiar e fortalecer os relacionamentos, ajudando cada casal a crescer em amor, unidade e propósito. Promovemos encontros com temas relevantes, palestras, momentos de oração e dinâmicas práticas baseadas nos princípios da Palavra de Deus.',
@@ -208,7 +210,7 @@
         'Também organizamos conferências e retiros especiais que proporcionam tempo de qualidade a dois, ferramentas para lidar com desafios e oportunidades para renovar os votos e a visão do casamento. Queremos ver famílias fortes, resilientes e cheias de fé a impactar o mundo à sua volta.',
         ],
     leader:       'Pedro Mateus',
-    leaderPhoto:  'src/assets/photos/people/pedro-mateus.png',
+    leaderPhoto:  `${pathBase}photos/people/pedro-mateus.png`,
     contact:      '+351 912 000 666',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }
