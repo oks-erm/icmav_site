@@ -13,37 +13,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-        content: [
-          './index.html',
-          './src/**/*.{vue,js,ts,jsx,tsx}',
-        ],
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Montserrat', 'ui-sans-serif', 'system-ui'],
-            },
-            spacing: {
-              '128': '32rem',
-            },
-          },
-        },
-        plugins: [
-          require('@tailwindcss/aspect-ratio'),
-          require('daisyui'),
-        ],
-        daisyui: {
-          themes: [
-            'light',
-            'dark',
-            'cmyk',
-            'abyss',
-          ],
-          darkTheme: 'dark',
-        },
-      }
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 </head>
