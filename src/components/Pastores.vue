@@ -132,12 +132,20 @@
     { id: 1, 
         name: 'Pr Henrique\nPereira', 
         photo: `${pathBase}photos/people/henrique.png`, 
-        bio: '…', 
+        bio: `Henrique Pereira é o pastor principal da nossa igreja e lidera com um coração cheio de alegria, humildade e dedicação ao serviço de Deus e das pessoas. Casado com Minita Pereira, são pais da Rute e do Marcos — que é casado com a Myriam — e avós orgulhosos da pequena Noa, a alegria da família.
+
+        A sua jornada no ministério começou em 1989, ao lado da sua esposa, quando ambos serviram como pastores assistentes. Ao longo dos anos, têm sido uma presença constante na vida da comunidade, e em 2022 assumiram a liderança pastoral principal da igreja.
+
+        O Pastor Henrique é conhecido pela sua proximidade com as pessoas, pela forma simples mas profunda como comunica a Palavra de Deus, e por ser alguém que ouve, cuida e caminha ao lado de quem o procura. A sua paixão é ver vidas transformadas pelo amor de Jesus — pessoas que descobrem que têm valor, propósito e um lugar na família de Deus. Para ele, a igreja deve ser um espaço onde todos são bem-vindos, independentemente do passado, onde há crescimento espiritual genuíno e onde a transformação acontece através do poder do Evangelho e da vivência em comunidade.`, 
         spouseId: 2 },
     { id: 2, 
         name: 'Pra Minita\nPereira',  
         photo: `${pathBase}photos/people/minita.png`, 
-        bio: '…', 
+        bio: `Minita Pereira é esposa do Pastor Henrique e uma líder dedicada e inspiradora no seio da igreja. Com um coração cheio de empatia, sabedoria e sensibilidade espiritual, tem sido uma figura essencial na caminhada pastoral da comunidade desde 1989.
+
+        Ao longo dos anos, Minita tem acompanhado muitas pessoas nas suas jornadas de fé, especialmente mulheres e famílias, com uma presença firme e encorajadora. É alguém que sabe escutar com atenção, orar com fé e apoiar com amor — sempre com um sorriso acolhedor e palavras de esperança.
+
+        Enquanto mulher de fé, mãe e avó, Minita vive o ministério com naturalidade, integrando o cuidado da família com o cuidado da igreja. A sua vida é um reflexo do amor de Cristo em ação — discreta mas marcante, simples mas profunda. A sua visão, alinhada com a do Pastor Henrique, é ver uma igreja viva, acolhedora e centrada em Jesus — um lugar onde todos podem crescer, restaurar-se e descobrir o seu papel no plano de Deus.`, 
         spouseId: 1 },
     { id: 3, 
         name: 'Pr Rogério\nTrindade', 
@@ -158,7 +166,13 @@
         A sua jornada no ministério começou aos 14 anos, após um encontro marcante com Jesus. Durante 18 anos serviu no Desafio Jovem, desenvolvendo trabalho evangelístico e social junto de comunidades vulneráveis e pessoas em situação de dependência.
             
         Desde 2006, dedica-se a tempo inteiro ao ministério pastoral, com ênfase no louvor, na formação de novas gerações e no discipulado de homens. A paternidade e a cultura do Reino no seio familiar são temas centrais da sua missão, procurando levantar líderes que vivam segundo o coração de Deus.`, spouseId: 7 },
-    { id: 7, name: 'Pra Denise\nCorreia',  photo: `${pathBase}photos/people/denise.png`, bio: '…', spouseId: 6 },
+    { id: 7, 
+        name: 'Pra Denise\nCorreia',  
+        photo: `${pathBase}photos/people/denise.png`, 
+        bio: `É esposa do Pastor Paulo João e tem sido, desde o início, uma companheira incansável no ministério. Embora não esteja à frente da adoração, a sua presença discreta e constante tem sido fundamental ao longo de toda a caminhada pastoral da família. Desde muito jovem, partilhou com o Paulo o chamado para servir, caminhando ao seu lado em todas as fases — desde os primeiros passos no ministério aos 14 anos, passando pelos anos intensos no Desafio Jovem, até ao serviço pastoral a tempo inteiro iniciado em 2006.
+
+Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com o coração voltado para a família, o cuidado das pessoas e a edificação da Igreja. É uma mulher de oração, sensível à voz de Deus, e uma referência silenciosa de força, fé e dedicação. A sua missão não passa pelos holofotes, mas pela fidelidade no dia a dia, sempre disponível, sempre presente, sempre a semear amor.`, 
+        spouseId: 6 },
     { id: 8, 
         name: 'Pr Danilo\nGujral',    
         photo: `${pathBase}photos/people/danilo.png`, 
