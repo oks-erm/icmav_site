@@ -50,11 +50,18 @@
   
   const pathBase = process.env.BASE_URL
   const images = [
-    `${pathBase}photos/gallery/gallery2.png`,
-    `${pathBase}photos/gallery/gallery3.png`,
-    `${pathBase}photos/gallery/gallery4.png`,
-    `${pathBase}photos/gallery/gallery5.png`,
-    `${pathBase}photos/gallery/gallery3.png`
+    `${pathBase}photos/gallery/20250518_0033.jpg`,
+    `${pathBase}photos/gallery/RVAZ0389.jpg`,
+    `${pathBase}photos/gallery/RVAZ8702.jpg`,
+    `${pathBase}photos/gallery/RVAZ8327.jpg`,
+    `${pathBase}photos/gallery/20250323_0124.jpeg`,
+    `${pathBase}photos/gallery/RVAZ8386.jpeg`,
+    `${pathBase}photos/gallery/RVAZ8339.jpeg`,
+    `${pathBase}photos/gallery/20250615_0043.jpeg`,
+    `${pathBase}photos/gallery/20250518_0031.jpeg`,
+    `${pathBase}photos/gallery/20250202_0230.jpeg`,
+    `${pathBase}photos/gallery/3U9A0493.jpg`,
+    `${pathBase}photos/gallery/gallery5.jpeg`
   ]
 
   const carousel = ref(null)
