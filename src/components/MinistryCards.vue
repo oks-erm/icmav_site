@@ -36,8 +36,7 @@ const ministries = [
         slug: 'mulheres',
         icon: 'fas fa-female',
         bg: 'info',
-        description: 'Um grupo de mulheres que merece um espaço onde é ouvida, valorizada e encorajada.',
-
+        description: 'Um grupo de mulheres que merecem um espaço onde são ouvidas, valorizadas e encorajadas.',
     },
     {
         name: 'Homens',
@@ -58,7 +57,7 @@ const ministries = [
         slug: 'jovens',
         icon: 'fas fa-heart',
         bg: 'secondary',
-        description: 'Bora lá viver que vai além do comum, com propósito e significado.',
+        description: 'Bora lá viver o que vai além do comum, com propósito e significado.',
     },
     {
         name: 'Teens',

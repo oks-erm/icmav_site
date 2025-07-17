@@ -13,7 +13,7 @@
                 para um novo projeto de vida. Num inquérito que fizemos em 2011, na ICMAV e fora dela, às pessoas da
                 comunidade,
                 essa foi a conclusão mais forte a que chegamos. Deus tem uma família, e quer que tu também pertenças a
-                ela. Os PGs são uma
+                ela. Os pequenos grupos são uma
                 forma de experimentarmos Deus e uma nova vida em família. Encontros semanais, quinzenais ou mensais
                 em pequenos grupos de interesse ou outros,
                 para as várias camadas etárias. Consulte a lista de Grupos, localidades e
