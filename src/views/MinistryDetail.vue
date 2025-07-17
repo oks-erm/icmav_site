@@ -100,7 +100,7 @@
     media: {
     type: 'video',
     src: `/videos/hero.mp4`,
-    placeholder: `/fallbacks/hero.jpg`
+    placeholder: `/fallbacks/criancas.png`
   },
     longDescription: [
         'O ministério das crianças é um espaço cheio de alegria, criatividade e crescimento. Em cada encontro, as crianças são convidadas a mergulhar nas histórias da Bíblia de forma divertida e acessível — através de teatro, música, jogos e atividades que despertam a imaginação e mostram, de forma simples e verdadeira, o amor de Deus.',
@@ -109,7 +109,7 @@
         ],
     leader: 'Patricia Pinto',
     leaderPhoto: `/photos/people/patricia.png`,
-    contact: '+351 912 000 111',
+    contact: '(+351) 913 300 792',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/alfa.icmav' }
     ]

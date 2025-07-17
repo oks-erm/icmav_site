@@ -27,7 +27,7 @@
           class="mb-8 px-10"
           data-aos="fade-up"
         >
-          <div class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed">
+          <div class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed" style="max-width: 1080px; margin: auto;">
             <h3 class="text-2xl font-bold mb-4">{{ activePastor.name }}</h3>
             <img
               :src="activePastor.photo"
@@ -108,7 +108,7 @@
           class="px-10"
           data-aos="fade-up"
         >
-          <div class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed">
+          <div class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed" style="max-width: 1080px; margin: auto;">
             <h3 class="text-2xl font-bold mb-4">{{ activePastor.name }}</h3>
             <img
               :src="activePastor.photo"

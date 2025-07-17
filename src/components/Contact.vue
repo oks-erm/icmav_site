@@ -83,7 +83,7 @@ const extensions = [
     address: 'Estrada de Polima 609, 2785-303 São Domingos de Rana',
     mapEmbedUrl:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d927.0658016320806!2d-9.328997091208173!3d38.72404304543485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ecf1ea14b0a83%3A0x142331a801f14075!2sIgreja%20Evang%C3%A9lica%20Crist%C3%A3%20ICMAV!5e0!3m2!1spt-PT!2spt!4v1748728354732!5m2!1spt-PT!2spt',
-    website: 'https://icmav.pt',
+    website: 'icmav.pt',
     sundayService: '10h30'
   },
   {
@@ -116,7 +116,7 @@ const extensions = [
     address: '125, Gibraltar Crescent, Epsom, KT19 9BU, Londres, UK',
     mapEmbedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2492.053264944142!2d-0.2617746874167882!3d51.34693115432881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487609e1e2c18b91%3A0x53b7320aedd8485c!2s125%20Gibraltar%20Cres%2C%20Epsom%20KT19%209BU%2C%20UK!5e0!3m2!1sen!2spt!4v1751627209795!5m2!1sen!2spt",
-    website: 'https://icmavlondon.com/',
+    website: 'icmavlondon.com',
     sundayService: '10h30'
   }
 ]
