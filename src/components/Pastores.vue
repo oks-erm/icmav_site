@@ -155,7 +155,13 @@
 
         Foi pastor titular durante 3 anos de uma igreja evangélica local em Espanha, na cidade de Sevilha. É pastor auxiliar na ICMAV desde 2016. É Líder-coordenador da ICMAV com Propósitos e dos Ministérios de Ligação. É também Diretor e formador da ICMAV COLLEGE. Foi fundador da Escola de Liderança com Propósitos (LCP) em 2015, nome anterior da escola. É autor de mais de 30 manuais de treinamento para líderes.`, 
         spouseId: 4 },
-    { id: 4, name: 'Pra Johana\nVillarroel', photo: `${pathBase}photos/people/johana.png`, bio: '…', spouseId: 3 },
+    { id: 4, 
+        name: 'Pra Johana\nVillarroel', 
+        photo: `${pathBase}photos/people/johana.png`, 
+        bio: `Rosa Johana é casada com Rogério Trindade e têm dois filhos, o John e a Zoé. Nasceu na Bolívia, na cidade de Santa Cruz de la Sierra
+
+        Foi pastora titular acompanhada com o seu marido durante 3 anos de uma igreja evangélica local em Espanha, na cidade de Sevilha. É pastora auxiliar na ICMAV desde 2016. É responsável do propósito da adoração na equipa do ministério de crianças ALFA.`, 
+        spouseId: 3 },
     { id: 5, name: 'Pr Manza\nGarcia',     photo: `${pathBase}photos/people/manza.png`, bio: 
         `   O Pr. Manza Garcia nasceu na República Democrática do Congo. Com 19 anos foi para Angola onde frequentou uma igreja baptista onde serviu a Deus como cantor durante 3 anos. A seguir foi para o sul de Angola durante 2 anos, voltando depois para Luanda onde começou o ministério como evangelista a pregar na igreja e em campanhas de massas com centenas de pessoas.
         
