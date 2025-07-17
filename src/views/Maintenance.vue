@@ -2,7 +2,7 @@
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-base-100 px-4">
     <!-- optional logo -->
-    <img :src="logoSrc" alt="Logo" class="w-50 mb-8" />
+    <img :src="logoSrc" alt="Logo" class="w-72 mb-8" />
 
     <!-- headline -->
     <h3 class="text-4xl font-bold mb-4 text-center">
