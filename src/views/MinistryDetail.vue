@@ -129,7 +129,7 @@
         ],
     leader:       'João Maria Guedelha',
     leaderPhoto:  `/photos/people/joao-maria.png`,
-    contact:      '+351 912 000 222',
+    contact:      '(+351) 933 838 746',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icteens' }
     ]
@@ -149,7 +149,7 @@
         ],
     leader:       'Marcos Pereira',
     leaderPhoto:  `/photos/people/marcos.png`,
-    contact:      '+351 912 000 333',
+    contact:      '(+351) 912 847 221',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icyouth' }
     ]
@@ -169,7 +169,7 @@
         ],
     leader:       'Paulo João Correia',
     leaderPhoto:  `/photos/people/pj.png`,
-    contact:      '+351 912 000 444',
+    contact:      '(+351) 919 947 770',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_homens' }
     ]
@@ -189,7 +189,7 @@
         ],
     leader:       'Cristina Silva',
     leaderPhoto:  `/photos/people/cristina.png`,
-    contact:      '+351 912 000 555',
+    contact:      '(+351) 000 000 000',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
     ]
@@ -209,7 +209,7 @@
         ],
     leader:       'Pedro Mateus',
     leaderPhoto:  `/photos/people/pedro-mateus.png`,
-    contact:      '+351 912 000 666',
+    contact:      '(+351) 000 000 000',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }
     ]
