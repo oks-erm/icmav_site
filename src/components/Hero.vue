@@ -55,7 +55,7 @@
 import { ref, onMounted } from 'vue'
 
 const base = process.env.BASE_URL
-const videoSrc    = `${base}videos/hero.mp4`
+const videoSrc    = `${base}videos/hero-desktop-1080.mp4`
 const fallbackSrc = `${base}fallbacks/hero.jpg`
 
 // Toggle to a static image if you prefer

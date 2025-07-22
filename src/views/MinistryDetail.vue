@@ -119,7 +119,7 @@
     name: 'ICMAV Teens',
     media: {
     type: 'video',
-    src: `/videos/teens.mp4`,
+    src: `/videos/teens-desktop-720.mp4`,
     placeholder: `/fallbacks/hero.jpg`
   },
     longDescription: [
@@ -159,7 +159,7 @@
     name: 'ICMAV Homens',
     media: {
     type: 'video',
-    src: `/videos/hero.mp4`,
+    src: `/videos/homens.mp4`,
     placeholder: `/fallbacks/hero.jpg`
   },
     longDescription: [
