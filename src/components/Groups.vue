@@ -22,11 +22,11 @@
         </div>
 
         <!-- Join Button -->
-        <div class="flex justify-center mt-20" data-aos="fade-up" data-aos-delay="200">
+        <!-- <div class="flex justify-center mt-20" data-aos="fade-up" data-aos-delay="200">
             <button @click="scrollTo('ministerios')" id="join" class="btn btn-info rounded-full btn-xl py-4 px-12">
                 Junte-se a um Pequeno Grupo
             </button>
-        </div>
+        </div> -->
     </div>
 </template>
 
