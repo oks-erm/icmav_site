@@ -1,55 +1,60 @@
 <template>
     <div>
-      <!-- 1) FEATURED PASTORS (MAIN COUPLE) -->
+      <!-- FEATURED PASTORS (MAIN COUPLE) -->
       <div
-        class="flex justify-center items-center py-4"
-        data-aos="fade-up"
-        data-aos-delay="100"
-      >
-        <div
-          v-for="(p, i) in pastors.slice(0, 2)"
-          :key="p.id"
-          @click="toggleBio(p.id)"
-          class="flex-shrink-0 w-36 flex flex-col items-center cursor-pointer transition-transform hover:scale-102"
-          :style="{ marginRight: i === 0 ? '-0.8rem' : '0' }"
-        >
-          <div class="w-36 h-36 rounded-full overflow-hidden shadow-lg">
-            <img :src="p.photo" :alt="p.name" class="object-cover w-full h-full" />
-          </div>
-          <p class="mt-3 text-center font-medium whitespace-pre-line">{{ p.name }}</p>
-        </div>
-      </div>
-  
-      <!-- 1b) BIO FOR FEATURED COUPLE -->
-      <transition name="slide-fade" mode="out-in">
-        <div
-          v-if="activePastor && activePastor.id <= 2"
-          class="mb-8 px-10"
-          data-aos="fade-up"
-        >
-          <div class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed" style="max-width: 1080px; margin: auto;">
-            <h3 class="text-2xl font-bold mb-4">{{ activePastor.name }}</h3>
-            <img
-              :src="activePastor.photo"
-              :alt="activePastor.name"
-              class="w-32 h-32 rounded-full object-cover float-left mr-4 mb-4 shadow-md"
-            />
-            <p class="whitespace-pre-line">{{ activePastor.bio }}</p>
-          </div>
-        </div>
-      </transition>
-  
-      <!-- 2) WELCOME MESSAGE -->
+      class="relative flex justify-center items-center py-4 mb-[-2.5rem] z-20"
+      data-aos="fade-up"
+      data-aos-delay="100">
       <div
-        class="max-w-2xl mx-auto mb-2 px-6 py-8 bg-base-100 border border-gray-200 rounded-lg shadow-sm"
-        data-aos="fade-up"
-        data-aos-delay="200"
+        v-for="(p, i) in pastors.slice(0, 2)"
+        :key="p.id"
+        @click="toggleBio(p.id)"
+        class="flex-shrink-0 w-36 flex flex-col items-center cursor-pointer transition-transform hover:scale-102"
+        :class="i === 1 ? '-ml-8' : ''" 
       >
-        <p class="text-center text-gray-600">
-            O nosso  desejo é que cada pessoa que chegue até nós se sinta em casa, seja inspirada pela Palavra de Deus e encontre o apoio necessário para viver uma vida plena e com muito significado. És muito bem vindo à nossa comunidade queremos muito conhecer-te e partilhar contigo a alegria de caminhar na fé juntos!
+        <!-- Name above -->
+        <p class="mb-2 text-center font-semibold whitespace-pre-line">
+          {{ p.name }}
         </p>
+        <div class="w-36 h-36 rounded-full overflow-hidden shadow-lg">
+          <img :src="p.photo" :alt="p.name" class="object-cover w-full h-full" />
+        </div>
       </div>
-  
+    </div>
+    <!-- 1b) BIO FOR FEATURED COUPLE -->
+    <transition name="slide-fade" mode="out-in">
+      <div
+        v-if="activePastor && activePastor.id <= 2"
+        class="mb-8 px-10"
+        data-aos="fade-up">
+        <div
+          class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed"
+          style="max-width: 1080px; margin: auto;"
+        >
+          <h3 class="text-2xl font-bold mb-4">{{ activePastor.name }}</h3>
+          <img
+            :src="activePastor.photo"
+            :alt="activePastor.name"
+            class="w-32 h-32 rounded-full object-cover float-left mr-4 mb-4 shadow-md"
+          />
+          <p class="whitespace-pre-line">{{ activePastor.bio }}</p>
+        </div>
+      </div>
+    </transition>
+    <!--  WELCOME MESSAGE (subtle card, sits beneath the photos) -->
+    <div
+      class="relative z-10 max-w-2xl mx-auto px-6 py-8 bg-base-100 border border-gray-200 rounded-lg shadow-sm"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      <p class="text-center text-gray-600">
+        O nosso desejo é que cada pessoa que chegue até nós se sinta em casa, seja
+        inspirada pela Palavra de Deus e encontre o apoio necessário para viver uma
+        vida plena e com muito significado. És muito bem-vindo à nossa comunidade —
+        queremos muito conhecer-te e partilhar contigo a alegria de caminhar na fé juntos!
+      </p>
+    </div>
+
       <!-- 3) SCROLLABLE ROW OF THE REST -->
       <div class="relative">
         <div
