@@ -60,8 +60,10 @@
     `${pathBase}photos/gallery/20250615_0043.jpeg`,
     `${pathBase}photos/gallery/20250518_0031.jpeg`,
     `${pathBase}photos/gallery/20250202_0230.jpeg`,
-    `${pathBase}photos/gallery/3U9A0493.jpg`,
-    `${pathBase}photos/gallery/gallery5.jpeg`
+    `${pathBase}photos/gallery/20250629_0049.jpg`,
+    `${pathBase}photos/gallery/20250629_0068.jpg`,
+    `${pathBase}photos/gallery/RVAZ0610.jpg`,
+    `${pathBase}photos/gallery/20250307_0710.jpg`
   ]
 
   const carousel = ref(null)
