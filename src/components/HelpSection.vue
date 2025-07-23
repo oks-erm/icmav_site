@@ -33,7 +33,7 @@
               </p>
             </div>
             <a
-              href="https://docs.google.com/forms/d/e/YOUR_COUNSEL_FORM_ID/viewform"
+              href="https://forms.gle/PtJSnsfxNU9pQvez9"
               target="_blank"
               class="btn btn-secondary self-start rounded-full"
               style="font-size: 100%"

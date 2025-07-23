@@ -119,7 +119,7 @@
     name: 'ICMAV Teens',
     media: {
     type: 'video',
-    src: `/videos/teens.mp4`,
+    src: `/videos/teens-desktop-720.mp4`,
     placeholder: `/fallbacks/hero.jpg`
   },
     longDescription: [
@@ -159,7 +159,7 @@
     name: 'ICMAV Homens',
     media: {
     type: 'video',
-    src: `/videos/hero.mp4`,
+    src: `/videos/homens.mp4`,
     placeholder: `/fallbacks/hero.jpg`
   },
     longDescription: [
@@ -185,11 +185,11 @@
     longDescription: [
         'O ministério de Mulheres é um espaço pensado para acolher, encorajar e fortalecer mulheres em todas as fases da vida. Através de estudos bíblicos, oração e partilha, criamos um ambiente seguro onde cada mulher pode crescer na fé, aprofundar a sua relação com Deus e construir amizades significativas.',
         'Os nossos encontros incluem workshops, palestras, tempos de louvor e eventos especiais que tocam em temas relevantes do dia a dia — sempre com o objetivo de trazer inspiração, cura, renovação e um sentido mais profundo de propósito.',
-        'Acreditamos que cada mulher tem um valor único e um chamado divino, e queremos caminhar juntas nesta jornada, apoiando-nos umas às outras com graça, verdade e alegria.',
+        'Acreditamos que cada mulher tem um valor único e uma chamada divina, e queremos caminhar juntas nesta jornada, apoiando-nos umas às outras com graça, verdade e alegria.',
         ],
     leader:       'Cristina Silva',
     leaderPhoto:  `/photos/people/cristina.png`,
-    contact:      '(+351) 000 000 000',
+    contact:      '(+351) 969 817 059',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
     ]
@@ -209,7 +209,7 @@
         ],
     leader:       'Pedro Mateus',
     leaderPhoto:  `/photos/people/pedro-mateus.png`,
-    contact:      '(+351) 000 000 000',
+    contact:      '(+351) 916 686 956',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }
     ]
