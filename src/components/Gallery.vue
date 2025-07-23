@@ -71,15 +71,30 @@
   // scroll by the width of one item (or adjust px as you like)
   const ITEM_WIDTH = 144 + 16 /* img width + space-x-4 */
   
-  function scrollPrev() {
-    if (!carousel.value) return
-    carousel.value.scrollBy({ left: -ITEM_WIDTH, behavior: 'smooth' })
-  }
-  
   function scrollNext() {
-    if (!carousel.value) return
-    carousel.value.scrollBy({ left: +ITEM_WIDTH, behavior: 'smooth' })
+  const el = carousel.value
+  if (!el) return
+  const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1
+  if (atEnd) {
+    // loop back to start
+    el.scrollTo({ left: 0, behavior: 'auto' })
+  } else {
+    el.scrollBy({ left: ITEM_WIDTH, behavior: 'smooth' })
   }
+}
+
+    function scrollPrev() {
+    const el = carousel.value
+    if (!el) return
+    const atStart = el.scrollLeft <= 1
+    if (atStart) {
+        // jump to very end
+        const maxScroll = el.scrollWidth - el.clientWidth
+        el.scrollTo({ left: maxScroll, behavior: 'smooth' })
+    } else {
+        el.scrollBy({ left: -ITEM_WIDTH, behavior: 'smooth' })
+    }
+    }
   </script>
   
   <style scoped>
