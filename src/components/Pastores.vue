@@ -25,7 +25,7 @@
     <transition name="slide-fade" mode="out-in">
       <div
         v-if="activePastor && activePastor.id <= 2"
-        class="mb-8 px-10"
+        class="mb-8 px-10 mt-[3rem]"
         data-aos="fade-up">
         <div
           class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed"
@@ -129,7 +129,7 @@
   
   
   <script setup>
-  import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+  import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
   const pathBase = process.env.BASE_URL
   
@@ -197,7 +197,8 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
 
         Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.  É produtor do programa  radiofónico "Ponto de Encontro" dirigido aos solteiros, divorciados e viúvos uma parceria com a Rádio Transmundial de Portugal.`, 
         spouseId: 9 },
-    { id: 9, name: 'Pra Havani\nGujral',   
+    { id: 9, 
+        name: 'Pra Havani\nGujral',   
         photo: `${pathBase}photos/people/havani.png`, 
         bio:         
         `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
@@ -206,7 +207,18 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         
         Também supervisionam e treinam para o ministério  das várias equipas do Celebrando Restauração da ICMAV.`, 
         spouseId: 8 },
-
+    { id: 10, 
+        name: 'Pr Carlos\nCardoso',
+        photo: `${pathBase}photos/people/carlitos.png`,
+        bio:
+        `  `,
+        spouseId: 11 },
+    { id: 11, 
+        name: 'Pra Isabel\nCardoso',
+        photo: `${pathBase}photos/people/nana.png`,
+        bio:
+        `  `,
+        spouseId: 10 }
   ]
 
   // first two are featured
@@ -227,27 +239,49 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
   const isOverflowing  = ref(false)
   
   function checkArrows() {
-    const el = scrollContainer.value
-    if (!el) return
-    showLeftArrow.value  = el.scrollLeft > 10
-    showRightArrow.value = el.scrollLeft + el.clientWidth + 10 < el.scrollWidth
-    isOverflowing.value  = el.scrollWidth > el.clientWidth
-  }
-  
-  function scrollLeft() {
+  const el = scrollContainer.value
+  if (!el) return
+  isOverflowing.value  = el.scrollWidth > el.clientWidth
+  showLeftArrow.value  = el.scrollLeft > 10
+  showRightArrow.value = el.scrollLeft + el.clientWidth + 10 < el.scrollWidth
+}
+
+function resetScrollState() {
+  // start at left
+  const el = scrollContainer.value
+  if (el) el.scrollLeft = 0
+  // assume overflow until measured
+  isOverflowing.value  = true
+  showLeftArrow.value  = false
+  showRightArrow.value = true
+}
+
+function scrollLeft() {
     scrollContainer.value?.scrollBy({ left: -200, behavior: 'smooth' })
   }
   function scrollRight() {
     scrollContainer.value?.scrollBy({ left: +200, behavior: 'smooth' })
   }
-  
-  onMounted(() => {
+
+onMounted(() => {
+  // 1) immediately force left alignment & pretend there's overflow
+  resetScrollState()
+
+  // 2) after DOM & first render, measure actual overflow
+  nextTick(() => {
     checkArrows()
-    window.addEventListener('resize', checkArrows)
   })
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', checkArrows)
+
+  window.addEventListener('resize', () => {
+    // on resize, do the same two-step:
+    resetScrollState()
+    nextTick(checkArrows)
   })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkArrows)
+})
   </script>
   
   <style scoped>
