@@ -27,7 +27,7 @@
     </section>
   
     <!-- Equipa Pastoral -->
-    <section id="pastores" class="py-16 bg-gray-50">
+    <section id="pastores" class="py-6 sm:py-16 bg-gray-50">
       <h2 class="text-3xl font-semibold text-center" data-aos="fade-up">
         Equipa Pastoral
       </h2>
@@ -61,9 +61,10 @@
       <Gallery />
     </section>
 
-    <section id="help" class="py-16 bg-base-100">
+    <!-- Help -->
+    <section id="help" class="py-8 md:py-16 bg-base-100">
       <div class="max-w-7xl mx-auto px-4" data-aos="fade-up">
-        <h2 class="text-3xl font-semibold text-center mb-8">
+        <h2 class="text-4xl md:text-3xl font-semibold text-center mb-0 md:mb-8">
           O que podemos fazer por ti?
         </h2>
         <HelpSection />
@@ -71,15 +72,15 @@
     </section>
   
     <!-- Conecte-se Connosco -->
-    <section id="social" class="py-16 bg-primary text-base-100">
-      <h2 class="text-3xl font-semibold text-center mb-1" data-aos="fade-up">
+    <section id="social" class="py-8 md:py-16 bg-primary text-base-100">
+      <h2 class="text-3xl font-semibold text-center mb-[-0.5rem] md:mb-1" data-aos="fade-up">
         Conecte-se Connosco
       </h2>
       <Social />
     </section>
   
     <!-- Oferta -->
-    <section id="oferta" class="py-16 bg-base-100">
+    <section id="oferta" class="py-8 md:py-16 bg-base-100">
       <h2 class="text-3xl font-semibold text-center mb-6" data-aos="fade-up">
         Contribua
       </h2>
@@ -87,7 +88,7 @@
     </section>
   
     <!-- Contactos -->
-    <section id="contactos" class="py-16 bg-gray-50">
+    <section id="contactos" class="py-8 md:py-16 bg-gray-50">
       <h2 class="text-3xl font-semibold text-center " data-aos="fade-up">
         Contactos & Extensões
       </h2>

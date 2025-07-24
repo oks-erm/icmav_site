@@ -41,11 +41,8 @@ This starts the Vite dev server with hot-module replacement (HMR). Navigate to `
 To build and preview a production version locally:
 
 ```bash
-# Build the application
-npm run build
-
-# Preview the production build locally
-npm run preview
+# Build and run the production build locally
+npm run re
 ```
 
 This uses Vite’s `preview` command, which serves the `/dist` folder with the correct base path and SPA routing.

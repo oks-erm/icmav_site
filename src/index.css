@@ -9,12 +9,28 @@
 
 html {
     scroll-behavior: smooth; 
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE & Edge */
+    scrollbar-width: none;
+    /* Firefox   */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    /* Safari & Chrome */
 }
 
 #main-button {
     color: aliceblue;
     border-color: aliceblue;
     margin-top: 30px;
+    transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+    border: 1px solid currentColor;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #main-button:hover {
@@ -33,4 +49,72 @@ html {
 
 #iban-box{
     max-width: 500px;
+}
+
+/* Phones & small screens (≤ 640 px) */
+@media (max-width:640px) {
+    #hero-text {
+        font-size: 1.75rem;
+        /* ~28 px */
+        line-height: 0.6;
+        text-align: center;
+        margin-inline: 0.5rem;
+    }
+
+    #hero-title {
+        display: block;
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    #main-button {
+        font-size: 1.2rem;
+        padding: 0.5rem 1.25rem;
+    }
+
+    #join {
+        display: block;
+        margin: 1rem auto;
+        padding-inline: 1.5em;
+        text-align: center;
+    }
+
+    #iban-box {
+        width: 90%;
+        max-width: 100%;
+    }
+}
+
+/* Tablets / small laptops (641 – 1024 px) */
+@media (min-width:641px) and (max-width:1024px) {
+    #hero-text {
+        font-size: 2rem;
+    }
+
+    #main-button {
+        font-size: 1.125rem;
+        padding: 0.75rem 1.5rem;
+    }
+
+    #join {
+        padding-inline: 2em;
+    }
+
+    #iban-box {
+        max-width: 420px;
+    }
+}
+
+/* ─────────────────────────────────────────────
+   Optional :prefers-reduced-motion helper
+   ───────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce) {
+    #main-button {
+        transition: none;
+    }
+
+    [data-aos] {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }
