@@ -1,85 +1,96 @@
 <template>
-  <section class="py-6 bg-base-100">
+  <section class="pt-3 pb-2 md:pt-6 md:pb-6 bg-base-100">
     <div class="max-w-3xl mx-auto">
 
       <!-- Buttons (all on one line) -->
+<!-- Buttons + inline boxes (mobile-first) -->
+<div
+  class="flex flex-col md:flex-row items-center md:items-start
+         justify-center gap-6 px-6 md:px-10 lg:px-20"
+  data-aos="fade-up"
+  data-aos-delay="100"
+>
+  <!-- MB WAY -->
+  <div class="flex flex-col items-center w-full md:w-auto">
+    <button
+      class="btn btn-success btn-lg rounded-full flex items-center space-x-3
+             px-8 py-4 transition-transform hover:scale-105 w-full md:w-auto flex-nowrap whitespace-nowrap"
+      @click="onMbWayClick"
+    >
+      <i class="fas fa-mobile-alt text-2xl"></i>
+      <span class="text-lg font-semibold">MB WAY</span>
+    </button>
+
+    <transition name="fade-slide">
       <div
-        class="flex justify-center gap-6 px-6 md:px-10 lg:px-20"
+        v-if="showMbWay"
+        id="mbway-box"
+        class="bg-base-100 p-6 rounded-lg shadow-lg text-center mt-4
+               w-full md:w-72"
         data-aos="fade-up"
-        data-aos-delay="100"
+        data-aos-delay="200"
       >
-        <!-- MB WAY Button -->
-        <button
-          class="btn btn-success btn-lg rounded-full flex items-center space-x-3 px-8 py-4 transition-transform hover:scale-105"
-          @click="onMbWayClick"
-        >
-          <i class="fas fa-mobile-alt text-2xl"></i>
-          <span class="text-lg font-semibold">MB WAY</span>
-        </button>
-
-        <!-- IBAN Toggle Button -->
-        <button
-          class="btn btn-secondary btn-lg rounded-full flex items-center space-x-3 px-8 py-4 transition-transform hover:scale-105"
-          @click="toggleIban"
-        >
-          <i class="fas fa-university text-2xl"></i>
-          <span class="text-lg font-semibold">Transferência (IBAN)</span>
-        </button>
-
-        <!-- PayPal Button -->
-        <a
-          href="https://paypal.me/icmav"
-          target="_blank"
-          class="btn btn-primary btn-lg rounded-full flex items-center space-x-3 px-8 py-4 transition-transform hover:scale-105"
-        >
-          <i class="fab fa-paypal text-2xl"></i>
-          <span class="text-lg font-semibold">PayPal</span>
-        </a>
+        <p class="text-lg font-semibold mb-2">MB WAY</p>
+        <p class="text-xl font-bold">+351 934 693 310</p>
+        <p class="text-sm text-gray-600 mt-2">
+          (Use este número para pagamentos via MB WAY)
+        </p>
       </div>
+    </transition>
+  </div>
 
-      <!-- IBAN DETAILS (visible only when showIban is true) -->
-      <div v-if="showIban" class="mt-8 px-4 flex justify-center">
+  <!-- IBAN -->
+  <div class="flex flex-col items-center w-full md:w-auto">
+    <button
+      class="btn btn-secondary btn-lg rounded-full flex items-center space-x-3
+             px-8 py-4 transition-transform hover:scale-105 w-full md:w-auto flex-nowrap whitespace-nowrap"
+      @click="toggleIban"
+    >
+      <i class="fas fa-university text-2xl"></i>
+      <span class="text-lg font-semibold">Transferência (IBAN)</span>
+    </button>
+
+    <transition name="fade-slide">
+      <div
+        v-if="showIban"
+        id="iban-box"
+        class="bg-base-100 p-6 rounded-lg shadow-lg mt-4
+               w-full md:w-80"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         <div
-          id="iban-box"
-          class="bg-base-100 p-6 rounded-lg shadow-lg space-y-4"
-          data-aos="fade-up"
-          data-aos-delay="200"
+          v-for="(item, idx) in bankDetails"
+          :key="idx"
+          class="flex justify-between items-center mb-2 last:mb-0"
         >
-          <!-- Loop through each bank detail line -->
-          <div
-            v-for="(item, idx) in bankDetails"
-            :key="idx"
-            class="flex justify-between items-center"
+          <span class="text-base">
+            <strong>{{ item.label }}:</strong> {{ item.value }}
+          </span>
+          <button
+            class="btn btn-ghost btn-xs tooltip tooltip-bottom"
+            :data-tip="copiedIndex === idx ? 'Copiado!' : 'Copiar'"
+            @click="copyToClipboard(item.value, idx)"
           >
-            <span class="text-base">
-              <strong>{{ item.label }}:</strong> {{ item.value }}
-            </span>
-            <button
-              class="btn btn-ghost btn-xs tooltip tooltip-bottom"
-              :data-tip="copiedIndex === idx ? 'Copiado!' : 'Copiar'"
-              @click="copyToClipboard(item.value, idx)"
-            >
-              <i class="fas fa-copy text-lg"></i>
-            </button>
-          </div>
+            <i class="fas fa-copy text-lg"></i>
+          </button>
         </div>
       </div>
+    </transition>
+  </div>
 
-      <!-- MBWAY phone number in the box (visible only when showMbway is ture)-->
-      <div v-if="showMbWay" class="mt-8 px-4 flex justify-center">
-        <div
-          id="mbway-box"
-          class="bg-base-100 p-6 rounded-lg shadow-lg text-center"
-          data-aos="fade-up"
-          data-aos-delay="200"
-        >
-          <p class="text-lg font-semibold mb-2">MB WAY</p>
-          <p class="text-xl font-bold">+351 934 693 310</p>
-          <p class="text-sm text-gray-600 mt-2">
-            (Use este número para pagamentos via MB WAY)
-          </p>
-        </div>
-       </div> 
+  <!-- PAYPAL (unchanged) -->
+  <a
+    href="https://paypal.me/icmav"
+    target="_blank"
+    class="btn btn-primary btn-lg rounded-full flex items-center space-x-3
+           px-8 py-4 transition-transform hover:scale-105 w-full md:w-auto"
+  >
+    <i class="fab fa-paypal text-2xl"></i>
+    <span class="text-lg font-semibold">PayPal</span>
+  </a>
+</div>
+
 
     </div>
   </section>

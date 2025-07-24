@@ -1,15 +1,15 @@
 <!-- src/components/Gallery.vue -->
 <template>
-    <section id="gallery" class="py-10 bg-gray-800">
+    <section id="gallery" class="py-1 sm:py-3 md:py-10 bg-gray-800">
       <div class="relative">
   
         <!-- Left Arrow -->
         <button
           @click="scrollPrev"
-          class="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/80 rounded-full p-2 hover:bg-white transition"
+          class="absolute left-2 top-1/2 -translate-y-1/2 z-20 rounded-full p-2 transition"
           aria-label="Scroll previous"
         >
-          <i class="fas fa-chevron-left text-xl text-gray-700"></i>
+          <i class="fas fa-chevron-left text-xl text-gray-200"></i>
         </button>
   
         <!-- Carousel (overflow-x-auto) -->
@@ -27,7 +27,7 @@
             <img
               :src="item"
               alt="Galeria Imagem"
-              class="object-cover w-144 h-96"
+              class="object-cover w-full max-w-xs sm:max-w-sm md:w-144 md:h-96 md:max-w-lg"
             />
           </div>
         </div>
@@ -35,10 +35,10 @@
         <!-- Right Arrow -->
         <button
           @click="scrollNext"
-          class="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/80 rounded-full p-2 hover:bg-white transition"
+          class="absolute right-2 top-1/2 -translate-y-1/2 z-20 rounded-full p-2 transition"
           aria-label="Scroll next"
         >
-          <i class="fas fa-chevron-right text-xl text-gray-700"></i>
+          <i class="fas fa-chevron-right text-xl text-gray-200"></i>
         </button>
   
       </div>

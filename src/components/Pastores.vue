@@ -25,7 +25,7 @@
     <transition name="slide-fade" mode="out-in">
       <div
         v-if="activePastor && activePastor.id <= 2"
-        class="mb-8 px-10 mt-[3rem]"
+        class="mb-8 px-2 md:px-10 mt-[3rem]"
         data-aos="fade-up">
         <div
           class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed"
@@ -92,17 +92,17 @@
         <!-- Scroll Arrows -->
         <button
           v-if="showLeftArrow"
-          class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white z-10"
+          class="absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-2 z-10"
           @click="scrollLeft"
         >
-          <i class="fas fa-chevron-left text-xl text-gray-700"></i>
+          <i class="fas fa-chevron-left text-xl text-gray-200"></i>
         </button>
         <button
           v-if="showRightArrow"
-          class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white z-10"
+          class="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 z-10"
           @click="scrollRight"
         >
-          <i class="fas fa-chevron-right text-xl text-gray-700"></i>
+          <i class="fas fa-chevron-right text-xl text-gray-200"></i>
         </button>
       </div>
   
@@ -110,7 +110,7 @@
       <transition name="slide-fade" mode="out-in">
         <div
           v-if="activePastor && activePastor.id > 2"
-          class="px-10"
+          class="px-2 md:px-10"
           data-aos="fade-up"
         >
           <div class="bg-base-100 rounded-lg shadow-lg p-6 text-base-content/90 leading-relaxed" style="max-width: 1080px; margin: auto;">
@@ -211,13 +211,21 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         name: 'Pr Carlos\nCardoso',
         photo: `${pathBase}photos/people/carlitos.png`,
         bio:
-        `  `,
+        ` O Pr. Carlos Cardoso, casado com Isabel Cardoso, nasceu em Porto Amboim, Angola a 29 de Outubro de 1955. Quando se dá o 25 de Abril e subsequente independência deste país, veio para Portugal onde completa os seus estudos de Educação Física. Atraído pela leitura da Bíblia que lhe foi oferecida por uma tia que era evangélica, recebe Jesus e começa a frequentar a Assembleia de Deus de Cascais. Acabando os estudos foi dar aulas para a Figueira da Foz. Algum tempo depois parou de lecionar para ir estudar no Instituto Bíblico Monte Esperança em Fanhões, onde fez vários trabalhos para poder pagar as propinas.
+
+        Entretanto, vai fazer um curso para a Holanda onde conhece a Nana, com quem vem a casar depois de ter cumprido a tropa. Foram residir para a Figueira da Foz onde retomou a profissão de Professor de Educação Física, até que aceitou o desafio de ser pastor na Mealhada a convite do Pr. João Cardoso e depois de um ano foi chamado para dar aulas na Escola Bíblia Zoe em Lisboa. 
+        
+        Em Maio de 1988 foi convidado pelo Pr. Joaquim Leitão para pastorear igreja Assembleia de Deus de Cascais, que atualmente tem o nome de Igreja Cristã Manancial de Águas Vivas (ICMAV). Aqui continua envolvido na promoção duma igreja com propósitos que seja relevante na comunidade, sempre com o entusiasmo e paixão que lhe são tão característicos. `,
         spouseId: 11 },
     { id: 11, 
         name: 'Pra Isabel\nCardoso',
         photo: `${pathBase}photos/people/nana.png`,
         bio:
-        `  `,
+        `Isabel Cardoso, carinhosamente conhecida como Nana, é casada com o Pr. Carlos Cardoso. Natural de Lourenço Marques (hoje Maputo), entregou a sua vida a Jesus aos 15 anos, num tempo de perseguição à Igreja em Moçambique. Serviu desde cedo, visitando prisões e feridos de guerra, e pouco depois veio para Portugal, onde começou a congregar na Assembleia de Deus de Campo de Ourique.
+
+        Estudou no Instituto Bíblico, onde conheceu o Pr. Carlos. Casaram após os estudos e serviram juntos em várias cidades, incluindo Figueira da Foz, Mealhada e Lisboa, tendo sido consagrados ao ministério pastoral. Mais tarde, foram chamados para Cascais, onde continuam a servir.
+
+        A chegada à ICMAV foi marcada por um tempo difícil na sua vida pessoal, mas foi também o início de um profundo processo de cura e restauração. Hoje, com renovada paixão, serve a Deus convicta de que a ICMAV é um lugar onde vidas são restauradas e corações são sarados — e que Deus nunca desperdiça a dor.  `,
         spouseId: 10 }
   ]
 

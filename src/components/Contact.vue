@@ -3,12 +3,12 @@
     <div class="max-w-4xl mx-auto py-8 px-4" data-aos="fade-up">
     <div class="flex !flex-col items-center">
       <!-- 🍋 Button “tabs” -->
-      <div class="flex flex-row mb-6">
+      <div class="flex flex-col md:flex-row mb-6">
         <button
           v-for="(ext, i) in extensions"
           :key="ext.slug"
           @click="selectedIndex = i"
-          class="btn w-40 normal-case text-lg font-semibold rounded-full transition-colors mx-1 duration-200"
+          class="btn w-40 normal-case text-lg font-semibold rounded-full transition-colors mx-1 duration-200 mb-1 md:mb-0"
           :class=" selectedIndex === i 
             ? 'btn-primary' 
             : 'btn-outline btn-primary hover:btn-secondary' 

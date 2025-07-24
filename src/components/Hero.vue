@@ -17,7 +17,11 @@
         <div class="relative z-10 flex flex-col items-center justify-center h-screen text-center px-4 space-y-6">
             <!-- Headline -->
             <h1 id="hero-text" class="text-5xl md:text-6xl font-extrabold text-white mb-4" data-aos="zoom-in">
-                ICMAV - Propósito para a vida
+                <span id="hero-title">ICMAV</span>
+                <!-- br shows on mobile, disappears ≥640 px -->
+                <br class="sm:hidden" />
+                <span class="hidden sm:inline">&nbsp;–&nbsp;&nbsp;</span>
+                <span>Propósito para a vida</span>
             </h1>
 
             <!-- Sub-headline -->
@@ -27,7 +31,7 @@
 
             <!-- Row of circles  -->
             <div
-                class="flex flex-wrap justify-center space-x-8 mt-2"
+                class="flex flex-wrap justify-center space-x-4 md:space-x-8 mt-2"
                 data-aos="fade-up"
                 data-aos-delay="300"
             >
@@ -35,7 +39,7 @@
                 v-for="(p, i) in propositos"
                 :key="p.title"
                 href="#propositos"
-                class="w-14 h-14 rounded-full flex items-center justify-center text-2xl text-white shadow-lg m-0 transform transition-transform hover:scale-110"
+                class="w-12  h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-2xl text-white shadow-lg m-0 transform transition-transform hover:scale-110"
                 :class="`bg-${p.bg}`"
                 data-aos="zoom-in"
                 :data-aos-delay="300 + i * 150"
@@ -43,7 +47,7 @@
                 <i :class="`${p.icon} fa-fw`"></i>
                 </a>
             </div>
-            <button id="main-button" class="btn btn-outline btn-secondary rounded-full btn-wide btn-lg px-8" @click="scrollTo('info')">
+            <button id="main-button" class="btn btn-outline btn-secondary rounded-full btn-wide btn-lg px-8" @click="scrollTo('live')">
                 Começar
             </button>
 
