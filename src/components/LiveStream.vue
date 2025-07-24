@@ -128,7 +128,7 @@ function checkSchedule() {
             nextWindowText.value = `${dayName} às ${h}:${m}`
         } else {
             // If nothing found (shouldn’t happen, unless streamWindows is empty)
-            nextWindowText.value = 'Agendado em breve'
+            nextWindowText.value = 'Domingo, 10:30'
         }
     }
 }
