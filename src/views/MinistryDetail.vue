@@ -14,9 +14,9 @@
       </div>
 
       <!-- 2-col layout -->
-        <div class="grid grid-cols-5 gap-8 mb-12 items-start">
+        <div class="grid grid-cols-5 gap-3 md:gap-8 mb-12 items-start">
         <!-- Left media -->
-        <div class="col-span-2">
+        <div class="col-span-5 md:col-span-2">
           <!-- Video if defined -->
           <video
             v-if="ministry.media.type === 'video' && ministry.media.src"
@@ -37,7 +37,7 @@
         class="w-full rounded-lg shadow-lg"
       />
       <div class="flex mt-6 ">
-            <p class=" text-xl">Segue-nos nas redes sociais:</p>
+            <p class="text-l md:text-xl">Segue-nos nas redes sociais:</p>
           <a
             v-for="(s, i) in ministry.socialMedia"
             :key="i"
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Right description -->
-        <div class="prose text-base-content/90 col-span-3">
+        <div class="prose text-base-content/90 col-span-5 md:col-span-3">
           <p
             v-for="(para, i) in ministry.longDescription"
             :key="i"
