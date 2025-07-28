@@ -1,4 +1,4 @@
-import '@/index.css'
+import './index.css'
 import '@fortawesome/fontawesome-free/css/all.css'            // ← must be first
 import AOS from 'aos'
 import 'aos/dist/aos.css'
