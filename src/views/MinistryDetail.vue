@@ -15,38 +15,41 @@
       <!-- 2-col layout -->
         <div class="grid grid-cols-5 gap-3 md:gap-8 mb-12 items-start auto-rows-min">
         <!-- Left media -->
-        <div class="col-span-5 md:col-span-2 relative">
-          <!-- Hero Image - shown as placeholder while video loads, or if no video -->
-          <img
-            :src="ministry.media.placeholder"
-            alt="Ministry placeholder"
-            class="w-full rounded-lg shadow-lg transition-opacity duration-500"
-            :class="{ 
-              'opacity-100': !hasVideo || !isVideoLoaded || videoError,
-              'opacity-0': hasVideo && isVideoLoaded && !videoError 
-            }"
-          />
+        <div class="col-span-5 md:col-span-2">
+          <div class="relative">
+            <!-- Hero Image - shown as placeholder while video loads, or if no video -->
+            <img
+              :src="ministry.media.placeholder"
+              alt="Ministry placeholder"
+              class="w-full rounded-lg shadow-lg transition-opacity duration-500 relative z-10"
+              :class="{ 
+                'opacity-100': !hasVideo || !isVideoLoaded || videoError,
+                'opacity-0': hasVideo && isVideoLoaded && !videoError 
+              }"
+            />
+            
+            <!-- Video with device detection - only if video source exists -->
+            <video
+              v-if="hasVideo"
+              ref="ministryVideo"
+              :src="getMinistryVideoSource(ministry.media.src)"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              class="absolute inset-0 w-full rounded-lg shadow-lg transition-opacity duration-500 z-20"
+              :class="{ 
+                'opacity-100': isVideoLoaded && !videoError,
+                'opacity-0': !isVideoLoaded || videoError 
+              }"
+              @loadeddata="handleVideoLoaded"
+              @error="handleVideoError"
+            >
+              Your browser does not support the <code>video</code> element.
+            </video>
+          </div>
           
-          <!-- Video with device detection - only if video source exists -->
-          <video
-            v-if="hasVideo"
-            ref="ministryVideo"
-            :src="getMinistryVideoSource(ministry.media.src)"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-            class="absolute-inset-0 w-full rounded-lg shadow-lg transition-opacity duration-500"
-            :class="{ 
-              'opacity-100': isVideoLoaded && !videoError,
-              'opacity-0': !isVideoLoaded || videoError 
-            }"
-            @loadeddata="handleVideoLoaded"
-            @error="handleVideoError"
-          >
-            Your browser does not support the <code>video</code> element.
-          </video>
           <div class="flex mt-6 ">
             <p class="text-l md:text-xl">Segue-nos nas redes sociais:</p>
           <a
@@ -204,7 +207,7 @@ const MINISTRIES = [
     media: {
       type: 'video',
       src: `/videos/teens-desktop-720.mp4`, // Will become teens-mobile-360.mp4 on mobile
-      placeholder: `/fallbacks/teens.jpg`
+      placeholder: `/fallbacks/teens.png`
     },
     longDescription: [
         'O grupo Teens é um espaço vibrante, pensado especialmente para adolescentes que estão a descobrir quem são e em que acreditam. Aqui, combinamos momentos de louvor, conversas reais e oficinas criativas que incentivam a expressão pessoal, sempre com base em princípios cristãos.',
@@ -224,7 +227,7 @@ const MINISTRIES = [
     media: {
       type: 'image',
       src: null,
-      placeholder: `/fallbacks/jovens.jpg`
+      placeholder: `/fallbacks/jovens.png`
     },
     longDescription: [
         'Os encontros de Jovens juntam pessoas dos 18 aos 30 anos num ambiente descontraído, cheio de propósito. São momentos marcados por adoração, estudo da Palavra e partilha de vida — um espaço seguro para fazer perguntas, crescer na fé e construir amizades verdadeiras.',
@@ -264,7 +267,7 @@ const MINISTRIES = [
     media: {
       type: 'image',
       src: null,
-      placeholder: `/fallbacks/mulheres.jpg`
+      placeholder: `/fallbacks/mulheres.png`
     },
     longDescription: [
         'O ministério de Mulheres é um espaço pensado para acolher, encorajar e fortalecer mulheres em todas as fases da vida. Através de estudos bíblicos, oração e partilha, criamos um ambiente seguro onde cada mulher pode crescer na fé, aprofundar a sua relação com Deus e construir amizades significativas.',
@@ -284,7 +287,7 @@ const MINISTRIES = [
     media: {
       type: 'image',
       src: null,
-      placeholder: `/fallbacks/casais.jpg`
+      placeholder: `/fallbacks/casais.png`
     },
     longDescription: [
         'O ministério de Casais existe para apoiar e fortalecer os relacionamentos, ajudando cada casal a crescer em amor, unidade e propósito. Promovemos encontros com temas relevantes, palestras, momentos de oração e dinâmicas práticas baseadas nos princípios da Palavra de Deus.',
