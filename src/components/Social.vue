@@ -2,7 +2,8 @@
     <div class="bg-primary pt-8 pb-2 md:pb-8">
         <div class="flex justify-center space-x-6" data-aos="fade-up">
             <a v-for="(s, i) in social" :key="i" :href="s.link" target="_blank"
-                class="w-12 h-12 flex items-center justify-center m-0 rounded-full bg-base-100 text-2xl text-primary hover:bg-base-200 transition">
+                class="w-12 h-12 flex items-center justify-center m-0 rounded-full color-base-200 text-2xl text-primary hover:bg-base-200 transition"
+                style="color: #dfe5ed;" >
                 <i :class="`${s.icon} fa-fw`"></i>
             </a>
         </div>

@@ -50,7 +50,7 @@
     {
       title: 'ADORAR',
       icon: 'fas fa-sun',
-      bg: 'yellow-300',
+      bg: 'warning',
       desc: 'Fomos criados para adorar a Deus colocando-O em primeiro lugar nas nossas vidas.',
       verse: '“Ama o Senhor, teu Deus, de todo o coração…” (Dt 6:5-6)',
       leader: 'Paulo João',
@@ -74,7 +74,7 @@
     {
       title: 'CRESCER',
       icon: 'fas fa-seedling',
-      bg: 'green-500',
+      bg: 'success',
       desc: 'Somos formados para sermos semelhantes a Jesus em tudo.',
       verse: '“Sede meus imitadores, como eu o sou de Cristo.” (1 Co 11:1)',
       leader: 'Pedro Silva',

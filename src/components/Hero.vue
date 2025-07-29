@@ -1,14 +1,24 @@
 <!-- src/components/Hero.vue -->
 <template>
     <div class="relative w-full min-h-screen overflow-hidden">
-        <!-- 1) Video background -->
-        <video v-if="useVideo" class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline
-            data-aos="fade-in">
-            <source :src="videoSrc" type="video/mp4" />
-            <!-- Fallback if video fails -->
+        <!-- Video background with device detection - always try video first -->
+        <video 
+            ref="heroVideo"
+            class="absolute inset-0 w-full h-full object-cover" 
+            autoplay 
+            muted 
+            loop 
+            playsinline
+            preload="auto"
+            @loadeddata="handleVideoLoaded"
+            @error="handleVideoError"
+            data-aos="fade-in"
+        >
+            <source :src="getVideoSource()" type="video/mp4" />
+            <!-- Fallback image only if browser doesn't support video -->
+            <img :src="fallbackSrc" alt="Hero Background"
+                class="absolute inset-0 w-full h-full object-cover" />
         </video>
-        <img v-else :src="fallbackSrc" alt="Hero Background"
-            class="absolute inset-0 w-full h-full object-cover" />
 
         <!-- 2) Dark overlay for better contrast -->
         <div class="absolute inset-0 bg-black/40"></div>
@@ -59,12 +69,48 @@
 import { ref, onMounted } from 'vue'
 
 const base = process.env.BASE_URL
-const videoSrc    = `${base}videos/hero-desktop-1080.mp4`
 const fallbackSrc = `${base}fallbacks/hero.jpg`
 
-// Toggle to a static image if you prefer
-const useVideo = ref(true)
+const isVideoLoaded = ref(false)
+const videoError = ref(false)
+const heroVideo = ref(null)
 
+// Device detection function
+function getDeviceType() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera
+    
+    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
+        return 'mobile'
+    }
+    
+    if (/tablet|ipad/i.test(userAgent)) {
+        return 'mobile'
+    }
+    
+    return 'desktop'
+}
+
+// Get appropriate video source based on device
+function getVideoSource() {
+    const deviceType = getDeviceType()
+    if (deviceType === 'mobile') {
+        return `${base}videos/hero-mobile-480.mp4`
+    } else {
+        return `${base}videos/hero-desktop-1080.mp4`
+    }
+}
+
+function handleVideoLoaded() {
+    isVideoLoaded.value = true
+    videoError.value = false
+}
+
+function handleVideoError() {
+    console.log('Hero video failed to load, browser may not support video')
+    videoError.value = true
+}
+
+// Smooth scroll to section
 function scrollTo(id) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
@@ -72,21 +118,27 @@ function scrollTo(id) {
 const propositos = [
     { title: 'Pertencer', icon: 'fas fa-users', bg: 'primary' },
     { title: 'Crescer', icon: 'fas fa-seedling', bg: 'secondary' },
-    { title: 'Servir', icon: 'fas fa-hands-helping', bg: 'green-500' },
+    { title: 'Servir', icon: 'fas fa-hands-helping', bg: 'success' },
     { title: 'Alcançar', icon: 'fas fa-globe', bg: 'info' },
-    { title: 'Adorar', icon: 'fas fa-sun', bg: 'yellow-300' },
+    { title: 'Adorar', icon: 'fas fa-sun', bg: 'warning' },
 ]
 
 onMounted(() => {
-    // Re-initialize AOS after the video has started loading
     import('aos').then((AOS) => AOS.init({ duration: 800, once: true }))
 })
 </script>
 
 <style scoped>
-/* Ensure video never breaks its container */
-video {
+video, img {
     object-fit: cover;
 }
+
+/* Optimize video performance on mobile */
+@media (max-width: 768px) {
+    video {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+}
 </style>
-  
+

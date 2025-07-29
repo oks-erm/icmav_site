@@ -54,6 +54,16 @@ html {
     max-width: 500px;
 }
 
+.btn-secondary {
+    --btn-color: #f52f98;
+    --btn-fg: #fae4f1;
+}
+
+.btn-secondary:hover {
+    --btn-color: #f52f98;
+    --btn-fg: #fae4f1;
+}
+
 /* Phones & small screens (≤ 640 px) */
 @media (max-width:640px) {
     #hero-text {

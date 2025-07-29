@@ -18,10 +18,10 @@
               target="_blank"
               class="btn btn-secondary rounded-full w-full sm:w-auto 
                 mx-auto sm:mx-0 
-                text-sm sm:text-base 
+                text-sm sm:text-base-200
                 leading-snug
                 whitespace-normal break-words"
-              style="font-size: 100%"
+              style="font-size: 100%; color: #f3e4ef;"
             >
               Fazer Pedido de Oração
             </a>
@@ -44,7 +44,7 @@
                 text-sm sm:text-base 
                 leading-snug
                 whitespace-normal break-words"
-              style="font-size: 100%"
+              style="font-size: 100%; color: #f3e4ef;"
             >
               Solicitar Aconselhamento pastoral
             </a>
