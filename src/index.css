@@ -54,14 +54,39 @@ html {
     max-width: 500px;
 }
 
-.btn-secondary {
+.btn-secondary-custom {
     --btn-color: #f52f98;
     --btn-fg: #fae4f1;
 }
 
-.btn-secondary:hover {
-    --btn-color: #f52f98;
+.btn-secondary-custom:hover {
+    --btn-color: #da2987;
     --btn-fg: #fae4f1;
+}
+
+.btn-primary-custom {
+    --btn-color: #422ad5;
+    --btn-fg: #fae4f1;
+}
+
+.btn-primary-custom:hover {
+    --btn-color: #2f1eb5;
+    --btn-fg: #fae4f1;
+}
+
+.btn-success-custom {
+    --btn-color: #00d390;
+    --btn-fg: #f0fdf4;
+}
+
+.btn-success-custom:hover {
+    --btn-color: #00b97a;
+    --btn-fg: #f0fdf4;
+}
+
+.btn-outline-custom {
+    --btn-fg: #2f1eb5;
+    --btn-border: #2f1eb5;
 }
 
 /* Phones & small screens (≤ 640 px) */

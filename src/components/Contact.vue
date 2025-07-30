@@ -10,8 +10,8 @@
           @click="selectedIndex = i"
           class="btn w-40 normal-case text-lg font-semibold rounded-full transition-colors mx-1 duration-200 mb-1 md:mb-0"
           :class=" selectedIndex === i 
-            ? 'btn-primary' 
-            : 'btn-outline btn-primary hover:btn-secondary' 
+            ? 'btn-primary-custom' 
+            : 'btn-outline-custom hover:btn-secondary-custom' 
           "
         >
           {{ ext.name }}

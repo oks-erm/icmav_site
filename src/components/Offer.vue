@@ -13,7 +13,7 @@
   <!-- MB WAY -->
   <div class="flex flex-col items-center w-full md:w-auto">
     <button
-      class="btn btn-success btn-lg rounded-full flex items-center space-x-3
+      class="btn btn-success-custom btn-lg rounded-full flex items-center space-x-3
              px-8 py-4 transition-transform hover:scale-105 w-full md:w-auto flex-nowrap whitespace-nowrap"
       @click="onMbWayClick"
     >
@@ -42,7 +42,7 @@
   <!-- IBAN -->
   <div class="flex flex-col items-center w-full md:w-auto">
     <button
-      class="btn btn-secondary btn-lg rounded-full flex items-center space-x-3
+      class="btn btn-secondary-custom btn-lg rounded-full flex items-center space-x-3
              px-8 py-4 transition-transform hover:scale-105 w-full md:w-auto flex-nowrap whitespace-nowrap"
       @click="toggleIban"
     >
@@ -83,7 +83,7 @@
   <a
     href="https://paypal.me/icmav"
     target="_blank"
-    class="btn btn-primary btn-lg rounded-full flex items-center space-x-3
+    class="btn btn-primary-custom btn-lg rounded-full flex items-center space-x-3
            px-8 py-4 transition-transform hover:scale-105 w-full md:w-auto"
   >
     <i class="fab fa-paypal text-2xl"></i>
