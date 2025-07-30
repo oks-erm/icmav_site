@@ -135,21 +135,9 @@ function getDeviceType() {
 function getMinistryVideoSource(baseSrc) {
     const deviceType = getDeviceType()
     let finalSrc = baseSrc
-    
-    // Handle teens special case - use the actual file names
-    if (baseSrc.includes('teens-desktop-720')) {
-        if (deviceType === 'mobile') {
-            finalSrc = baseSrc.replace('teens-desktop-720.mp4', 'teens-mobile-360.mp4')
-        } else {
-            finalSrc = baseSrc // Use desktop version as-is
-        }
-    } else {
-        // For other videos, use the correct mobile file naming
-        if (deviceType === 'mobile') {
-            finalSrc = baseSrc.replace('-desktop-1080.mp4', '-mobile-480.mp4')
-        } else {
-            finalSrc = baseSrc.replace('.mp4', '-desktop-1080.mp4')
-        }
+
+    if (deviceType === 'mobile') {
+        finalSrc = baseSrc.replace('-desktop-720.mp4', '-mobile-360.mp4')
     }
     
     console.log(`Loading video: ${finalSrc} for device: ${deviceType}`)
@@ -195,7 +183,7 @@ const MINISTRIES = [
         'Para além dos encontros semanais, organizamos também eventos temáticos em datas especiais como a Páscoa, o Natal ou o Dia da Criança. Tudo acontece num ambiente seguro, acolhedor e com uma equipa dedicada que cuida, ensina e brinca com os mais pequenos com muito carinho.',
     ],
     leader: 'Patricia Pinto',
-    leaderPhoto: `/photos/people/patricia.png`,
+    leaderPhoto: `/photos/people/patricia.jpg`,
     contact: '(+351) 913 300 792',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/alfa.icmav' }
@@ -215,7 +203,7 @@ const MINISTRIES = [
         'Ao longo do ano, organizamos retiros, encontros temáticos e iniciativas solidárias que desenvolvem a liderança, o espírito de equipa e o sentido de missão. É uma oportunidade única para fazer amigos, servir, descobrir o propósito pessoal e aprender a viver com responsabilidade e intencionalidade.',
     ],
     leader: 'João Maria Guedelha',
-    leaderPhoto: `/photos/people/joao-maria.png`,
+    leaderPhoto: `/photos/people/joao-maria.jpg`,
     contact: '(+351) 933 838 746',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icteens' }
@@ -235,7 +223,7 @@ const MINISTRIES = [
         'Para além dos encontros quinzenais, dinamizamos seminários, missões urbanas e outros eventos que fortalecem a ligação com Deus e com a cidade. Cada jovem é desafiado a descobrir o seu chamado e a ser luz onde quer que esteja — com coragem, criatividade e compaixão.',
     ],
     leader: 'Marcos Pereira',
-    leaderPhoto: `/photos/people/marcos.png`,
+    leaderPhoto: `/photos/people/marcos.jpg`,
     contact: '(+351) 912 847 221',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icyouth' }
@@ -246,7 +234,7 @@ const MINISTRIES = [
     name: 'ICMAV Homens',
     media: {
       type: 'video',
-      src: `/videos/homens.mp4`, // This exists as-is, no device-specific versions
+      src: `/videos/homens-desktop-720.mp4`, // This exists as-is, no device-specific versions
       placeholder: `/fallbacks/homens.jpg`
     },
     longDescription: [
@@ -255,7 +243,7 @@ const MINISTRIES = [
         'Acreditamos que cada homem tem um papel essencial na família, na igreja e na sociedade — e queremos ser parte ativa no processo de crescimento espiritual, emocional e relacional de cada um.',
     ],
     leader: 'Paulo João Correia',
-    leaderPhoto: `/photos/people/pj.png`,
+    leaderPhoto: `/photos/people/pj.jpg`,
     contact: '(+351) 919 947 770',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_homens' }
@@ -275,7 +263,7 @@ const MINISTRIES = [
         'Acreditamos que cada mulher tem um valor único e uma chamada divina, e queremos caminhar juntas nesta jornada, apoiando-nos umas às outras com graça, verdade e alegria.',
     ],
     leader: 'Cristina Silva',
-    leaderPhoto: `/photos/people/cristina.png`,
+    leaderPhoto: `/photos/people/cristina.jpg`,
     contact: '(+351) 969 817 059',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
@@ -295,7 +283,7 @@ const MINISTRIES = [
         'Também organizamos conferências e retiros especiais que proporcionam tempo de qualidade a dois, ferramentas para lidar com desafios e oportunidades para renovar os votos e a visão do casamento. Queremos ver famílias fortes, resilientes e cheias de fé a impactar o mundo à sua volta.',
     ],
     leader: 'Pedro Mateus',
-    leaderPhoto: `/photos/people/pedro-mateus.png`,
+    leaderPhoto: `/photos/people/pedro-mateus.jpg`,
     contact: '(+351) 916 686 956',
     socialMedia: [
       { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }
