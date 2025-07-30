@@ -206,7 +206,7 @@ const MINISTRIES = [
     leaderPhoto: `/photos/people/joao-maria.jpg`,
     contact: '(+351) 933 838 746',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icteens' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav' }
     ]
   },
   {
@@ -226,7 +226,7 @@ const MINISTRIES = [
     leaderPhoto: `/photos/people/marcos.jpg`,
     contact: '(+351) 912 847 221',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icyouth' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmavyouth' }
     ]
   },
   {
@@ -246,7 +246,7 @@ const MINISTRIES = [
     leaderPhoto: `/photos/people/pj.jpg`,
     contact: '(+351) 919 947 770',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_homens' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav' }
     ]
   },
   {
@@ -266,7 +266,7 @@ const MINISTRIES = [
     leaderPhoto: `/photos/people/cristina.jpg`,
     contact: '(+351) 969 817 059',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_mulheres' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav' }
     ]
   },
   {
@@ -286,7 +286,7 @@ const MINISTRIES = [
     leaderPhoto: `/photos/people/pedro-mateus.jpg`,
     contact: '(+351) 916 686 956',
     socialMedia: [
-      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav_casais' }
+      { icon: 'fab fa-instagram', link: 'https://instagram.com/icmav' }
     ]
   }
 ]
