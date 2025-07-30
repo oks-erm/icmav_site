@@ -136,7 +136,7 @@
   const pastors = [
     { id: 1, 
         name: 'Pr Henrique\nPereira', 
-        photo: `${pathBase}photos/people/henrique.png`, 
+        photo: `${pathBase}photos/people/henrique.jpg`, 
         bio: `Henrique Pereira é o pastor principal da nossa igreja e lidera com um coração cheio de alegria, humildade e dedicação ao serviço de Deus e das pessoas. Casado com Minita Pereira, são pais da Rute e do Marcos — que é casado com a Myriam — e avós orgulhosos da pequena Noa, a alegria da família.
 
         A sua jornada no ministério começou em 1989, ao lado da sua esposa, quando ambos serviram como pastores assistentes. Ao longo dos anos, têm sido uma presença constante na vida da comunidade, e em 2022 assumiram a liderança pastoral principal da igreja.
@@ -145,7 +145,7 @@
         spouseId: 2 },
     { id: 2, 
         name: 'Pra Minita\nPereira',  
-        photo: `${pathBase}photos/people/minita.png`, 
+        photo: `${pathBase}photos/people/minita.jpg`, 
         bio: `Minita Pereira é esposa do Pastor Henrique e uma líder dedicada e inspiradora no seio da igreja. Com um coração cheio de empatia, sabedoria e sensibilidade espiritual, tem sido uma figura essencial na caminhada pastoral da comunidade desde 1989.
 
         Ao longo dos anos, Minita tem acompanhado muitas pessoas nas suas jornadas de fé, especialmente mulheres e famílias, com uma presença firme e encorajadora. É alguém que sabe escutar com atenção, orar com fé e apoiar com amor — sempre com um sorriso acolhedor e palavras de esperança.
@@ -154,7 +154,7 @@
         spouseId: 1 },
     { id: 3, 
         name: 'Pr Rogério\nTrindade', 
-        photo: `${pathBase}photos/people/rog.png`, 
+        photo: `${pathBase}photos/people/rog.jpg`, 
         bio: 
         `   Rogério Trindade é casado com a Johana Antelo e têm dois filhos, o John e a Zoé. Nasceu na África do Sul, na cidade de Johanesburgo, fazendo parte de uma família de emigrantes portugueses e de cristãos comprometidos no serviço. 
 
@@ -162,12 +162,12 @@
         spouseId: 4 },
     { id: 4, 
         name: 'Pra Johana\nVillarroel', 
-        photo: `${pathBase}photos/people/johana.png`, 
+        photo: `${pathBase}photos/people/johana.jpg`, 
         bio: `Rosa Johana é casada com Rogério Trindade e têm dois filhos, o John e a Zoé. Nasceu na Bolívia, na cidade de Santa Cruz de la Sierra
 
         Foi pastora titular acompanhada com o seu marido durante 3 anos de uma igreja evangélica local em Espanha, na cidade de Sevilha. É pastora auxiliar na ICMAV desde 2016. É responsável do propósito da adoração na equipa do ministério de crianças ALFA.`, 
         spouseId: 3 },
-    { id: 5, name: 'Pr Manza\nGarcia',     photo: `${pathBase}photos/people/manza.png`, bio: 
+    { id: 5, name: 'Pr Manza\nGarcia',     photo: `${pathBase}photos/people/manza.jpg`, bio: 
         `   O Pr. Manza Garcia nasceu na República Democrática do Congo. Com 19 anos foi para Angola onde frequentou uma igreja baptista onde serviu a Deus como cantor durante 3 anos. A seguir foi para o sul de Angola durante 2 anos, voltando depois para Luanda onde começou o ministério como evangelista a pregar na igreja e em campanhas de massas com centenas de pessoas.
         
         Em 1989 veio para Portugal onde fundou uma igreja junto com uns amigos, onde ficou até 1995 quando o Pr. Leitão da igreja de Cascais o convidou para vir para a ICMAV, onde actualmente serve como pastor em Cascais e no Monte da Caparica.
@@ -175,7 +175,7 @@
         A ICMAV é uma igreja que está no seu coração, sendo uma comunidade que é relevante e que serve a Deus estendendo o Reino de Deus aqui na Terra. Acredita que a igreja não é para ser pequena, mas para crescer e continuar a ganhar espaço, querendo contribuir para esta expansão do Reino de Deus aqui na Terra na sua forma espiritual e física.` },
     { id: 6, 
         name: 'Pr Paulo João\nCorreia',
-        photo: `${pathBase}photos/people/pj.png`,    
+        photo: `${pathBase}photos/people/pj.jpg`,    
         bio: 
         `   Paulo João é pastor de louvor e adoração na ICMAV, onde também lidera o ministério de homens. Casado com Denise, é pai de dois filhos e avô da Salomé. 
             
@@ -184,14 +184,14 @@
         Desde 2006, dedica-se a tempo inteiro ao ministério pastoral, com ênfase no louvor, na formação de novas gerações e no discipulado de homens. A paternidade e a cultura do Reino no seio familiar são temas centrais da sua missão, procurando levantar líderes que vivam segundo o coração de Deus.`, spouseId: 7 },
     { id: 7, 
         name: 'Pra Denise\nCorreia',  
-        photo: `${pathBase}photos/people/denise.png`, 
+        photo: `${pathBase}photos/people/denise.jpg`, 
         bio: `É esposa do Pastor Paulo João e tem sido, desde o início, uma companheira incansável no ministério. Embora não esteja à frente da adoração, a sua presença discreta e constante tem sido fundamental ao longo de toda a caminhada pastoral da família. Desde muito jovem, partilhou com o Paulo o chamado para servir, caminhando ao seu lado em todas as fases — desde os primeiros passos no ministério aos 14 anos, passando pelos anos intensos no Desafio Jovem, até ao serviço pastoral a tempo inteiro iniciado em 2006.
 
 Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com o coração voltado para a família, o cuidado das pessoas e a edificação da Igreja. É uma mulher de oração, sensível à voz de Deus, e uma referência silenciosa de força, fé e dedicação. A sua missão não passa pelos holofotes, mas pela fidelidade no dia a dia, sempre disponível, sempre presente, sempre a semear amor.`, 
         spouseId: 6 },
     { id: 8, 
         name: 'Pr Danilo\nGujral',    
-        photo: `${pathBase}photos/people/danilo.png`, 
+        photo: `${pathBase}photos/people/danilo.jpg`, 
         bio: 
         `   Nascido em Moçambique casado com Havani Gujral, pastor na ICMAV desde 2006 tendo já  ocupado várias areas de ministério na igreja. Atualmente eles são  responsáveis pelas várias equipas ligadas ao Propósito PERTENCER, que acompanham e apoiam quem nos visita até  ao Batismo nas Águas ou Membresia na Igreja. 
 
@@ -199,7 +199,7 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         spouseId: 9 },
     { id: 9, 
         name: 'Pra Havani\nGujral',   
-        photo: `${pathBase}photos/people/havani.png`, 
+        photo: `${pathBase}photos/people/havani.jpg`, 
         bio:         
         `   Nascida no Brasil casada com Danilo Gujral, pastora na ICMAV desde 2006.
 
@@ -209,7 +209,7 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         spouseId: 8 },
     { id: 10, 
         name: 'Pr Carlos\nCardoso',
-        photo: `${pathBase}photos/people/carlitos.png`,
+        photo: `${pathBase}photos/people/carlitos.jpg`,
         bio:
         ` O Pr. Carlos Cardoso, casado com Isabel Cardoso, nasceu em Porto Amboim, Angola a 29 de Outubro de 1955. Quando se dá o 25 de Abril e subsequente independência deste país, veio para Portugal onde completa os seus estudos de Educação Física. Atraído pela leitura da Bíblia que lhe foi oferecida por uma tia que era evangélica, recebe Jesus e começa a frequentar a Assembleia de Deus de Cascais. Acabando os estudos foi dar aulas para a Figueira da Foz. Algum tempo depois parou de lecionar para ir estudar no Instituto Bíblico Monte Esperança em Fanhões, onde fez vários trabalhos para poder pagar as propinas.
 
@@ -219,7 +219,7 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         spouseId: 11 },
     { id: 11, 
         name: 'Pra Isabel\nCardoso',
-        photo: `${pathBase}photos/people/nana.png`,
+        photo: `${pathBase}photos/people/nana.jpg`,
         bio:
         `Isabel Cardoso, carinhosamente conhecida como Nana, é casada com o Pr. Carlos Cardoso. Natural de Lourenço Marques (hoje Maputo), entregou a sua vida a Jesus aos 15 anos, num tempo de perseguição à Igreja em Moçambique. Serviu desde cedo, visitando prisões e feridos de guerra, e pouco depois veio para Portugal, onde começou a congregar na Assembleia de Deus de Campo de Ourique.
 
