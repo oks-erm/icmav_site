@@ -5,13 +5,13 @@ import MinistryDetail from '../views/MinistryDetail.vue'
 import Maintenance from '../views/Maintenance.vue'
 
 const routes = [
-    { 
-        path: '/', 
-        name: 'Maintenance',
-        component: Maintenance
-    },
+    // { 
+    //     path: '/', 
+    //     name: 'Maintenance',
+    //     component: Maintenance
+    // },
     {
-        path: '/igrejaicmav',
+        path: '/',
         name: 'Home',
         component: Home
     },
