@@ -175,7 +175,7 @@ const MINISTRIES = [
     media: {
       type: 'video',
       src: `/videos/hero.mp4`, // Will become hero-desktop-1080.mp4 or hero-mobile-480.mp4
-      placeholder: `/fallbacks/criancas.png`
+      placeholder: `/fallbacks/criancas.jpg`
     },
     longDescription: [
         'O ministério das crianças é um espaço cheio de alegria, criatividade e crescimento. Em cada encontro, as crianças são convidadas a mergulhar nas histórias da Bíblia de forma divertida e acessível — através de teatro, música, jogos e atividades que despertam a imaginação e mostram, de forma simples e verdadeira, o amor de Deus.',
@@ -195,7 +195,7 @@ const MINISTRIES = [
     media: {
       type: 'video',
       src: `/videos/teens-desktop-720.mp4`, // Will become teens-mobile-360.mp4 on mobile
-      placeholder: `/fallbacks/teens.png`
+      placeholder: `/fallbacks/teens.jpg`
     },
     longDescription: [
         'O grupo Teens é um espaço vibrante, pensado especialmente para adolescentes que estão a descobrir quem são e em que acreditam. Aqui, combinamos momentos de louvor, conversas reais e oficinas criativas que incentivam a expressão pessoal, sempre com base em princípios cristãos.',
@@ -215,7 +215,7 @@ const MINISTRIES = [
     media: {
       type: 'image',
       src: null,
-      placeholder: `/fallbacks/jovens.png`
+      placeholder: `/fallbacks/jovens.jpg`
     },
     longDescription: [
         'Os encontros de Jovens juntam pessoas dos 18 aos 30 anos num ambiente descontraído, cheio de propósito. São momentos marcados por adoração, estudo da Palavra e partilha de vida — um espaço seguro para fazer perguntas, crescer na fé e construir amizades verdadeiras.',
@@ -255,7 +255,7 @@ const MINISTRIES = [
     media: {
       type: 'image',
       src: null,
-      placeholder: `/fallbacks/mulheres.png`
+      placeholder: `/fallbacks/mulheres.jpg`
     },
     longDescription: [
         'O ministério de Mulheres é um espaço pensado para acolher, encorajar e fortalecer mulheres em todas as fases da vida. Através de estudos bíblicos, oração e partilha, criamos um ambiente seguro onde cada mulher pode crescer na fé, aprofundar a sua relação com Deus e construir amizades significativas.',
@@ -275,7 +275,7 @@ const MINISTRIES = [
     media: {
       type: 'image',
       src: null,
-      placeholder: `/fallbacks/casais.png`
+      placeholder: `/fallbacks/casais.jpg`
     },
     longDescription: [
         'O ministério de Casais existe para apoiar e fortalecer os relacionamentos, ajudando cada casal a crescer em amor, unidade e propósito. Promovemos encontros com temas relevantes, palestras, momentos de oração e dinâmicas práticas baseadas nos princípios da Palavra de Deus.',
