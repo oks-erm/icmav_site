@@ -4,6 +4,13 @@ This is a private development repository for our web app built with **Vue 3**, *
 
 ---
 
+### Optimiztions !!!
+
+- Photos even though they have been exported with higher compression, the sizes are still too big! (Gallery images 5000+px wide) [squoosh.app](https://squoosh.app/)
+- Add pre-rendering (the page is mostly static so prerender make a lot of sense)
+- [pagespeed.web.dev/](https://pagespeed.web.dev/) for a detailed report on optimization
+- Export hero video in vertical format
+
 ## Getting Started
 
 ### Prerequisites
