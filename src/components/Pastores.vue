@@ -211,21 +211,21 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         name: 'Pr Carlos\nCardoso',
         photo: `${pathBase}photos/people/carlitos.jpg`,
         bio:
-        ` O Pr. Carlos Cardoso, casado com Isabel Cardoso, nasceu em Porto Amboim, Angola a 29 de Outubro de 1955. Quando se dá o 25 de Abril e subsequente independência deste país, veio para Portugal onde completa os seus estudos de Educação Física. Atraído pela leitura da Bíblia que lhe foi oferecida por uma tia que era evangélica, recebe Jesus e começa a frequentar a Assembleia de Deus de Cascais. Acabando os estudos foi dar aulas para a Figueira da Foz. Algum tempo depois parou de lecionar para ir estudar no Instituto Bíblico Monte Esperança em Fanhões, onde fez vários trabalhos para poder pagar as propinas.
-
-        Entretanto, vai fazer um curso para a Holanda onde conhece a Nana, com quem vem a casar depois de ter cumprido a tropa. Foram residir para a Figueira da Foz onde retomou a profissão de Professor de Educação Física, até que aceitou o desafio de ser pastor na Mealhada a convite do Pr. João Cardoso e depois de um ano foi chamado para dar aulas na Escola Bíblia Zoe em Lisboa. 
+        `    O Pastor Carlitos em Maio de 1998, num ciclo novo da sua vida, chegou para pastorear a Igreja Cristã Manancial de Águas Vivas (ICMAV). Liderou a Igreja por mais de vinte anos, onde viu Deus a abençoar o seu ministério e a igreja a  multiplicar-se pela graça de Deus.
         
-        Em Maio de 1988 foi convidado pelo Pr. Joaquim Leitão para pastorear igreja Assembleia de Deus de Cascais, que atualmente tem o nome de Igreja Cristã Manancial de Águas Vivas (ICMAV). Aqui continua envolvido na promoção duma igreja com propósitos que seja relevante na comunidade, sempre com o entusiasmo e paixão que lhe são tão característicos. `,
+        Em Setembro de 2022, passou a liderança para o Pr. Henrique.
+        
+        Neste momento continua envolvido com esta comunidade como um dos pregadores habituais, como Pastor Conselheiro, juntamente com a sua esposa Isabel Cardoso, e também como professor da ICMAV College na promoção duma igreja com propósitos que seja relevante na comunidade, sempre com o entusiasmo e paixão que lhe são tão característicos.`,
         spouseId: 11 },
     { id: 11, 
         name: 'Pra Isabel\nCardoso',
         photo: `${pathBase}photos/people/nana.jpg`,
         bio:
-        `Isabel Cardoso, carinhosamente conhecida como Nana, é casada com o Pr. Carlos Cardoso. Natural de Lourenço Marques (hoje Maputo), entregou a sua vida a Jesus aos 15 anos, num tempo de perseguição à Igreja em Moçambique. Serviu desde cedo, visitando prisões e feridos de guerra, e pouco depois veio para Portugal, onde começou a congregar na Assembleia de Deus de Campo de Ourique.
+        `    A pastora Isabel Cardoso (Nana) é uma pessoa com um coração sensível à presença de Deus,  na sua chegada  à ICMAV em Maio de 1998, estava a passar um tempo difícil na sua saúde,  mas foi também o início de um processo onde alcançou a cura e restauração. 
 
-        Estudou no Instituto Bíblico, onde conheceu o Pr. Carlos. Casaram após os estudos e serviram juntos em várias cidades, incluindo Figueira da Foz, Mealhada e Lisboa, tendo sido consagrados ao ministério pastoral. Mais tarde, foram chamados para Cascais, onde continuam a servir.
-
-        A chegada à ICMAV foi marcada por um tempo difícil na sua vida pessoal, mas foi também o início de um profundo processo de cura e restauração. Hoje, com renovada paixão, serve a Deus convicta de que a ICMAV é um lugar onde vidas são restauradas e corações são sarados — e que Deus nunca desperdiça a dor.  `,
+        Serviu com uma  renovada paixão juntamente com o seu marido, por mais de 30 anos na Liderança principal da Icmav.
+        
+        Hoje serve a Deus como Pastora conselheira, convicta que a ICMAV é um lugar onde vidas podem ser  restauradas pela  mensagem poderosa da Palavra de Deus, corações são sarados, e que Deus nunca desperdiça uma dor.`,
         spouseId: 10 }
   ]
 
