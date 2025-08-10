@@ -223,7 +223,7 @@ Mãe de dois filhos e avó da pequena Salomé, Denise vive o seu ministério com
         bio:
         `    A pastora Isabel Cardoso (Nana) é uma pessoa com um coração sensível à presença de Deus,  na sua chegada  à ICMAV em Maio de 1998, estava a passar um tempo difícil na sua saúde,  mas foi também o início de um processo onde alcançou a cura e restauração. 
 
-        Serviu com uma  renovada paixão juntamente com o seu marido, por mais de 30 anos na Liderança principal da Icmav.
+        Serviu com uma  renovada paixão juntamente com o seu marido, por mais de vinte anos na Liderança principal da Icmav.
         
         Hoje serve a Deus como Pastora conselheira, convicta que a ICMAV é um lugar onde vidas podem ser  restauradas pela  mensagem poderosa da Palavra de Deus, corações são sarados, e que Deus nunca desperdiça uma dor.`,
         spouseId: 10 }

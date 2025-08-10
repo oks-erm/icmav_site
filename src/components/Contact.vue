@@ -46,7 +46,7 @@
           <i class="fas fa-globe"></i>
           Site:
           <a
-            :href="current.website"
+            :href="`https://${current.website}`"
             target="_blank"
             rel="noopener"
             class="text-primary underline"
@@ -90,12 +90,12 @@ const extensions = [
     slug: 'caparica',
     name: 'Caparica',
     email: 'icmavmontedecaparica@gmail.com',
-    phone: '+351 934 693 310',
+    phone: '+351 967 898 539',
     address: 'Rua de Bela Vista nº 110 R/C-A. 2825-165 Caparica',
     mapEmbedUrl:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3115.198258037662!2d-9.194091488196118!3d38.667311471656376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ecad566b62271%3A0xeda658899ac7783!2sR.%20da%20Bela%20Vista%20110%2C%202825-165%20Caparica!5e0!3m2!1sen!2spt!4v1751717000927!5m2!1sen!2spt',
     website: null,
-    sundayService: '10h30'
+    sundayService: '16h30'
   },
   {
     slug: 'setubal',
@@ -106,7 +106,7 @@ const extensions = [
     mapEmbedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3121.2323521355816!2d-8.8771158!3d38.52841179999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19439761d6bb03%3A0x7c9346ba04ce5508!2sIgreja%20evang%C3%A9lica%20ICMAV%20-%20Set%C3%BAbal!5e0!3m2!1sen!2spt!4v1751717171155!5m2!1sen!2spt",
     website: null,
-    sundayService: '10h30'
+    sundayService: '17h00'
   },
   {
     slug: 'londres',
