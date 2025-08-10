@@ -117,7 +117,7 @@ const extensions = [
     mapEmbedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2492.053264944142!2d-0.2617746874167882!3d51.34693115432881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487609e1e2c18b91%3A0x53b7320aedd8485c!2s125%20Gibraltar%20Cres%2C%20Epsom%20KT19%209BU%2C%20UK!5e0!3m2!1sen!2spt!4v1751627209795!5m2!1sen!2spt",
     website: 'icmavlondon.com',
-    sundayService: '10h30'
+    sundayService: '17h00'
   }
 ]
 
