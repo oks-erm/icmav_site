@@ -76,7 +76,7 @@
             <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-100">
               <img
                 v-if="ministry.leaderPhoto"
-                :src="ministry.leaderPhoto"
+                :src="resolveMediaUrl(ministry.leaderPhoto)"
                 :alt="ministry.leader || 'Líder'"
                 loading="lazy"
                 decoding="async"
@@ -119,7 +119,8 @@
             class="relative w-full aspect-video flex items-center justify-center bg-black"
           >
             <video
-              :src="ministry.media.src"
+              :src="resolveMediaUrl(ministry.media.src)"
+              :poster="resolveMediaUrl(ministry.media.placeholder)"
               controls
               autoplay
               muted
@@ -137,7 +138,7 @@
             class="relative w-full aspect-video sm:aspect-[16/9] flex items-center justify-center bg-gray-100"
           >
             <img
-              :src="ministry.media?.src || ministry.media?.placeholder || '/src/assets/fallbacks/hero.jpg'"
+              :src="resolveMediaUrl(ministry.media?.src || ministry.media?.placeholder || '/fallbacks/hero.jpg')"
               :alt="ministry.name"
               loading="lazy"
               decoding="async"
@@ -344,6 +345,14 @@ const ministry = computed(() => {
   // 2. Fallback para dados locais estruturados
   return FALLBACK_MINISTRIES.find((m) => m.slug === slug) || null
 })
+
+function resolveMediaUrl(url) {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  if (url.startsWith('/uploads/')) return url
+  if (url.startsWith('/src/assets/')) return url.replace('/src/assets/', '/')
+  return url
+}
 
 function getSocialName(icon) {
   if (!icon) return 'Social'

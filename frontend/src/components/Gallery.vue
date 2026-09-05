@@ -23,7 +23,7 @@
           class="flex-shrink-0 rounded-lg overflow-hidden"
         >
           <img
-            :src="item"
+            :src="resolveImageUrl(item)"
             alt="Galeria de Fotografias ICMAV"
             loading="lazy"
             decoding="async"
@@ -39,6 +39,14 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { getGalleryContent } from '../services/api'
+
+function resolveImageUrl(url) {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  if (url.startsWith('/uploads/')) return url
+  if (url.startsWith('/src/assets/')) return url.replace('/src/assets/', '/')
+  return url
+}
 
 const images = ref([])
 const track = ref(null)

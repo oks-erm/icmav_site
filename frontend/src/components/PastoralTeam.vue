@@ -307,6 +307,10 @@ function resolvePhotoUrl(photo) {
     return `${BACKEND_BASE_URL}${photo}`
   }
 
+  if (photo.startsWith('/src/assets/')) {
+    return photo.replace('/src/assets/', '/')
+  }
+
   return photo
 }
 

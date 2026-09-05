@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import 'aos/dist/aos.css';
 
-@source "../../backend/app/colormanagement.py";
+@source "./utils/colormanagement.js";
+@source "../index.html";
+@source "./**/*.{vue,js,ts,jsx,tsx}";
 
 @plugin 'daisyui' {
     themes: light --default, dark --prefersdark, cmyk, abyss;

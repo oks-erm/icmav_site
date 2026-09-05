@@ -245,11 +245,15 @@ function loadGoogleMapsScript() {
 }
 
 async function ensureMarkerLibrary() {
-  await loadGoogleMapsScript()
+  try {
+    await loadGoogleMapsScript()
 
-  if (!AdvancedMarkerElementClass) {
-    const { AdvancedMarkerElement } = await window.google.maps.importLibrary('marker')
-    AdvancedMarkerElementClass = AdvancedMarkerElement
+    if (!AdvancedMarkerElementClass && window.google?.maps?.importLibrary) {
+      const { AdvancedMarkerElement } = await window.google.maps.importLibrary('marker')
+      AdvancedMarkerElementClass = AdvancedMarkerElement
+    }
+  } catch (err) {
+    console.warn('Google Maps marker library could not be loaded:', err)
   }
 }
 
@@ -280,53 +284,65 @@ function getEffectiveCenter() {
 async function initMap() {
   if (!mapEl.value || !current.value || !GOOGLE_MAPS_API_KEY) return
 
-  await ensureMarkerLibrary()
+  try {
+    await ensureMarkerLibrary()
 
-  const center = getEffectiveCenter()
-  const markerPosition = parseLatLng(current.value.markerPosition) || center
-  const zoom = Number.isInteger(current.value.mapZoom) ? current.value.mapZoom : 14
+    if (!window.google?.maps?.Map) return
 
-  if (!center) return
+    const center = getEffectiveCenter()
+    const markerPosition = parseLatLng(current.value.markerPosition) || center
+    const zoom = Number.isInteger(current.value.mapZoom) ? current.value.mapZoom : 14
 
-  map = new window.google.maps.Map(mapEl.value, {
-    center,
-    zoom,
-    mapId: GOOGLE_MAP_ID,
-    gestureHandling: 'none',
-    zoomControl: true,
-    streetViewControl: false,
-    mapTypeControl: false,
-    fullscreenControl: false,
-    rotateControl: false,
-    scaleControl: false,
-    clickableIcons: false,
-  })
+    if (!center) return
 
-  if (markerPosition) {
-    marker = new AdvancedMarkerElementClass({
-      map,
-      position: markerPosition,
-      title: current.value.name,
+    map = new window.google.maps.Map(mapEl.value, {
+      center,
+      zoom,
+      mapId: GOOGLE_MAP_ID,
+      gestureHandling: 'none',
+      zoomControl: true,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+      rotateControl: false,
+      scaleControl: false,
+      clickableIcons: false,
     })
+
+    if (markerPosition && AdvancedMarkerElementClass) {
+      marker = new AdvancedMarkerElementClass({
+        map,
+        position: markerPosition,
+        title: current.value.name,
+      })
+    }
+  } catch (err) {
+    console.warn('Google Maps initialization failed:', err)
   }
 }
 
 function updateMap() {
   if (!map || !current.value) return
 
-  const center = getEffectiveCenter()
-  const markerPosition = parseLatLng(current.value.markerPosition) || center
-  const zoom = Number.isInteger(current.value.mapZoom) ? current.value.mapZoom : 14
+  try {
+    const center = getEffectiveCenter()
+    const markerPosition = parseLatLng(current.value.markerPosition) || center
+    const zoom = Number.isInteger(current.value.mapZoom) ? current.value.mapZoom : 14
 
-  if (!center) return
+    if (!center) return
 
-  map.setCenter(center)
-  map.setZoom(zoom)
+    if (typeof map.setCenter === 'function') {
+      map.setCenter(center)
+      map.setZoom(zoom)
+    }
 
-  if (marker && markerPosition) {
-    marker.position = markerPosition
-    marker.title = current.value.name
-    marker.map = map
+    if (marker && markerPosition) {
+      marker.position = markerPosition
+      marker.title = current.value.name
+      marker.map = map
+    }
+  } catch (err) {
+    console.warn('Map update skipped:', err)
   }
 }
 

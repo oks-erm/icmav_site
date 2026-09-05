@@ -18,12 +18,13 @@ logger = logging.getLogger(__name__)
 
 # ─── Configuração ────────────────────────────────────────────────────────────
 
-JWT_SECRET = os.getenv("JWT_SECRET", "")
+DEFAULT_ADMIN_PASSWORD_HASH = "$2b$12$mx3dTPKyKmi4jh5HmZnis.wh3ogVS67AVeIjusNT.gWQXFiG/dvoO"  # hash de '1234'
+JWT_SECRET = os.getenv("JWT_SECRET") or "icmav_jwt_secret_key_default_production_fallback_2025"
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", "120"))
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "SA")
-ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH", "")
+ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH") or DEFAULT_ADMIN_PASSWORD_HASH
 
 # ─── Esquema Bearer ───────────────────────────────────────────────────────────
 
