@@ -35,5 +35,5 @@ ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8080
 
-# Iniciar servidor Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+# Iniciar servidor Uvicorn com porta dinâmica do Cloud Run
+CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
