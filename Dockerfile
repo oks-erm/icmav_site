@@ -26,9 +26,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar a aplicação FastAPI
 COPY backend/app ./app
 
-# Copiar a base de dados SQLite se existir (para manter configurações preexistentes)
-COPY backend/app.db* ./
-
 # Copiar os ficheiros compilados do Frontend da Etapa 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend_dist
 
