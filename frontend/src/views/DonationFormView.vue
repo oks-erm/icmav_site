@@ -451,6 +451,8 @@
           <span>•</span>
           <router-link to="/politica-privacidade" target="_blank" class="hover:text-white transition-colors">Privacidade (RGPD)</router-link>
           <span>•</span>
+          <router-link to="/politica-cookies" target="_blank" class="hover:text-white transition-colors">Política de Cookies</router-link>
+          <span>•</span>
           <router-link to="/politica-cancelamento-reembolso" target="_blank" class="hover:text-white transition-colors">Cancelamento e Reembolsos</router-link>
         </div>
         <p class="text-gray-400 font-semibold">&copy; {{ copyrightText }}</p>

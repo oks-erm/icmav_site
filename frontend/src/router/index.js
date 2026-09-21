@@ -9,6 +9,7 @@ import DonationFormView from '../views/DonationFormView.vue'
 import TermsView from '../views/TermsView.vue'
 import PrivacyView from '../views/PrivacyView.vue'
 import RefundView from '../views/RefundView.vue'
+import CookiePolicyView from '../views/CookiePolicyView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 
 // Modo manutenção ativado por variável de ambiente se configurado como 'true'
@@ -57,6 +58,19 @@ const routes = [
     path: '/politica-privacidade',
     name: 'Privacy',
     component: PrivacyView,
+  },
+  {
+    path: '/politica-cookies',
+    name: 'Cookies',
+    component: CookiePolicyView,
+  },
+  {
+    path: '/politica-de-cookies',
+    redirect: '/politica-cookies',
+  },
+  {
+    path: '/cookies',
+    redirect: '/politica-cookies',
   },
   {
     path: '/politica-cancelamento-reembolso',

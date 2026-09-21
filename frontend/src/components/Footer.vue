@@ -96,6 +96,12 @@
             </router-link>
           </li>
           <li>
+            <router-link to="/politica-cookies" class="hover:text-primary transition-colors flex items-center gap-1.5">
+              <i class="fa-solid fa-cookie-bite text-gray-400 text-[10px]"></i>
+              <span>Política de Cookies</span>
+            </router-link>
+          </li>
+          <li>
             <router-link to="/politica-cancelamento-reembolso" class="hover:text-primary transition-colors flex items-center gap-1.5">
               <i class="fa-solid fa-rotate-left text-gray-400 text-[10px]"></i>
               <span>Cancelamento e Reembolsos</span>

@@ -2,12 +2,14 @@
 <template>
   <!-- this renders Home.vue at “/” or MinistryDetail.vue at “/ministerios/:slug” -->
   <router-view />
+  <CookieBanner />
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
 import AOS           from 'aos'
 import 'aos/dist/aos.css'
+import CookieBanner  from './components/CookieBanner.vue'
 
 onMounted(() => {
   AOS.init({ duration: 800, once: true })

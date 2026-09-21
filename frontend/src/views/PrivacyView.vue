@@ -147,6 +147,20 @@
           </p>
         </section>
 
+        <!-- Secção 7: Cookies -->
+        <section class="bg-gray-900/60 border border-white/10 rounded-2xl p-6 sm:p-8">
+          <h2 class="text-xl font-bold text-white mb-3 flex items-center gap-2.5">
+            <span class="text-emerald-400 font-mono text-lg">7.</span>
+            Utilização de Cookies
+          </h2>
+          <p class="mb-3">
+            O nosso Website utiliza cookies para garantir a segurança, navegação fluida e funcionalidades integradas.
+          </p>
+          <p>
+            Para consultar a informação detalhada sobre os cookies utilizados, as respetivas finalidades e como geri-los, consulte a nossa <router-link to="/politica-cookies" class="text-emerald-400 font-semibold hover:underline">Política de Cookies</router-link>.
+          </p>
+        </section>
+
       </div>
     </main>
 
