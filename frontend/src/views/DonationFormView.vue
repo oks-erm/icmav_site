@@ -435,10 +435,7 @@
 
           <!-- DADOS FISCAIS (COM TOGGLE LIMPO) -->
           <div class="pt-4 border-t border-gray-100 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-500">
-                Recibo Fiscal (IRS)
-              </span>
+            <div class="flex items-center justify-end">
               <label class="inline-flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
