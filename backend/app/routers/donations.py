@@ -91,7 +91,7 @@ async def donate_mbway(
     # orderId limitado a 15 caracteres conforme API IFTHENPAY
     order_id = f"DON{uuid.uuid4().hex[:12]}"
     category_name = (data.category or "Ofertas").strip()
-    tx_description = (data.description or f"Donativo ICMAV - {category_name}").strip()[:100]
+    tx_description = (data.description or f"Donativo ICMAV {category_name}").strip()[:100]
 
     # Email: usa o do doador se preenchido, senão o configurado em Admin
     donor_email = (data.email or "").strip()

@@ -133,33 +133,213 @@
           </transition>
         </div>
 
-        <!-- ══════════════════ FLUXO MB WAY: ESTADO DE SUCESSO ══════════════════ -->
-        <div v-if="donationSuccess" class="text-center py-6 space-y-6">
-          <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner animate-bounce">
-            <i class="fa-solid fa-check"></i>
+        <!-- ══════════════════ FLUXO MB WAY: ESTADOS INTERATIVOS ══════════════════ -->
+        
+        <!-- 1. A AGUARDAR AUTORIZAÇÃO NA APP MB WAY -->
+        <div v-if="mbwayStatus === 'waiting'" class="text-center py-6 space-y-5">
+          <div class="relative w-16 h-16 mx-auto flex items-center justify-center">
+            <span class="absolute inset-0 rounded-full bg-primary/20 animate-ping"></span>
+            <div class="relative w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center text-2xl shadow-inner border border-primary/20">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
           </div>
+
           <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Pedido enviado com sucesso!</h2>
-            <p class="text-sm text-gray-600 mt-2">
-              Enviámos uma notificação para o telemóvel <strong>{{ phone }}</strong> no valor de <strong>{{ amount }}€</strong> (EUR) para <strong>{{ selectedCategory }}</strong>.
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Aguardando autorização...</h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
+              Enviámos um pedido para o telemóvel <strong>{{ phone }}</strong> no valor de <strong>{{ amount }}€</strong> para <strong>{{ selectedCategory }}</strong>.
             </p>
           </div>
-          <div class="p-4 bg-amber-50 rounded-2xl text-amber-900 text-xs sm:text-sm border border-amber-200 text-left flex items-start gap-3">
-            <i class="fa-solid fa-clock mt-0.5 text-base text-amber-600 flex-shrink-0"></i>
-            <div>
-              <p class="font-bold">Autorização na App MB WAY:</p>
-              <p class="mt-0.5 text-amber-800">
-                Por favor abre a aplicação <strong>MB WAY</strong> no teu telemóvel nos próximos <strong>4 minutos</strong> para confirmar o pagamento.
+
+          <div class="p-4 bg-sky-50 rounded-2xl text-sky-950 text-xs sm:text-sm border border-sky-200 text-left flex items-start gap-3">
+            <i class="fa-solid fa-clock mt-0.5 text-base text-sky-600 flex-shrink-0 animate-pulse"></i>
+            <div class="w-full">
+              <div class="flex items-center justify-between">
+                <p class="font-bold text-sky-900">Abre a App MB WAY no telemóvel:</p>
+                <span class="font-mono font-bold text-xs bg-sky-200/70 text-sky-800 px-2 py-0.5 rounded-full">
+                  {{ formattedRemainingTime }}
+                </span>
+              </div>
+              <p class="mt-1 text-sky-800">
+                Tens <strong>4 minutos</strong> para confirmar o pagamento antes do pedido expirar.
               </p>
             </div>
           </div>
-          <button
-            type="button"
-            @click="resetForm"
-            class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer"
-          >
-            Fazer outra contribuição
-          </button>
+
+          <div class="flex items-center justify-center gap-2 text-xs text-gray-400 py-1">
+            <i class="fa-solid fa-spinner animate-spin text-primary"></i>
+            <span>A verificar confirmação em tempo real...</span>
+          </div>
+
+          <div class="pt-2">
+            <button
+              type="button"
+              @click="retryPayment"
+              class="w-full py-3 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
+            >
+              Cancelar ou alterar dados
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. SUCESSO / PAGAMENTO CONFIRMADO (MENSAGEM DE AGRADECIMENTO) -->
+        <div v-else-if="mbwayStatus === 'success'" class="text-center py-6 space-y-5">
+          <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner animate-bounce">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+
+          <div>
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 mb-2">
+              <i class="fa-solid fa-check text-[10px]"></i> Pagamento Confirmado
+            </span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900">Muito Obrigado pela Tua Generosidade!</h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
+              Recebemos com gratidão o teu donativo de <strong>{{ amount }}€</strong> para <strong>{{ selectedCategory }}</strong>.
+            </p>
+          </div>
+
+          <div class="p-4 bg-emerald-50 rounded-2xl text-emerald-950 text-xs sm:text-sm border border-emerald-200 text-left space-y-2">
+            <div class="flex items-start gap-2.5">
+              <i class="fa-solid fa-quote-left text-emerald-600 text-sm mt-0.5 flex-shrink-0"></i>
+              <p class="italic text-emerald-900 font-serif text-xs sm:text-sm">
+                "Cada um dê conforme determinou no seu coração, não com tristeza ou por necessidade, pois Deus ama a quem dá com alegria."
+              </p>
+            </div>
+            <p v-if="wantsReceipt && fiscalData.email" class="pt-1 text-[11px] text-emerald-700 border-t border-emerald-200/60 font-medium">
+              <i class="fa-solid fa-receipt mr-1"></i> O recibo fiscal será emitido e enviado para <strong>{{ fiscalData.email }}</strong>.
+            </p>
+          </div>
+
+          <div class="space-y-2.5 pt-2">
+            <button
+              type="button"
+              @click="resetForm"
+              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
+            >
+              Fazer outra contribuição
+            </button>
+            <router-link
+              to="/"
+              class="block w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-gray-500 hover:text-gray-800 transition"
+            >
+              Voltar à página inicial
+            </router-link>
+          </div>
+        </div>
+
+        <!-- 3. PAGAMENTO REJEITADO PELO UTILIZADOR -->
+        <div v-else-if="mbwayStatus === 'rejected'" class="text-center py-6 space-y-5">
+          <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </div>
+
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Pagamento Rejeitado</h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
+              O pedido de <strong>{{ amount }}€</strong> foi recusado ou cancelado na aplicação MB WAY.
+            </p>
+          </div>
+
+          <div class="p-4 bg-amber-50 rounded-2xl text-amber-950 text-xs sm:text-sm border border-amber-200 text-left space-y-1.5">
+            <p class="font-bold text-amber-900">Precisas de ajuda?</p>
+            <p class="text-amber-800">
+              Se foi um engano podes repetir a operação. Se preferires, podes também efetuar o donativo através de transferência bancária.
+            </p>
+          </div>
+
+          <div class="space-y-2.5 pt-2">
+            <button
+              type="button"
+              @click="retryPayment"
+              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
+            >
+              Tentar novamente
+            </button>
+            <button
+              type="button"
+              @click="paymentMethod = 'bank_transfer'; retryPayment()"
+              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
+            >
+              Ver dados para transferência bancária
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. TEMPO LIMITE EXPIRADO (4 MINUTOS) -->
+        <div v-else-if="mbwayStatus === 'expired'" class="text-center py-6 space-y-5">
+          <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Tempo Limite Expirado</h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
+              O prazo de 4 minutos para autorizar o pagamento no MB WAY terminou sem confirmação.
+            </p>
+          </div>
+
+          <div class="p-4 bg-gray-50 rounded-2xl text-gray-700 text-xs sm:text-sm border border-gray-200 text-left space-y-1.5">
+            <p class="font-bold text-gray-900">Não foi efetuada qualquer cobrança:</p>
+            <p class="text-gray-600">
+              Verifica se a aplicação MB WAY tem notificações ativas no teu dispositivo e tenta novamente.
+            </p>
+          </div>
+
+          <div class="space-y-2.5 pt-2">
+            <button
+              type="button"
+              @click="retryPayment"
+              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
+            >
+              Tentar novamente
+            </button>
+            <button
+              type="button"
+              @click="paymentMethod = 'bank_transfer'; retryPayment()"
+              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
+            >
+              Contribuir por transferência bancária
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. TRANSAÇÃO RECUSADA PELA ENTIDADE / ERRO -->
+        <div v-else-if="mbwayStatus === 'declined'" class="text-center py-6 space-y-5">
+          <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Transação Não Autorizada</h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
+              A entidade emissora do teu MB WAY recusou a operação.
+            </p>
+          </div>
+
+          <div class="p-4 bg-rose-50 rounded-2xl text-rose-950 text-xs sm:text-sm border border-rose-200 text-left space-y-1.5">
+            <p class="font-bold text-rose-900">Possíveis motivos:</p>
+            <ul class="list-disc pl-4 text-xs text-rose-800 space-y-1">
+              <li>Saldo insuficiente ou limite diário de MB WAY atingido;</li>
+              <li>Cartão associado bloqueado ou expirado.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-2.5 pt-2">
+            <button
+              type="button"
+              @click="retryPayment"
+              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
+            >
+              Tentar novamente
+            </button>
+            <button
+              type="button"
+              @click="paymentMethod = 'bank_transfer'; retryPayment()"
+              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
+            >
+              Contribuir por transferência bancária
+            </button>
+          </div>
         </div>
 
         <!-- ══════════════════ FLUXO 1: MB WAY ══════════════════ -->
@@ -467,7 +647,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { submitDonationMbway, getDonationsContent } from '../services/api'
+import { submitDonationMbway, getPaymentStatus, getDonationsContent } from '../services/api'
 import logoWhite from '../assets/logo_provisory_white.png'
 import MbwayLogo from '../components/icons/MbwayLogo.vue'
 
@@ -538,9 +718,89 @@ const fiscalData = ref({
 })
 
 const loading = ref(false)
-const donationSuccess = ref(false)
 const errorMessage = ref('')
 const copiedIban = ref(false)
+
+// Estados do fluxo MB WAY: null | 'waiting' | 'success' | 'rejected' | 'expired' | 'declined'
+const mbwayStatus = ref(null)
+const currentRequestId = ref(null)
+const remainingSeconds = ref(240)
+let pollInterval = null
+let countdownTimer = null
+
+const formattedRemainingTime = computed(() => {
+  const mins = Math.floor(remainingSeconds.value / 60)
+  const secs = remainingSeconds.value % 60
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`
+})
+
+function stopPolling() {
+  if (pollInterval) {
+    clearInterval(pollInterval)
+    pollInterval = null
+  }
+  if (countdownTimer) {
+    clearInterval(countdownTimer)
+    countdownTimer = null
+  }
+}
+
+async function checkPaymentStatusNow() {
+  if (!currentRequestId.value) return
+  try {
+    const res = await getPaymentStatus(currentRequestId.value)
+    if (!res) return
+
+    const status = String(res.Status || '').trim()
+    const msg = String(res.Message || '').trim().toLowerCase()
+
+    if (status === '000') {
+      if (msg === 'pending' || msg === 'pendente') {
+        mbwayStatus.value = 'waiting'
+      } else {
+        stopPolling()
+        mbwayStatus.value = 'success'
+      }
+    } else if (status === '020' || msg.includes('reject') || msg.includes('recusad') || msg.includes('cancelad')) {
+      stopPolling()
+      mbwayStatus.value = 'rejected'
+    } else if (status === '101' || msg.includes('expir')) {
+      stopPolling()
+      mbwayStatus.value = 'expired'
+    } else if (status === '122' || msg.includes('declin') || msg.includes('negad')) {
+      stopPolling()
+      mbwayStatus.value = 'declined'
+    }
+  } catch (err) {
+    console.warn('Erro pontual na consulta de estado MB WAY:', err)
+  }
+}
+
+function startPolling(requestId) {
+  stopPolling()
+  currentRequestId.value = requestId
+  mbwayStatus.value = 'waiting'
+  remainingSeconds.value = 240
+
+  countdownTimer = setInterval(() => {
+    if (remainingSeconds.value > 0) {
+      remainingSeconds.value -= 1
+    } else {
+      stopPolling()
+      mbwayStatus.value = 'expired'
+    }
+  }, 1000)
+
+  pollInterval = setInterval(async () => {
+    await checkPaymentStatusNow()
+  }, 3500)
+}
+
+function retryPayment() {
+  stopPolling()
+  mbwayStatus.value = null
+  errorMessage.value = ''
+}
 
 const siteOwner = 'ICMAV'
 const currentYear = new Date().getFullYear()
@@ -557,7 +817,8 @@ function copyIban() {
 }
 
 function resetForm() {
-  donationSuccess.value = false
+  stopPolling()
+  mbwayStatus.value = null
   errorMessage.value = ''
   phone.value = ''
   amount.value = ''
@@ -595,8 +856,12 @@ async function submitMbway() {
   const donorEmail = fiscalData.value.email ? fiscalData.value.email.trim() : null
 
   try {
-    await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value, donorEmail)
-    donationSuccess.value = true
+    const res = await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value, donorEmail)
+    if (res?.requestId) {
+      startPolling(res.requestId)
+    } else {
+      mbwayStatus.value = 'waiting'
+    }
   } catch (err) {
     const detail = err?.response?.data?.detail
     if (typeof detail === 'string') {
@@ -630,6 +895,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  stopPolling()
   document.removeEventListener('click', handleClickOutside)
 })
 </script>
