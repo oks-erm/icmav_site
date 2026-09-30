@@ -630,7 +630,7 @@
                 {{ donationsConfig.treasuryEmail || 'tesouraria.icmav@gmail.com' }}
               </a>
             </p>
-            <p class="text-[11px] text-gray-400">
+            <p class="text-xs text-gray-800 font-medium">
               Inclui Nome Completo, NIF e Morada de Faturação.
             </p>
           </div>
