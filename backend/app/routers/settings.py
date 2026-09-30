@@ -26,6 +26,7 @@ from ..defaults import (
     DEFAULT_SOCIAL_MEDIA_CONTENT,
     DEFAULT_DONATIONS_CONTENT,
     DEFAULT_LOCATIONS_CONTENT,
+    DEFAULT_IFTHENPAY_CONFIG,
     DEFAULT_SIBS_CONFIG,
 )
 from ..validators import (
@@ -40,6 +41,7 @@ from ..validators import (
     validate_social_media,
     validate_donations_content,
     validate_locations,
+    validate_ifthenpay_config,
     validate_sibs_config,
 )
 
@@ -570,26 +572,29 @@ def reset_locations(
     return {"success": True, "key": setting.key, "value": DEFAULT_LOCATIONS_CONTENT}
 
 
-# ─── SIBS CONFIG ──────────────────────────────────────────────────────────────
+# ─── IFTHENPAY / GATEWAY CONFIG ───────────────────────────────────────────────
 
-@router.get("/sibs-config")
-def read_sibs_config(
+@router.get("/ifthenpay-config")
+def read_ifthenpay_config(
     session: Session = Depends(get_session),
     _: str = Depends(get_current_admin)
 ):
-    setting = get_setting(session, "sibs_config")
+    setting = get_setting(session, "ifthenpay_config")
+    if not setting:
+        setting = get_setting(session, "sibs_config")
     if not setting:
         setting = upsert_setting(
             session,
-            "sibs_config",
-            json.dumps(DEFAULT_SIBS_CONFIG, ensure_ascii=False)
+            "ifthenpay_config",
+            json.dumps(DEFAULT_IFTHENPAY_CONFIG, ensure_ascii=False)
         )
     parsed = json.loads(setting.value)
-    return {"key": "sibs_config", "value": parsed}
+    validated = validate_ifthenpay_config(parsed)
+    return {"key": "ifthenpay_config", "value": validated}
 
 
-@router.put("/sibs-config")
-def update_sibs_config(
+@router.put("/ifthenpay-config")
+def update_ifthenpay_config(
     payload: SettingUpdate,
     session: Session = Depends(get_session),
     _: str = Depends(get_current_admin)
@@ -599,19 +604,52 @@ def update_sibs_config(
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="JSON inválido")
 
-    validated = validate_sibs_config(parsed)
-    setting = upsert_setting(session, "sibs_config", json.dumps(validated, ensure_ascii=False))
+    validated = validate_ifthenpay_config(parsed)
+    setting = upsert_setting(session, "ifthenpay_config", json.dumps(validated, ensure_ascii=False))
+    # Sincroniza também chave legacy se existir
+    upsert_setting(session, "sibs_config", json.dumps(validated, ensure_ascii=False))
     return {"success": True, "key": setting.key, "value": validated}
 
 
-@router.post("/sibs-config/reset")
-def reset_sibs_config(
+@router.post("/ifthenpay-config/reset")
+def reset_ifthenpay_config(
     session: Session = Depends(get_session),
     _: str = Depends(get_current_admin)
 ):
     setting = upsert_setting(
         session,
-        "sibs_config",
-        json.dumps(DEFAULT_SIBS_CONFIG, ensure_ascii=False)
+        "ifthenpay_config",
+        json.dumps(DEFAULT_IFTHENPAY_CONFIG, ensure_ascii=False)
     )
-    return {"success": True, "key": setting.key, "value": DEFAULT_SIBS_CONFIG}
+    upsert_setting(
+        session,
+        "sibs_config",
+        json.dumps(DEFAULT_IFTHENPAY_CONFIG, ensure_ascii=False)
+    )
+    return {"success": True, "key": setting.key, "value": DEFAULT_IFTHENPAY_CONFIG}
+
+
+# Compatibilidade com endpoints legacy /sibs-config
+@router.get("/sibs-config")
+def read_sibs_config(
+    session: Session = Depends(get_session),
+    admin: str = Depends(get_current_admin)
+):
+    return read_ifthenpay_config(session=session, _=admin)
+
+
+@router.put("/sibs-config")
+def update_sibs_config(
+    payload: SettingUpdate,
+    session: Session = Depends(get_session),
+    admin: str = Depends(get_current_admin)
+):
+    return update_ifthenpay_config(payload=payload, session=session, _=admin)
+
+
+@router.post("/sibs-config/reset")
+def reset_sibs_config(
+    session: Session = Depends(get_session),
+    admin: str = Depends(get_current_admin)
+):
+    return reset_ifthenpay_config(session=session, _=admin)

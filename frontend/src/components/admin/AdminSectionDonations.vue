@@ -127,88 +127,57 @@
         </div>
       </div>
 
-      <!-- 4. GATEWAY DE PAGAMENTOS SIBS -->
+      <!-- 4. GATEWAY DE PAGAMENTOS IFTHENPAY -->
       <div class="admin-subcard">
         <h4 class="subcard-title">
-          <i class="fa-solid fa-shield-halved text-indigo-500 mr-1.5"></i> 4. Gateway de Pagamentos SIBS (MB WAY)
+          <i class="fa-solid fa-shield-halved text-indigo-500 mr-1.5"></i> 4. Gateway de Pagamentos IFTHENPAY (MB WAY)
         </h4>
 
         <div class="info-banner mb-3">
           <i class="fa-solid fa-circle-info text-indigo-500 text-sm flex-shrink-0 mt-0.5"></i>
           <span class="text-xs text-gray-600">
-            Credenciais para emissão e processamento de donativos por MB WAY através da Gateway SIBS. Sem valores pré-definidos por segurança.
+            Credenciais para emissão e processamento de donativos por MB WAY através da Gateway IFTHENPAY.
           </span>
         </div>
 
         <div class="subcard-content">
           <div class="form-group">
-            <label for="sibsApiBase">Endpoint Base da API SIBS</label>
+            <label for="ifthenpayApiBase">Endpoint Base da API</label>
             <input
-              id="sibsApiBase"
-              v-model="sibsData.sibs_api_base"
+              id="ifthenpayApiBase"
+              v-model="sibsData.api_base"
               type="text"
-              placeholder="Ex: https://spg.qly.site1.sibs.pt/api/v2 (ou endpoint de produção)"
+              placeholder="Ex: https://api.ifthenpay.com/spg/payment"
             />
           </div>
 
           <div class="grid-2">
             <div class="form-group">
-              <label for="sibsClientId">Client ID (X-IBM-Client-Id)</label>
-              <input
-                id="sibsClientId"
-                v-model="sibsData.sibs_client_id"
-                type="text"
-                placeholder="Introduz o Client ID"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="sibsTerminalId">Terminal ID</label>
-              <input
-                id="sibsTerminalId"
-                v-model="sibsData.sibs_terminal_id"
-                type="text"
-                placeholder="Ex: 12345"
-              />
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <div class="form-group">
               <div class="label-with-action">
-                <label for="sibsBearerToken">Bearer Token de Autorização</label>
+                <label for="ifthenpayMbwayKey">MBWAY Key</label>
                 <button
                   type="button"
                   class="text-link"
-                  @click="showBearerToken = !showBearerToken"
+                  @click="showMbwayKey = !showMbwayKey"
                 >
-                  {{ showBearerToken ? 'Ocultar' : 'Mostrar' }}
+                  {{ showMbwayKey ? 'Ocultar' : 'Mostrar' }}
                 </button>
               </div>
               <input
-                id="sibsBearerToken"
-                v-model="sibsData.sibs_bearer_token"
-                :type="showBearerToken ? 'text' : 'password'"
-                placeholder="Introduz o Bearer Token"
+                id="ifthenpayMbwayKey"
+                v-model="sibsData.mbway_key"
+                :type="showMbwayKey ? 'text' : 'password'"
+                placeholder="Introduz a MBWAY Key atribuída pela IFTHENPAY"
               />
             </div>
 
             <div class="form-group">
-              <div class="label-with-action">
-                <label for="sibsClientSecret">Client Secret</label>
-                <button
-                  type="button"
-                  class="text-link"
-                  @click="showClientSecret = !showClientSecret"
-                >
-                  {{ showClientSecret ? 'Ocultar' : 'Mostrar' }}
-                </button>
-              </div>
+              <label for="ifthenpayDefaultEmail">E-mail por defeito</label>
               <input
-                id="sibsClientSecret"
-                v-model="sibsData.sibs_client_secret"
-                :type="showClientSecret ? 'text' : 'password'"
-                placeholder="Introduz o Client Secret"
+                id="ifthenpayDefaultEmail"
+                v-model="sibsData.default_email"
+                type="email"
+                placeholder="Ex: tesouraria.icmav@gmail.com"
               />
             </div>
           </div>
@@ -246,11 +215,9 @@ const donationsData = defineModel({
 const sibsData = defineModel('sibs', {
   type: Object,
   default: () => ({
-    sibs_api_base: '',
-    sibs_bearer_token: '',
-    sibs_client_id: '',
-    sibs_client_secret: '',
-    sibs_terminal_id: '',
+    api_base: 'https://api.ifthenpay.com/spg/payment',
+    mbway_key: '',
+    default_email: '',
   }),
 })
 
@@ -263,8 +230,7 @@ defineProps({
 
 defineEmits(['toggle', 'reset'])
 
-const showBearerToken = ref(false)
-const showClientSecret = ref(false)
+const showMbwayKey = ref(false)
 
 const safeCategories = computed(() => {
   if (Array.isArray(donationsData.value?.categories)) {

@@ -132,7 +132,7 @@
             @reset="handleResetSocialMedia"
           />
 
-          <!-- 11. DONATIONS (Apresentação, Categorias, Transferência Bancária e Gateway SIBS) -->
+          <!-- 11. DONATIONS (Apresentação, Categorias, Transferência Bancária e Gateway IFTHENPAY) -->
           <AdminSectionDonations
             v-model="donationsData"
             v-model:sibs="sibsConfig"
@@ -222,9 +222,9 @@ import {
   getLocationsContent,
   updateLocationsContent,
   resetLocationsContent,
-  getSibsConfig,
-  updateSibsConfig,
-  resetSibsConfig,
+  getIfthenpayConfig,
+  updateIfthenpayConfig,
+  resetIfthenpayConfig,
 } from '../services/api'
 
 // ─── Auth state ───────────────────────────────────────────────────────────────
@@ -334,11 +334,9 @@ const donationsData = ref({
 })
 const locations = ref([])
 const sibsConfig = ref({
-  sibs_api_base: '',
-  sibs_bearer_token: '',
-  sibs_client_id: '',
-  sibs_client_secret: '',
-  sibs_terminal_id: '',
+  api_base: 'https://api.ifthenpay.com/spg/payment',
+  mbway_key: '',
+  default_email: '',
 })
 
 function serializeAdminState() {
@@ -391,7 +389,7 @@ async function loadAdminData() {
       getSocialMediaContent(),
       getDonationsContent(),
       getLocationsContent(),
-      getSibsConfig().catch(() => ({ value: {} })),
+      getIfthenpayConfig().catch(() => ({ value: {} })),
     ])
 
     infoContent.value = welcomeRes.value ?? ''
@@ -435,17 +433,13 @@ async function loadAdminData() {
 
     const sv = sibsRes.value
     sibsConfig.value = sv && typeof sv === 'object' ? {
-      sibs_api_base: sv.sibs_api_base ?? '',
-      sibs_bearer_token: sv.sibs_bearer_token ?? '',
-      sibs_client_id: sv.sibs_client_id ?? '',
-      sibs_client_secret: sv.sibs_client_secret ?? '',
-      sibs_terminal_id: sv.sibs_terminal_id ?? '',
+      api_base: sv.api_base ?? sv.sibs_api_base ?? 'https://api.ifthenpay.com/spg/payment',
+      mbway_key: sv.mbway_key ?? sv.sibs_client_id ?? '',
+      default_email: sv.default_email ?? '',
     } : {
-      sibs_api_base: '',
-      sibs_bearer_token: '',
-      sibs_client_id: '',
-      sibs_client_secret: '',
-      sibs_terminal_id: '',
+      api_base: 'https://api.ifthenpay.com/spg/payment',
+      mbway_key: '',
+      default_email: '',
     }
 
   } catch (err) {
@@ -508,7 +502,7 @@ async function handleSave() {
       updateSocialMediaContent(socialMedia.value),
       updateDonationsContent(donationsData.value),
       updateLocationsContent(locations.value),
-      updateSibsConfig(sibsConfig.value),
+      updateIfthenpayConfig(sibsConfig.value),
     ])
 
     initialSnapshot.value = serializeAdminState()
@@ -608,7 +602,7 @@ async function handleResetDonations() {
   try {
     const [donationsRes, sibsRes] = await Promise.all([
       resetDonationsContent(),
-      resetSibsConfig(),
+      resetIfthenpayConfig(),
     ])
 
     const dv = donationsRes.value
@@ -632,20 +626,16 @@ async function handleResetDonations() {
 
     const sv = sibsRes.value
     sibsConfig.value = sv && typeof sv === 'object' ? {
-      sibs_api_base: sv.sibs_api_base ?? '',
-      sibs_bearer_token: sv.sibs_bearer_token ?? '',
-      sibs_client_id: sv.sibs_client_id ?? '',
-      sibs_client_secret: sv.sibs_client_secret ?? '',
-      sibs_terminal_id: sv.sibs_terminal_id ?? '',
+      api_base: sv.api_base ?? sv.sibs_api_base ?? 'https://api.ifthenpay.com/spg/payment',
+      mbway_key: sv.mbway_key ?? sv.sibs_client_id ?? '',
+      default_email: sv.default_email ?? '',
     } : {
-      sibs_api_base: '',
-      sibs_bearer_token: '',
-      sibs_client_id: '',
-      sibs_client_secret: '',
-      sibs_terminal_id: '',
+      api_base: 'https://api.ifthenpay.com/spg/payment',
+      mbway_key: '',
+      default_email: '',
     }
 
-    showFeedback('success', 'Contribuições e Gateway SIBS repostas.')
+    showFeedback('success', 'Contribuições e Gateway IFTHENPAY repostas.')
   } catch (err) { showFeedback('error', err.message || 'Erro ao repor Contribuições') }
 }
 
@@ -659,17 +649,19 @@ async function handleResetLocations() {
 
 async function handleResetSibsConfig() {
   try {
-    const data = await resetSibsConfig()
+    const data = await resetIfthenpayConfig()
     const sv = data.value
-    sibsConfig.value = sv && typeof sv === 'object' ? sv : {
-      sibs_api_base: '',
-      sibs_bearer_token: '',
-      sibs_client_id: '',
-      sibs_client_secret: '',
-      sibs_terminal_id: '',
+    sibsConfig.value = sv && typeof sv === 'object' ? {
+      api_base: sv.api_base ?? sv.sibs_api_base ?? 'https://api.ifthenpay.com/spg/payment',
+      mbway_key: sv.mbway_key ?? sv.sibs_client_id ?? '',
+      default_email: sv.default_email ?? '',
+    } : {
+      api_base: 'https://api.ifthenpay.com/spg/payment',
+      mbway_key: '',
+      default_email: '',
     }
-    showFeedback('success', 'Configuração SIBS reposta.')
-  } catch (err) { showFeedback('error', err.message || 'Erro ao repor configuração SIBS') }
+    showFeedback('success', 'Configuração IFTHENPAY reposta.')
+  } catch (err) { showFeedback('error', err.message || 'Erro ao repor configuração IFTHENPAY') }
 }
 </script>
 

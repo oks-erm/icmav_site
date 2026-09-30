@@ -494,16 +494,25 @@ def validate_locations(payload: Any) -> list[dict]:
     return validated_items
 
 
-# ─── SIBS CONFIG VALIDATOR ───────────────────────────────────────────────────
+# ─── IFTHENPAY CONFIG VALIDATOR ──────────────────────────────────────────────
 
-def validate_sibs_config(payload: Any) -> dict:
+def validate_ifthenpay_config(payload: Any) -> dict:
     if not isinstance(payload, dict):
         raise HTTPException(status_code=400, detail="O valor deve ser um objeto")
 
+    api_base = str(payload.get("api_base") or payload.get("sibs_api_base") or "https://api.ifthenpay.com/spg/payment").strip().rstrip("/")
+    if not api_base:
+        api_base = "https://api.ifthenpay.com/spg/payment"
+
+    mbway_key = str(payload.get("mbway_key") or payload.get("ifthenpay_mbway_key") or payload.get("sibs_client_id") or "").strip()
+    default_email = str(payload.get("default_email") or payload.get("ifthenpay_default_email") or "").strip()
+
     return {
-        "sibs_api_base": str(payload.get("sibs_api_base") or "").strip(),
-        "sibs_bearer_token": str(payload.get("sibs_bearer_token") or "").strip(),
-        "sibs_client_id": str(payload.get("sibs_client_id") or "").strip(),
-        "sibs_client_secret": str(payload.get("sibs_client_secret") or "").strip(),
-        "sibs_terminal_id": str(payload.get("sibs_terminal_id") or "").strip(),
+        "api_base": api_base,
+        "mbway_key": mbway_key,
+        "default_email": default_email,
     }
+
+
+def validate_sibs_config(payload: Any) -> dict:
+    return validate_ifthenpay_config(payload)

@@ -652,20 +652,20 @@ export async function resetLocationsContent() {
 
 // #endregion
 
-// #region SIBS GATEWAY CONFIG
+// #region IFTHENPAY / MB WAY GATEWAY CONFIG
 
-export async function getSibsConfig() {
-  const response = await fetch(`${API_BASE_URL}/settings/sibs-config`, {
+export async function getIfthenpayConfig() {
+  const response = await fetch(`${API_BASE_URL}/settings/ifthenpay-config`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) {
-    await handleResponseError(response, 'Erro ao carregar configuração SIBS')
+    await handleResponseError(response, 'Erro ao carregar configuração IFTHENPAY')
   }
   return response.json()
 }
 
-export async function updateSibsConfig(value) {
-  const response = await fetch(`${API_BASE_URL}/settings/sibs-config`, {
+export async function updateIfthenpayConfig(value) {
+  const response = await fetch(`${API_BASE_URL}/settings/ifthenpay-config`, {
     method: 'PUT',
     headers: getAuthHeaders({
       'Content-Type': 'application/json',
@@ -674,22 +674,27 @@ export async function updateSibsConfig(value) {
   })
 
   if (!response.ok) {
-    await handleResponseError(response, 'Erro ao guardar configuração SIBS')
+    await handleResponseError(response, 'Erro ao guardar configuração IFTHENPAY')
   }
   return response.json()
 }
 
-export async function resetSibsConfig() {
-  const response = await fetch(`${API_BASE_URL}/settings/sibs-config/reset`, {
+export async function resetIfthenpayConfig() {
+  const response = await fetch(`${API_BASE_URL}/settings/ifthenpay-config/reset`, {
     method: 'POST',
     headers: getAuthHeaders(),
   })
 
   if (!response.ok) {
-    await handleResponseError(response, 'Erro ao repor configuração SIBS')
+    await handleResponseError(response, 'Erro ao repor configuração IFTHENPAY')
   }
   return response.json()
 }
+
+// Aliases para retrocompatibilidade
+export const getSibsConfig = getIfthenpayConfig
+export const updateSibsConfig = updateIfthenpayConfig
+export const resetSibsConfig = resetIfthenpayConfig
 
 // #endregion
 
@@ -703,11 +708,11 @@ export async function testBackendHealth() {
   return response.json()
 }
 
-export async function submitDonationMbway(amount, phone, category) {
+export async function submitDonationMbway(amount, phone, category, email = null) {
   const response = await fetch(`${API_BASE_URL}/donate/mbway`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount, phone, category }),
+    body: JSON.stringify({ amount, phone, category, email }),
   })
 
   if (!response.ok) {
@@ -717,8 +722,8 @@ export async function submitDonationMbway(amount, phone, category) {
   return response.json()
 }
 
-export async function getPaymentStatus(transactionId) {
-  const response = await fetch(`${API_BASE_URL}/payment-status/${transactionId}`)
+export async function getPaymentStatus(requestId) {
+  const response = await fetch(`${API_BASE_URL}/payment-status/${requestId}`)
   if (!response.ok) {
     const errorData = await response.json().catch(() => null)
     throw { response: { data: errorData } }

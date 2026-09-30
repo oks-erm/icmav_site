@@ -443,7 +443,7 @@
       <footer class="mt-6 text-center text-[11px] text-gray-400 space-y-2">
         <p class="flex items-center justify-center gap-1.5 font-medium text-emerald-400">
           <i class="fa-solid fa-shield-halved text-xs"></i>
-          <span>Processamento Seguro e Certificado via SIBS</span>
+          <span>Processamento Seguro e Certificado via IFTHENPAY / MB WAY</span>
         </p>
         <!-- Links de Políticas no Rodapé do Formulário -->
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-gray-400">
@@ -592,8 +592,10 @@ async function submitMbway() {
     }
   }
 
+  const donorEmail = fiscalData.value.email ? fiscalData.value.email.trim() : null
+
   try {
-    await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value)
+    await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value, donorEmail)
     donationSuccess.value = true
   } catch (err) {
     const detail = err?.response?.data?.detail

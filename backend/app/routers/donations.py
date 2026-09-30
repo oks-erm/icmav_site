@@ -1,11 +1,10 @@
 """
-routers/donations.py — Endpoints assíncronos de pagamentos MB WAY e estado via SIBS com configurações do Admin.
+routers/donations.py — Endpoints assíncronos de pagamentos MB WAY via IFTHENPAY.
 """
 
 import json
 import uuid
 import logging
-from datetime import datetime, timezone
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException
@@ -24,6 +23,8 @@ class DonationRequest(BaseModel):
     amount: float = Field(gt=0)
     phone: str
     category: str | None = Field(default=None)
+    email: str | None = Field(default=None)
+    description: str | None = Field(default=None)
 
 
 def normalize_phone(phone: str) -> str:
@@ -35,28 +36,29 @@ def normalize_phone(phone: str) -> str:
     return f"351#{digits}"
 
 
-def get_sibs_credentials(session: Session) -> dict:
-    setting = get_setting(session, "sibs_config")
-    if setting and setting.value:
-        try:
-            cfg = json.loads(setting.value)
-            if isinstance(cfg, dict):
-                return {
-                    "sibs_api_base": str(cfg.get("sibs_api_base") or "").strip().rstrip("/"),
-                    "sibs_bearer_token": str(cfg.get("sibs_bearer_token") or "").strip(),
-                    "sibs_client_id": str(cfg.get("sibs_client_id") or "").strip(),
-                    "sibs_client_secret": str(cfg.get("sibs_client_secret") or "").strip(),
-                    "sibs_terminal_id": str(cfg.get("sibs_terminal_id") or "").strip(),
-                }
-        except Exception as exc:
-            logger.error("Erro ao ler sibs_config da base de dados: %s", exc)
+def get_ifthenpay_credentials(session: Session) -> dict:
+    for key in ("ifthenpay_config", "sibs_config"):
+        setting = get_setting(session, key)
+        if setting and setting.value:
+            try:
+                cfg = json.loads(setting.value)
+                if isinstance(cfg, dict):
+                    api_base = str(cfg.get("api_base") or cfg.get("sibs_api_base") or "").strip().rstrip("/")
+                    mbway_key = str(cfg.get("mbway_key") or cfg.get("sibs_client_id") or "").strip()
+                    default_email = str(cfg.get("default_email") or "").strip()
+                    if mbway_key or api_base:
+                        return {
+                            "api_base": api_base or "https://api.ifthenpay.com/spg/payment",
+                            "mbway_key": mbway_key,
+                            "default_email": default_email,
+                        }
+            except Exception as exc:
+                logger.error("Erro ao ler credenciais IFTHENPAY: %s", exc)
 
     return {
-        "sibs_api_base": "",
-        "sibs_bearer_token": "",
-        "sibs_client_id": "",
-        "sibs_client_secret": "",
-        "sibs_terminal_id": "",
+        "api_base": "https://api.ifthenpay.com/spg/payment",
+        "mbway_key": "",
+        "default_email": "",
     }
 
 
@@ -70,17 +72,15 @@ async def donate_mbway(
     data: DonationRequest,
     session: Session = Depends(get_session)
 ):
-    creds = get_sibs_credentials(session)
+    creds = get_ifthenpay_credentials(session)
+    api_base = creds["api_base"]
+    mbway_key = creds["mbway_key"]
+    default_email = creds["default_email"]
 
-    sibs_api_base = creds["sibs_api_base"]
-    sibs_bearer_token = creds["sibs_bearer_token"]
-    sibs_client_id = creds["sibs_client_id"]
-    sibs_terminal_id = creds["sibs_terminal_id"]
-
-    if not sibs_api_base or not sibs_bearer_token or not sibs_client_id:
+    if not mbway_key:
         raise HTTPException(
             status_code=503,
-            detail="A Gateway de pagamentos SIBS não se encontra configurada. Por favor configura os acessos no painel de administração."
+            detail="A Gateway de pagamentos IFTHENPAY não se encontra configurada. Por favor configura os acessos no painel de administração."
         )
 
     try:
@@ -88,158 +88,99 @@ async def donate_mbway(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    merchant_transaction_id = f"donativo-{uuid.uuid4().hex[:12]}"
-    current_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
+    # orderId limitado a 15 caracteres conforme API IFTHENPAY
+    order_id = f"DON{uuid.uuid4().hex[:12]}"
     category_name = (data.category or "Ofertas").strip()
-    tx_description = f"Donativo ICMAV - {category_name}"
+    tx_description = (data.description or f"Donativo ICMAV - {category_name}").strip()[:100]
 
-    try:
-        terminal_id_num = int(sibs_terminal_id) if sibs_terminal_id else 0
-    except ValueError:
-        terminal_id_num = 0
+    # Email: usa o do doador se preenchido, senão o configurado em Admin
+    donor_email = (data.email or "").strip()
+    final_email = (donor_email or default_email or "").strip()
 
-    create_payload = {
-        "merchant": {
-            "terminalId": terminal_id_num,
-            "channel": "web",
-            "merchantTransactionId": merchant_transaction_id
-        },
-        "transaction": {
-            "transactionTimestamp": current_timestamp,
-            "description": tx_description,
-            "moto": False,
-            "paymentType": "PURS",
-            "amount": {
-                "value": round(data.amount, 2),
-                "currency": "EUR"
-            },
-            "paymentMethod": ["MBWAY"]
-        }
+    payload = {
+        "mbWayKey": mbway_key,
+        "orderId": order_id,
+        "amount": f"{data.amount:.2f}",
+        "mobileNumber": customer_phone,
+        "description": tx_description,
     }
+    if final_email:
+        payload["email"] = final_email[:100]
 
-    headers_create = {
-        "Authorization": f"Bearer {sibs_bearer_token}",
-        "X-IBM-Client-Id": sibs_client_id,
-        "Content-Type": "application/json"
-    }
-
-    print("\n" + "=" * 65, flush=True)
-    print("🚀 [SIBS MB WAY REQUEST INICIADO]", flush=True)
-    print(f"📍 Target Endpoint: {sibs_api_base}/payments", flush=True)
-    print("📦 Payload /payments gerado:", flush=True)
-    print(json.dumps(create_payload, indent=2, ensure_ascii=False), flush=True)
-    print("=" * 65 + "\n", flush=True)
+    endpoint_url = f"{api_base}/mbway"
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            create_resp = await client.post(
-                f"{sibs_api_base}/payments",
-                json=create_payload,
-                headers=headers_create
-            )
+            resp = await client.post(endpoint_url, json=payload)
         except Exception as exc:
-            logger.error("Erro assíncrono na comunicação com SIBS (/payments): %s", exc)
-            print(f"❌ Erro de comunicação com SIBS: {exc}", flush=True)
-            raise HTTPException(status_code=502, detail="Erro de comunicação com o gateway de pagamentos.")
+            logger.error("Erro assíncrono na comunicação com IFTHENPAY: %s", exc)
+            raise HTTPException(status_code=502, detail="Erro de comunicação com o gateway IFTHENPAY.")
 
-        print(f"📥 SIBS create_resp [{create_resp.status_code}]: {create_resp.text}", flush=True)
-
-        if not create_resp.is_success:
-            logger.error("SIBS create_payment erro [%d]: %s", create_resp.status_code, create_resp.text)
-            print("=" * 65 + "\n", flush=True)
+        if not resp.is_success:
+            logger.error("IFTHENPAY erro [%d]: %s", resp.status_code, resp.text)
             raise HTTPException(
-                status_code=500,
-                detail=f"Resposta da SIBS [{create_resp.status_code}]: {create_resp.text}"
+                status_code=502,
+                detail=f"Resposta de erro do gateway IFTHENPAY [{resp.status_code}]."
             )
-
-        create_data = create_resp.json()
-        transaction_id = create_data.get("transactionID")
-        transaction_signature = create_data.get("transactionSignature")
-
-        if not transaction_id or not transaction_signature:
-            logger.error("SIBS não devolveu transactionID ou signature: %s", create_data)
-            raise HTTPException(status_code=500, detail="Resposta inválida do gateway de pagamentos.")
-
-        purchase_payload = {
-            "customerPhone": customer_phone
-        }
-
-        print("\n" + "=" * 65, flush=True)
-        print("📱 [SIBS MB WAY PURCHASE PAYLOAD]", flush=True)
-        print(f"📍 Target: {sibs_api_base}/payments/{transaction_id}/mbway-id/purchase", flush=True)
-        print("📦 Purchase payload gerado:", flush=True)
-        print(json.dumps(purchase_payload, indent=2, ensure_ascii=False), flush=True)
-        print("=" * 65 + "\n", flush=True)
-
-        headers_purchase = {
-            "Authorization": f"Digest {transaction_signature}",
-            "X-IBM-Client-Id": sibs_client_id,
-            "Content-Type": "application/json"
-        }
 
         try:
-            purchase_resp = await client.post(
-                f"{sibs_api_base}/payments/{transaction_id}/mbway-id/purchase",
-                json=purchase_payload,
-                headers=headers_purchase
-            )
-        except Exception as exc:
-            logger.error("Erro assíncrono na comunicação com SIBS (/mbway-id/purchase): %s", exc)
-            raise HTTPException(status_code=502, detail="Erro de comunicação ao enviar pedido MB WAY.")
+            res_data = resp.json()
+        except Exception:
+            raise HTTPException(status_code=502, detail="Resposta inválida do gateway IFTHENPAY.")
 
-        logger.info("SIBS purchase_resp [%d]: %s", purchase_resp.status_code, purchase_resp.text)
+        status_code = str(res_data.get("Status", ""))
+        message = str(res_data.get("Message", ""))
 
-        if not purchase_resp.is_success:
-            logger.error("SIBS mbway_purchase erro [%d]: %s", purchase_resp.status_code, purchase_resp.text)
-            raise HTTPException(
-                status_code=500,
-                detail="Não foi possível processar o pedido MB WAY no teu número."
-            )
-
-        purchase_data = purchase_resp.json()
+        if status_code != "000":
+            logger.warning("IFTHENPAY recusou inicialização: Status=%s, Msg=%s", status_code, message)
+            if status_code == "122":
+                err_detail = "Transação recusada no MB WAY."
+            elif status_code == "100":
+                err_detail = "Não foi possível concluir a inicialização. Por favor tenta novamente."
+            else:
+                err_detail = message or "Não foi possível processar o pedido MB WAY."
+            raise HTTPException(status_code=400, detail=err_detail)
 
     return {
         "ok": True,
-        "transactionId": transaction_id,
-        "merchantTransactionId": merchant_transaction_id,
-        "sibsResponse": purchase_data
+        "orderId": order_id,
+        "requestId": res_data.get("RequestId"),
+        "amount": res_data.get("Amount", data.amount),
+        "message": message or "Pending",
+        "status": status_code,
     }
 
 
-@router.get("/payment-status/{transaction_id}")
+@router.get("/payment-status/{request_id}")
 async def payment_status(
-    transaction_id: str,
+    request_id: str,
     session: Session = Depends(get_session)
 ):
-    creds = get_sibs_credentials(session)
-    sibs_api_base = creds["sibs_api_base"]
-    sibs_bearer_token = creds["sibs_bearer_token"]
-    sibs_client_id = creds["sibs_client_id"]
+    creds = get_ifthenpay_credentials(session)
+    api_base = creds["api_base"]
+    mbway_key = creds["mbway_key"]
 
-    if not sibs_api_base or not sibs_bearer_token or not sibs_client_id:
+    if not mbway_key:
         raise HTTPException(
             status_code=503,
-            detail="A Gateway de pagamentos SIBS não se encontra configurada."
+            detail="A Gateway de pagamentos IFTHENPAY não se encontra configurada."
         )
 
-    headers = {
-        "Authorization": f"Bearer {sibs_bearer_token}",
-        "X-IBM-Client-Id": sibs_client_id,
+    endpoint_url = f"{api_base}/mbway/status"
+    params = {
+        "mbWayKey": mbway_key,
+        "requestId": request_id,
     }
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            resp = await client.get(
-                f"{sibs_api_base}/payments/{transaction_id}/status",
-                headers=headers
-            )
+            resp = await client.get(endpoint_url, params=params)
         except Exception as exc:
-            logger.error("Erro assíncrono na consulta de estado SIBS: %s", exc)
+            logger.error("Erro na consulta de estado IFTHENPAY: %s", exc)
             raise HTTPException(status_code=502, detail="Erro de comunicação ao consultar estado.")
 
         if not resp.is_success:
-            logger.error("SIBS payment_status erro [%d]: %s", resp.status_code, resp.text)
+            logger.error("IFTHENPAY status erro [%d]: %s", resp.status_code, resp.text)
             raise HTTPException(
                 status_code=500,
                 detail="Não foi possível consultar o estado do pagamento."

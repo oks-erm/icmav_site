@@ -496,14 +496,13 @@ DEFAULT_LOCATIONS_RAW = [
         "mapZoom": 17
     }
 ]
-# 13. SIBS GATEWAY CONFIG (sem defaults)
-DEFAULT_SIBS_CONFIG = {
-    "sibs_api_base": "",
-    "sibs_bearer_token": "",
-    "sibs_client_id": "",
-    "sibs_client_secret": "",
-    "sibs_terminal_id": "",
+# 13. IFTHENPAY GATEWAY CONFIG (MB WAY)
+DEFAULT_IFTHENPAY_CONFIG = {
+    "api_base": "https://api.ifthenpay.com/spg/payment",
+    "mbway_key": "",
+    "default_email": "",
 }
+DEFAULT_SIBS_CONFIG = DEFAULT_IFTHENPAY_CONFIG
 
 def calculate_map_center(marker_pos: str) -> str:
     parts = marker_pos.split(",")
