@@ -227,61 +227,33 @@
           </div>
         </div>
 
-        <!-- 3. PAGAMENTO REJEITADO PELO UTILIZADOR -->
+        <!-- 3. PAGAMENTO REJEITADO PELO UTILIZADOR (STATUS 020) -->
         <div v-else-if="mbwayStatus === 'rejected'" class="text-center py-6 space-y-5">
           <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
-            <i class="fa-solid fa-circle-xmark"></i>
+            <i class="fa-solid fa-user-xmark"></i>
           </div>
 
           <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Pagamento Rejeitado</h2>
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
+              <i class="fa-solid fa-xmark text-[10px]"></i> Operação Cancelada
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Transferência Rejeitada</h2>
             <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              O pedido de <strong>{{ amount }}€</strong> foi recusado ou cancelado na aplicação MB WAY.
+              A transferência foi rejeitada ou cancelada na aplicação MB WAY.
             </p>
           </div>
 
-          <div class="p-4 bg-amber-50 rounded-2xl text-amber-950 text-xs sm:text-sm border border-amber-200 text-left space-y-1.5">
-            <p class="font-bold text-amber-900">Precisas de ajuda?</p>
-            <p class="text-amber-800">
-              Se foi um engano podes repetir a operação. Se preferires, podes também efetuar o donativo através de transferência bancária.
+          <div class="p-4 bg-amber-50/80 rounded-2xl text-amber-950 text-xs sm:text-sm border border-amber-200 text-left space-y-2">
+            <p class="font-bold text-amber-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-question text-amber-600"></i> Possíveis motivos:
             </p>
-          </div>
-
-          <div class="space-y-2.5 pt-2">
-            <button
-              type="button"
-              @click="retryPayment"
-              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
-            >
-              Tentar novamente
-            </button>
-            <button
-              type="button"
-              @click="paymentMethod = 'bank_transfer'; retryPayment()"
-              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
-            >
-              Ver dados para transferência bancária
-            </button>
-          </div>
-        </div>
-
-        <!-- 4. TEMPO LIMITE EXPIRADO (4 MINUTOS) -->
-        <div v-else-if="mbwayStatus === 'expired'" class="text-center py-6 space-y-5">
-          <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-          </div>
-
-          <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Tempo Limite Expirado</h2>
-            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              O prazo de 4 minutos para autorizar o pagamento no MB WAY terminou sem confirmação.
-            </p>
-          </div>
-
-          <div class="p-4 bg-gray-50 rounded-2xl text-gray-700 text-xs sm:text-sm border border-gray-200 text-left space-y-1.5">
-            <p class="font-bold text-gray-900">Não foi efetuada qualquer cobrança:</p>
-            <p class="text-gray-600">
-              Verifica se a aplicação MB WAY tem notificações ativas no teu dispositivo e tenta novamente.
+            <ul class="list-disc pl-4 text-xs text-amber-800 space-y-1">
+              <li>Toque involuntário no botão de rejeitar na aplicação MB WAY;</li>
+              <li>Engano no número de telemóvel ou valor introduzido;</li>
+              <li>Cancelamento intencional da contribuição.</li>
+            </ul>
+            <p class="text-[11px] text-amber-700/90 pt-1 border-t border-amber-200/60">
+              Nenhum valor foi debitado. Podes alterar os dados ou tentar novamente quando quiseres.
             </p>
           </div>
 
@@ -303,24 +275,75 @@
           </div>
         </div>
 
-        <!-- 5. TRANSAÇÃO RECUSADA PELA ENTIDADE / ERRO -->
+        <!-- 4. TEMPO LIMITE EXPIRADO (STATUS 101 - 4 MINUTOS) -->
+        <div v-else-if="mbwayStatus === 'expired'" class="text-center py-6 space-y-5">
+          <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+
+          <div>
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
+              <i class="fa-solid fa-hourglass-end text-[10px]"></i> Prazo Esgotado
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Tempo Limite Expirado</h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
+              O prazo de 4 minutos para autorizar o pagamento no MB WAY terminou sem confirmação.
+            </p>
+          </div>
+
+          <div class="p-4 bg-sky-50/80 rounded-2xl text-sky-950 text-xs sm:text-sm border border-sky-200 text-left space-y-2">
+            <p class="font-bold text-sky-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info text-sky-600"></i> O que deves saber:
+            </p>
+            <ul class="list-disc pl-4 text-xs text-sky-800 space-y-1">
+              <li>Nenhum valor foi debitado da tua conta bancária;</li>
+              <li>A rede MB WAY define um limite de segurança de 4 minutos para cada pedido;</li>
+              <li>Certifica-te de que tens as notificações da app MB WAY ativas para receber o alerta de imediato.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-2.5 pt-2">
+            <button
+              type="button"
+              @click="retryPayment"
+              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
+            >
+              Enviar novo pedido MB WAY
+            </button>
+            <button
+              type="button"
+              @click="paymentMethod = 'bank_transfer'; retryPayment()"
+              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
+            >
+              Contribuir por transferência bancária
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. TRANSAÇÃO RECUSADA PELA ENTIDADE / BANCO (STATUS 122) -->
         <div v-else-if="mbwayStatus === 'declined'" class="text-center py-6 space-y-5">
           <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
             <i class="fa-solid fa-triangle-exclamation"></i>
           </div>
 
           <div>
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 mb-2">
+              <i class="fa-solid fa-ban text-[10px]"></i> Não Autorizado
+            </span>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Transação Não Autorizada</h2>
             <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              A entidade emissora do teu MB WAY recusou a operação.
+              A entidade bancária ou emissora do teu MB WAY não autorizou esta operação.
             </p>
           </div>
 
-          <div class="p-4 bg-rose-50 rounded-2xl text-rose-950 text-xs sm:text-sm border border-rose-200 text-left space-y-1.5">
-            <p class="font-bold text-rose-900">Possíveis motivos:</p>
+          <div class="p-4 bg-rose-50/80 rounded-2xl text-rose-950 text-xs sm:text-sm border border-rose-200 text-left space-y-2">
+            <p class="font-bold text-rose-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-exclamation text-rose-600"></i> Possíveis causas:
+            </p>
             <ul class="list-disc pl-4 text-xs text-rose-800 space-y-1">
-              <li>Saldo insuficiente ou limite diário de MB WAY atingido;</li>
-              <li>Cartão associado bloqueado ou expirado.</li>
+              <li>Saldo insuficiente na conta bancária associada ao MB WAY;</li>
+              <li>Limite diário ou mensal de pagamentos MB WAY atingido;</li>
+              <li>Cartão de pagamento inativo, bloqueado ou expirado.</li>
             </ul>
           </div>
 
@@ -761,13 +784,16 @@ async function checkPaymentStatusNow() {
         stopPolling()
         mbwayStatus.value = 'success'
       }
-    } else if (status === '020' || msg.includes('reject') || msg.includes('recusad') || msg.includes('cancelad')) {
+    } else if (status === '020' || msg.includes('user') || msg.includes('utilizador') || msg.includes('rejeit') || msg.includes('cancel')) {
+      // 020: Rejeitado pelo utilizador
       stopPolling()
       mbwayStatus.value = 'rejected'
-    } else if (status === '101' || msg.includes('expir')) {
+    } else if (status === '101' || msg.includes('expir') || msg.includes('timeout')) {
+      // 101: Expirado (4 minutos)
       stopPolling()
       mbwayStatus.value = 'expired'
-    } else if (status === '122' || msg.includes('declin') || msg.includes('negad')) {
+    } else if (status === '122' || status === '100' || status === '999' || msg.includes('declin') || msg.includes('recusad') || msg.includes('negad') || msg.includes('erro')) {
+      // 122: Recusado pela entidade bancária ou erro
       stopPolling()
       mbwayStatus.value = 'declined'
     }
