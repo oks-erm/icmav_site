@@ -1,4 +1,4 @@
-# ⛪ ICM Algés & VFX — Portal Web Oficial & Backoffice
+# ⛪ ICMAV — Portal Web Oficial & Backoffice da ICMAV - Igreja Cristã Manancial de Águas Vivas
 
 [![Vue 3](https://img.shields.io/badge/Vue.js-3.5-4FC08D?style=flat&logo=vuedotjs&logoColor=white)](https://vuejs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.138-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 
-Portal oficial da **Igreja Cristã Maranata — Algés e Vila Franca de Xira**. O projeto combina uma experiência moderna, responsiva e acessível para membros e visitantes com um painel de administração (**Backoffice**) e integração de pagamentos e donativos digitais (**MB WAY via IFTHENPAY** e **Transferência Bancária**).
+Portal oficial da **Igreja Cristã Manancial de Águas Vivas — ICMAV**. O projeto combina uma experiência moderna, responsiva e acessível para membros e visitantes com um painel de administração (**Backoffice**) e integração de pagamentos e donativos digitais (**MB WAY via IFTHENPAY** e **Transferência Bancária**).
 
 ---
 
@@ -156,8 +156,6 @@ Podes configurar variáveis de ambiente no teu ficheiro `.env` ou nas configura�
 | `PORT` | Porta onde o Uvicorn escuta (injetado pelo Cloud Run) | `8080` / `8000` |
 | `JWT_SECRET` | Chave secreta para assinatura dos tokens JWT | `icmav_jwt_secret_...` |
 | `JWT_EXPIRE_MINUTES` | Duração dos tokens de autenticação em minutos | `120` |
-| `ADMIN_USERNAME` | Nome de utilizador do Administrador | `SA` |
-| `ADMIN_PASSWORD_HASH` | Hash bcrypt da password do Administrador | *(Hash por omissão no código)* |
 
 *(As credenciais da Gateway IFTHENPAY podem ser configuradas diretamente através do Painel de Administração / Backoffice).*
 
@@ -180,4 +178,4 @@ Acede a `http://localhost:8080` no teu navegador.
 
 ## 📄 Licença e Direitos
 
-Projeto desenvolvido para a **Igreja Cristã Maranata — Algés e VFX**. Todos os direitos reservados.
+Projeto desenvolvido para a **ICMAV - Igreja Cristã Manancial de Águas Vivas**. Todos os direitos reservados.
