@@ -144,6 +144,7 @@
           <!-- 12. LOCATIONS -->
           <AdminSectionLocations
             v-model="locations"
+            v-model:google-maps="googleMapsConfig"
             :is-open="openSections.locations"
             @toggle="toggleSection('locations')"
             @reset="handleResetLocations"
@@ -222,6 +223,9 @@ import {
   getLocationsContent,
   updateLocationsContent,
   resetLocationsContent,
+  getGoogleMapsConfig,
+  updateGoogleMapsConfig,
+  resetGoogleMapsConfig,
   getIfthenpayConfig,
   updateIfthenpayConfig,
   resetIfthenpayConfig,
@@ -333,6 +337,10 @@ const donationsData = ref({
   ],
 })
 const locations = ref([])
+const googleMapsConfig = ref({
+  apiKey: '',
+  mapId: '',
+})
 const sibsConfig = ref({
   api_base: 'https://api.ifthenpay.com/spg/payment',
   mbway_key: '',
@@ -353,6 +361,7 @@ function serializeAdminState() {
     socialMedia: socialMedia.value,
     donationsData: donationsData.value,
     locations: locations.value,
+    googleMapsConfig: googleMapsConfig.value,
     sibsConfig: sibsConfig.value,
   })
 }
@@ -375,7 +384,7 @@ async function loadAdminData() {
     const [
       welcomeRes, messageRes, purposesRes, pastoralRes,
       ministriesRes, servicesRes, lgContentRes, lgOptionsRes,
-      galleryRes, socialRes, donationsRes, locationsRes, sibsRes,
+      galleryRes, socialRes, donationsRes, locationsRes, mapsRes, sibsRes,
     ] = await Promise.all([
       getWelcomeContent(),
       getMessageContent(),
@@ -389,6 +398,7 @@ async function loadAdminData() {
       getSocialMediaContent(),
       getDonationsContent(),
       getLocationsContent(),
+      getGoogleMapsConfig().catch(() => ({ value: {} })),
       getIfthenpayConfig().catch(() => ({ value: {} })),
     ])
 
@@ -430,6 +440,15 @@ async function loadAdminData() {
     }
 
     locations.value = Array.isArray(locationsRes.value) ? locationsRes.value : []
+
+    const gmv = mapsRes?.value
+    googleMapsConfig.value = gmv && typeof gmv === 'object' ? {
+      apiKey: gmv.apiKey ?? gmv.api_key ?? '',
+      mapId: gmv.mapId ?? gmv.map_id ?? '',
+    } : {
+      apiKey: '',
+      mapId: '',
+    }
 
     const sv = sibsRes.value
     sibsConfig.value = sv && typeof sv === 'object' ? {
@@ -502,6 +521,7 @@ async function handleSave() {
       updateSocialMediaContent(socialMedia.value),
       updateDonationsContent(donationsData.value),
       updateLocationsContent(locations.value),
+      updateGoogleMapsConfig(googleMapsConfig.value),
       updateIfthenpayConfig(sibsConfig.value),
     ])
 
@@ -641,9 +661,20 @@ async function handleResetDonations() {
 
 async function handleResetLocations() {
   try {
-    const data = await resetLocationsContent()
-    locations.value = Array.isArray(data.value) ? data.value : []
-    showFeedback('success', 'Localizações repostas.')
+    const [locationsRes, mapsRes] = await Promise.all([
+      resetLocationsContent(),
+      resetGoogleMapsConfig(),
+    ])
+    locations.value = Array.isArray(locationsRes.value) ? locationsRes.value : []
+    const gmv = mapsRes?.value
+    googleMapsConfig.value = gmv && typeof gmv === 'object' ? {
+      apiKey: gmv.apiKey ?? gmv.api_key ?? '',
+      mapId: gmv.mapId ?? gmv.map_id ?? '',
+    } : {
+      apiKey: '',
+      mapId: '',
+    }
+    showFeedback('success', 'Localizações e Configuração Google Maps repostas.')
   } catch (err) { showFeedback('error', err.message || 'Erro ao repor Localizações') }
 }
 

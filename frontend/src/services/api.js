@@ -652,6 +652,41 @@ export async function resetLocationsContent() {
 
 // #endregion
 
+// #region GOOGLE MAPS CONFIG
+
+export async function getGoogleMapsConfig() {
+  return cachedGet(`${API_BASE_URL}/settings/google-maps-config`)
+}
+
+export async function updateGoogleMapsConfig(value) {
+  const response = await fetch(`${API_BASE_URL}/settings/google-maps-config`, {
+    method: 'PUT',
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({ value: JSON.stringify(value) }),
+  })
+
+  if (!response.ok) {
+    await handleResponseError(response, 'Erro ao guardar configuração do Google Maps')
+  }
+  invalidateCache('/settings/google-maps-config')
+  return response.json()
+}
+
+export async function resetGoogleMapsConfig() {
+  const response = await fetch(`${API_BASE_URL}/settings/google-maps-config/reset`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+  })
+
+  if (!response.ok) {
+    await handleResponseError(response, 'Erro ao repor configuração do Google Maps')
+  }
+  invalidateCache('/settings/google-maps-config')
+  return response.json()
+}
+
+// #endregion
+
 // #region IFTHENPAY / MB WAY GATEWAY CONFIG
 
 export async function getIfthenpayConfig() {

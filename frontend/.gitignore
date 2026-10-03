@@ -30,7 +30,9 @@ dist/
 
 # Local environment files (if any)
 .env
-.env.*.local
+.env.*
+.env*.local
+!.env.example
 
 # OS-specific (macOS, etc.)
 .DS_Store

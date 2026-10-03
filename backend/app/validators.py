@@ -516,3 +516,17 @@ def validate_ifthenpay_config(payload: Any) -> dict:
 
 def validate_sibs_config(payload: Any) -> dict:
     return validate_ifthenpay_config(payload)
+
+
+def validate_google_maps_config(payload: Any) -> dict:
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=400, detail="O valor deve ser um objeto")
+
+    api_key = str(payload.get("apiKey") or payload.get("api_key") or "").strip()
+    map_id = str(payload.get("mapId") or payload.get("map_id") or "").strip()
+
+    return {
+        "apiKey": api_key,
+        "mapId": map_id,
+    }
+

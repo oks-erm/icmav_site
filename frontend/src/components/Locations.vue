@@ -178,10 +178,13 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
-import { getLocationsContent } from '../services/api'
+import { getLocationsContent, getGoogleMapsConfig } from '../services/api'
 
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-const GOOGLE_MAP_ID = import.meta.env.VITE_GOOGLE_MAP_ID
+const envApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
+const envMapId = import.meta.env.VITE_GOOGLE_MAP_ID || ''
+
+const googleMapsApiKey = ref(envApiKey)
+const googleMapsMapId = ref(envMapId)
 
 const locations = ref([])
 const loading = ref(true)
@@ -215,6 +218,10 @@ function parseLatLng(value) {
 function loadGoogleMapsScript() {
   if (window.google?.maps) return Promise.resolve(window.google.maps)
 
+  if (!googleMapsApiKey.value) {
+    return Promise.reject(new Error('Chave da API do Google Maps não definida'))
+  }
+
   if (googleMapsPromise) return googleMapsPromise
 
   googleMapsPromise = new Promise((resolve, reject) => {
@@ -229,7 +236,7 @@ function loadGoogleMapsScript() {
     if (existingScript) return
 
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&loading=async&callback=${callbackName}&libraries=marker`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(googleMapsApiKey.value)}&loading=async&callback=${callbackName}&libraries=marker`
     script.async = true
     script.defer = true
     script.dataset.googleMaps = 'true'
@@ -282,7 +289,7 @@ function getEffectiveCenter() {
 }
 
 async function initMap() {
-  if (!mapEl.value || !current.value || !GOOGLE_MAPS_API_KEY) return
+  if (!mapEl.value || !current.value || !googleMapsApiKey.value) return
 
   try {
     await ensureMarkerLibrary()
@@ -298,7 +305,7 @@ async function initMap() {
     map = new window.google.maps.Map(mapEl.value, {
       center,
       zoom,
-      mapId: GOOGLE_MAP_ID,
+      mapId: googleMapsMapId.value || undefined,
       gestureHandling: 'none',
       zoomControl: true,
       streetViewControl: false,
@@ -351,12 +358,22 @@ async function loadLocations() {
   error.value = ''
 
   try {
-    if (!GOOGLE_MAPS_API_KEY) {
-      throw new Error('Google Maps API key não configurada')
+    const [locationsRes, mapsRes] = await Promise.all([
+      getLocationsContent(),
+      getGoogleMapsConfig().catch(() => ({ value: {} })),
+    ])
+
+    locations.value = Array.isArray(locationsRes?.value) ? locationsRes.value : []
+
+    const dbKey = mapsRes?.value?.apiKey
+    const dbMapId = mapsRes?.value?.mapId
+    if (dbKey) {
+      googleMapsApiKey.value = dbKey
+    }
+    if (dbMapId) {
+      googleMapsMapId.value = dbMapId
     }
 
-    const data = await getLocationsContent()
-    locations.value = Array.isArray(data.value) ? data.value : []
     selectedIndex.value = 0
   } catch (err) {
     error.value = err.message || 'Erro ao carregar Localizações'
@@ -381,9 +398,9 @@ function handleResize() {
 }
 
 watch(
-  [current, mapEl, loading],
-  async ([newCurrent, newMapEl, isLoading]) => {
-    if (isLoading || !newCurrent || !newMapEl) return
+  [current, mapEl, loading, googleMapsApiKey],
+  async ([newCurrent, newMapEl, isLoading, newApiKey]) => {
+    if (isLoading || !newCurrent || !newMapEl || !newApiKey) return
 
     await nextTick()
 

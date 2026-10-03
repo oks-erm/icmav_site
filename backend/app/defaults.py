@@ -2,6 +2,7 @@
 defaults.py — Valores padrão para todas as secções do site e configurações de diretórios.
 """
 
+import os
 from pathlib import Path
 
 # Diretórios de Upload
@@ -515,3 +516,10 @@ DEFAULT_LOCATIONS_CONTENT = [
     {**loc, "mapCenter": calculate_map_center(loc["markerPosition"])}
     for loc in DEFAULT_LOCATIONS_RAW
 ]
+
+# 14. GOOGLE MAPS CONFIG
+DEFAULT_GOOGLE_MAPS_CONFIG = {
+    "apiKey": os.getenv("GOOGLE_MAPS_API_KEY", os.getenv("VITE_GOOGLE_MAPS_API_KEY", "")),
+    "mapId": os.getenv("GOOGLE_MAP_ID", os.getenv("VITE_GOOGLE_MAP_ID", "")),
+}
+

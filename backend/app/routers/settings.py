@@ -28,6 +28,7 @@ from ..defaults import (
     DEFAULT_LOCATIONS_CONTENT,
     DEFAULT_IFTHENPAY_CONFIG,
     DEFAULT_SIBS_CONFIG,
+    DEFAULT_GOOGLE_MAPS_CONFIG,
 )
 from ..validators import (
     save_and_validate_image,
@@ -43,6 +44,7 @@ from ..validators import (
     validate_locations,
     validate_ifthenpay_config,
     validate_sibs_config,
+    validate_google_maps_config,
 )
 
 router = APIRouter(prefix="/api/settings", tags=["Settings"])
@@ -653,3 +655,54 @@ def reset_sibs_config(
     admin: str = Depends(get_current_admin)
 ):
     return reset_ifthenpay_config(session=session, _=admin)
+
+
+# ─── GOOGLE MAPS CONFIG ───────────────────────────────────────────────────────
+
+@router.get("/google-maps-config")
+def read_google_maps_config(
+    session: Session = Depends(get_session),
+):
+    setting = get_setting(session, "google_maps_config")
+    if not setting:
+        setting = upsert_setting(
+            session,
+            "google_maps_config",
+            json.dumps(DEFAULT_GOOGLE_MAPS_CONFIG, ensure_ascii=False)
+        )
+    try:
+        parsed = json.loads(setting.value)
+    except json.JSONDecodeError:
+        parsed = DEFAULT_GOOGLE_MAPS_CONFIG
+    validated = validate_google_maps_config(parsed)
+    return {"key": "google_maps_config", "value": validated}
+
+
+@router.put("/google-maps-config")
+def update_google_maps_config(
+    payload: SettingUpdate,
+    session: Session = Depends(get_session),
+    _: str = Depends(get_current_admin)
+):
+    try:
+        parsed = json.loads(payload.value)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="JSON inválido")
+
+    validated = validate_google_maps_config(parsed)
+    setting = upsert_setting(session, "google_maps_config", json.dumps(validated, ensure_ascii=False))
+    return {"success": True, "key": setting.key, "value": validated}
+
+
+@router.post("/google-maps-config/reset")
+def reset_google_maps_config(
+    session: Session = Depends(get_session),
+    _: str = Depends(get_current_admin)
+):
+    setting = upsert_setting(
+        session,
+        "google_maps_config",
+        json.dumps(DEFAULT_GOOGLE_MAPS_CONFIG, ensure_ascii=False)
+    )
+    return {"success": True, "key": setting.key, "value": DEFAULT_GOOGLE_MAPS_CONFIG}
+
