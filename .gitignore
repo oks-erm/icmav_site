@@ -5,6 +5,11 @@
 !.env.example
 !**/.env.example
 *.db
+*.db-*
+.local-state/
+.local-backups/
+backend/app/uploads/
+upload.sh
 
 
 # Python

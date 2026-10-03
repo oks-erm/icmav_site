@@ -1,6 +1,6 @@
 // #region CONSTANTS & AUTH TOKEN HELPERS
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 const TOKEN_STORAGE_KEY = 'icmav_admin_token'
 
 export function getAuthToken() {
@@ -743,13 +743,24 @@ export async function testBackendHealth() {
   return response.json()
 }
 
-export async function submitDonationMbway(amount, phone, category, email = null) {
+export async function submitDonationMbway(amount, phone, category, email = null, idempotencyKey) {
   const response = await fetch(`${API_BASE_URL}/donate/mbway`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
     body: JSON.stringify({ amount, phone, category, email }),
   })
 
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null)
+    throw { response: { status: response.status, data: errorData,
+      attemptState: response.headers.get('X-Payment-Attempt-State'),
+      retryAfter: response.headers.get('Retry-After') } }
+  }
+  return response.json()
+}
+
+export async function recoverDonationAttempt(idempotencyKey) {
+  const response = await fetch(`${API_BASE_URL}/donate/attempt`, { cache: 'no-store', headers: { 'Idempotency-Key': idempotencyKey } })
   if (!response.ok) {
     const errorData = await response.json().catch(() => null)
     throw { response: { data: errorData } }
@@ -757,8 +768,8 @@ export async function submitDonationMbway(amount, phone, category, email = null)
   return response.json()
 }
 
-export async function getPaymentStatus(requestId) {
-  const response = await fetch(`${API_BASE_URL}/payment-status/${requestId}`)
+export async function getPaymentStatus(requestId, idempotencyKey) {
+  const response = await fetch(`${API_BASE_URL}/payment-status/${encodeURIComponent(requestId)}`, { cache: 'no-store', headers: { 'Idempotency-Key': idempotencyKey } })
   if (!response.ok) {
     const errorData = await response.json().catch(() => null)
     throw { response: { data: errorData } }

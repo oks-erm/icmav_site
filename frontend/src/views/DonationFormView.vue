@@ -53,7 +53,7 @@
       <div class="relative z-20 mt-0 sm:mt-0.5 w-full bg-white text-gray-900 rounded-3xl shadow-2xl border border-gray-100 p-5 sm:p-8 transition-all">
         
         <!-- 1. SELETOR DE MODO DE PAGAMENTO (TABS MODERNAS) -->
-        <div class="mb-5">
+        <div v-if="!mbwayStatus && !loading" class="mb-5">
           <div class="grid grid-cols-2 p-1 bg-gray-100/90 rounded-2xl gap-1">
             <button
               type="button"
@@ -85,7 +85,7 @@
         </div>
 
         <!-- 2. CATEGORIA DA CONTRIBUIÇÃO (DROPDOWN ESTILIZADA) -->
-        <div class="mb-6 relative" ref="categoryPickerRef">
+        <div v-if="!mbwayStatus && !loading" class="mb-6 relative" ref="categoryPickerRef">
           <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">
             Destino da Contribuição
           </label>
@@ -147,7 +147,7 @@
           <div>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Aguardando autorização...</h2>
             <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              Enviámos um pedido para o telemóvel <strong>{{ phone }}</strong> no valor de <strong>{{ amount }}€</strong> para <strong>{{ selectedCategory }}</strong>.
+              Enviámos um pedido MB WAY no valor de <strong>{{ amount }}€</strong> para <strong>{{ selectedCategory }}</strong>.
             </p>
           </div>
 
@@ -161,7 +161,7 @@
                 </span>
               </div>
               <p class="mt-1 text-sky-800">
-                Tens <strong>4 minutos</strong> para confirmar o pagamento antes do pedido expirar.
+                Confirma o pedido na app MB WAY. O temporizador limita apenas a consulta automática nesta página.
               </p>
             </div>
           </div>
@@ -174,10 +174,10 @@
           <div class="pt-2">
             <button
               type="button"
-              @click="retryPayment"
+              @click="recoverPayment"
               class="w-full py-3 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
             >
-              Cancelar ou alterar dados
+              Verificar o mesmo pedido
             </button>
           </div>
         </div>
@@ -205,8 +205,8 @@
                 "Cada um dê conforme determinou no seu coração, não com tristeza ou por necessidade, pois Deus ama a quem dá com alegria."
               </p>
             </div>
-            <p v-if="wantsReceipt && fiscalData.email" class="pt-1 text-[11px] text-emerald-700 border-t border-emerald-200/60 font-medium">
-              <i class="fa-solid fa-receipt mr-1"></i> O recibo fiscal será emitido e enviado para <strong>{{ fiscalData.email }}</strong>.
+            <p class="pt-1 text-[11px] text-emerald-700 border-t border-emerald-200/60 font-medium">
+              Para solicitar um recibo, contacta a tesouraria: <strong>{{ donationsConfig.treasuryEmail }}</strong>.
             </p>
           </div>
 
@@ -227,142 +227,13 @@
           </div>
         </div>
 
-        <!-- 3. PAGAMENTO REJEITADO PELO UTILIZADOR (STATUS 020) -->
-        <div v-else-if="mbwayStatus === 'rejected'" class="text-center py-6 space-y-5">
-          <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
-            <i class="fa-solid fa-user-xmark"></i>
-          </div>
-
-          <div>
-            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
-              <i class="fa-solid fa-xmark text-[10px]"></i> Operação Cancelada
-            </span>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Transferência Rejeitada</h2>
-            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              A transferência foi rejeitada ou cancelada na aplicação MB WAY.
-            </p>
-          </div>
-
-          <div class="p-4 bg-amber-50/80 rounded-2xl text-amber-950 text-xs sm:text-sm border border-amber-200 text-left space-y-2">
-            <p class="font-bold text-amber-900 flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-question text-amber-600"></i> Possíveis motivos:
-            </p>
-            <ul class="list-disc pl-4 text-xs text-amber-800 space-y-1">
-              <li>Toque involuntário no botão de rejeitar na aplicação MB WAY;</li>
-              <li>Engano no número de telemóvel ou valor introduzido;</li>
-              <li>Cancelamento intencional da contribuição.</li>
-            </ul>
-            <p class="text-[11px] text-amber-700/90 pt-1 border-t border-amber-200/60">
-              Nenhum valor foi debitado. Podes alterar os dados ou tentar novamente quando quiseres.
-            </p>
-          </div>
-
-          <div class="space-y-2.5 pt-2">
-            <button
-              type="button"
-              @click="retryPayment"
-              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
-            >
-              Tentar novamente
-            </button>
-            <button
-              type="button"
-              @click="paymentMethod = 'bank_transfer'; retryPayment()"
-              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
-            >
-              Contribuir por transferência bancária
-            </button>
-          </div>
-        </div>
-
-        <!-- 4. TEMPO LIMITE EXPIRADO (STATUS 101 - 4 MINUTOS) -->
-        <div v-else-if="mbwayStatus === 'expired'" class="text-center py-6 space-y-5">
-          <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-          </div>
-
-          <div>
-            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-2">
-              <i class="fa-solid fa-hourglass-end text-[10px]"></i> Prazo Esgotado
-            </span>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Tempo Limite Expirado</h2>
-            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              O prazo de 4 minutos para autorizar o pagamento no MB WAY terminou sem confirmação.
-            </p>
-          </div>
-
-          <div class="p-4 bg-sky-50/80 rounded-2xl text-sky-950 text-xs sm:text-sm border border-sky-200 text-left space-y-2">
-            <p class="font-bold text-sky-900 flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-info text-sky-600"></i> O que deves saber:
-            </p>
-            <ul class="list-disc pl-4 text-xs text-sky-800 space-y-1">
-              <li>Nenhum valor foi debitado da tua conta bancária;</li>
-              <li>A rede MB WAY define um limite de segurança de 4 minutos para cada pedido;</li>
-              <li>Certifica-te de que tens as notificações da app MB WAY ativas para receber o alerta de imediato.</li>
-            </ul>
-          </div>
-
-          <div class="space-y-2.5 pt-2">
-            <button
-              type="button"
-              @click="retryPayment"
-              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
-            >
-              Enviar novo pedido MB WAY
-            </button>
-            <button
-              type="button"
-              @click="paymentMethod = 'bank_transfer'; retryPayment()"
-              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
-            >
-              Contribuir por transferência bancária
-            </button>
-          </div>
-        </div>
-
-        <!-- 5. TRANSAÇÃO RECUSADA PELA ENTIDADE / BANCO (STATUS 122) -->
-        <div v-else-if="mbwayStatus === 'declined'" class="text-center py-6 space-y-5">
-          <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-          </div>
-
-          <div>
-            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 mb-2">
-              <i class="fa-solid fa-ban text-[10px]"></i> Não Autorizado
-            </span>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Transação Não Autorizada</h2>
-            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-sm mx-auto">
-              A entidade bancária ou emissora do teu MB WAY não autorizou esta operação.
-            </p>
-          </div>
-
-          <div class="p-4 bg-rose-50/80 rounded-2xl text-rose-950 text-xs sm:text-sm border border-rose-200 text-left space-y-2">
-            <p class="font-bold text-rose-900 flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-exclamation text-rose-600"></i> Possíveis causas:
-            </p>
-            <ul class="list-disc pl-4 text-xs text-rose-800 space-y-1">
-              <li>Saldo insuficiente na conta bancária associada ao MB WAY;</li>
-              <li>Limite diário ou mensal de pagamentos MB WAY atingido;</li>
-              <li>Cartão de pagamento inativo, bloqueado ou expirado.</li>
-            </ul>
-          </div>
-
-          <div class="space-y-2.5 pt-2">
-            <button
-              type="button"
-              @click="retryPayment"
-              class="w-full py-3.5 px-4 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 transition shadow-lg cursor-pointer text-sm"
-            >
-              Tentar novamente
-            </button>
-            <button
-              type="button"
-              @click="paymentMethod = 'bank_transfer'; retryPayment()"
-              class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
-            >
-              Contribuir por transferência bancária
-            </button>
-          </div>
+        <div v-else-if="mbwayStatus === 'unknown'" class="text-center py-6 space-y-4">
+          <h2 class="text-xl font-bold text-gray-900">Estado do pagamento por confirmar</h2>
+          <p class="text-sm text-gray-600">Não foi possível confirmar o resultado. Verifica a app MB WAY e os movimentos bancários. Não inicies outro pagamento até confirmares este pedido com a tesouraria.</p>
+          <p class="text-sm text-gray-700">Contacto: <strong>{{ donationsConfig.treasuryEmail }}</strong></p>
+          <p v-if="savedAttempt" class="text-xs text-gray-500 break-all">Referência do pedido: {{ savedAttempt.key }}</p>
+          <p v-if="errorMessage" class="text-xs text-red-700">{{ errorMessage }}</p>
+          <button type="button" :disabled="loading || !savedAttempt" @click="recoverPayment" class="w-full py-3 rounded-xl bg-primary text-white font-semibold disabled:opacity-50">Verificar o mesmo pedido</button>
         </div>
 
         <!-- ══════════════════ FLUXO 1: MB WAY ══════════════════ -->
@@ -433,90 +304,9 @@
             </div>
           </div>
 
-          <!-- DADOS FISCAIS (COM TOGGLE LIMPO) -->
-          <div class="pt-4 border-t border-gray-100 space-y-3">
-            <div class="flex items-center justify-end">
-              <label class="inline-flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  v-model="wantsReceipt"
-                  class="sr-only peer"
-                />
-                <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary relative"></div>
-                <span class="text-xs font-semibold text-gray-700">Pretendo recibo</span>
-              </label>
-            </div>
-
-            <!-- Campos Fiscais Condicionais -->
-            <transition name="fade">
-              <div v-if="wantsReceipt" class="space-y-3 pt-2 bg-gray-50 p-4 rounded-2xl border border-gray-200">
-                <div>
-                  <label class="block text-[11px] font-bold text-gray-600 uppercase mb-1">Nome Completo</label>
-                  <input
-                    type="text"
-                    v-model="fiscalData.name"
-                    :required="wantsReceipt"
-                    placeholder="Nome para emissão do recibo"
-                    class="block w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                  />
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <div>
-                    <label class="block text-[11px] font-bold text-gray-600 uppercase mb-1">NIF / Contribuinte</label>
-                    <input
-                      type="text"
-                      v-model="fiscalData.nif"
-                      :required="wantsReceipt"
-                      maxlength="9"
-                      placeholder="NIF de 9 dígitos"
-                      class="block w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-gray-600 uppercase mb-1">E-mail para Envio</label>
-                    <input
-                      type="email"
-                      v-model="fiscalData.email"
-                      :required="wantsReceipt"
-                      placeholder="email@exemplo.com"
-                      class="block w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-[11px] font-bold text-gray-600 uppercase mb-1">Morada Fiscal</label>
-                  <input
-                    type="text"
-                    v-model="fiscalData.address"
-                    placeholder="Rua, Número, Andar"
-                    class="block w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                  />
-                </div>
-
-                <div class="grid grid-cols-2 gap-2.5">
-                  <div>
-                    <label class="block text-[11px] font-bold text-gray-600 uppercase mb-1">Código Postal</label>
-                    <input
-                      type="text"
-                      v-model="fiscalData.postalCode"
-                      placeholder="XXXX-XXX"
-                      class="block w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-gray-600 uppercase mb-1">Localidade</label>
-                    <input
-                      type="text"
-                      v-model="fiscalData.city"
-                      placeholder="Localidade"
-                      class="block w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            </transition>
+          <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 text-xs text-gray-600">
+            Para solicitar um recibo, contacta a tesouraria após o pagamento:
+            <strong>{{ donationsConfig.treasuryEmail }}</strong>. O formulário não emite recibos automaticamente.
           </div>
 
           <!-- CHECKBOX DE CONSENTIMENTO LEGAL (OBRIGATÓRIO PARA COMPLIANCE) -->
@@ -667,7 +457,8 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { submitDonationMbway, getPaymentStatus, getDonationsContent } from '../services/api'
+import { submitDonationMbway, recoverDonationAttempt, getPaymentStatus, getDonationsContent } from '../services/api'
+import { beginPayment, readPayment, updatePayment, clearConfirmedPayment, classifyPaymentStatus } from '../utils/payment-state'
 import logoWhite from '../assets/logo_provisory_white.png'
 import MbwayLogo from '../components/icons/MbwayLogo.vue'
 
@@ -677,7 +468,6 @@ const paymentMethod = ref('mbway') // 'mbway' | 'bank_transfer'
 const selectedCategory = ref('Ofertas')
 const showCategoryDropdown = ref(false)
 const categoryPickerRef = ref(null)
-const wantsReceipt = ref(false)
 const termsAccepted = ref(false)
 
 function toggleCategoryDropdown() {
@@ -728,21 +518,14 @@ const availableCategories = computed(() => {
 const amount = ref('')
 const phone = ref('')
 
-const fiscalData = ref({
-  name: '',
-  nif: '',
-  email: '',
-  address: '',
-  postalCode: '',
-  city: '',
-})
-
 const loading = ref(false)
 const errorMessage = ref('')
 const copiedIban = ref(false)
 
-// Estados do fluxo MB WAY: null | 'waiting' | 'success' | 'rejected' | 'expired' | 'declined'
+// Estados do fluxo MB WAY: null | 'waiting' | 'success' | 'unknown'
 const mbwayStatus = ref(null)
+const savedAttempt = ref(null)
+let checkingStatus = false
 const currentRequestId = ref(null)
 const remainingSeconds = ref(240)
 let pollInterval = null
@@ -765,64 +548,68 @@ function stopPolling() {
   }
 }
 
-async function checkPaymentStatusNow() {
-  if (!currentRequestId.value) return
+function savePaymentState(state, requestId) {
+  mbwayStatus.value = state
   try {
-    const res = await getPaymentStatus(currentRequestId.value)
-    if (!res) return
+    savedAttempt.value = updatePayment(sessionStorage, { state, requestId })
+  } catch {
+    // An existing in-memory attempt still prevents another submission in this view.
+    errorMessage.value = 'Não foi possível guardar o estado. Contacta a tesouraria antes de repetir o pagamento.'
+  }
+}
 
-    const status = String(res.Status || '').trim()
-    const msg = String(res.Message || '').trim().toLowerCase()
-
-    if (status === '000') {
-      if (msg === 'pending' || msg === 'pendente') {
-        mbwayStatus.value = 'waiting'
-      } else {
-        stopPolling()
-        mbwayStatus.value = 'success'
-      }
-    } else if (status === '020' || msg.includes('user') || msg.includes('utilizador') || msg.includes('rejeit') || msg.includes('cancel')) {
-      // 020: Rejeitado pelo utilizador
-      stopPolling()
-      mbwayStatus.value = 'rejected'
-    } else if (status === '101' || msg.includes('expir') || msg.includes('timeout')) {
-      // 101: Expirado (4 minutos)
-      stopPolling()
-      mbwayStatus.value = 'expired'
-    } else if (status === '122' || status === '100' || status === '999' || msg.includes('declin') || msg.includes('recusad') || msg.includes('negad') || msg.includes('erro')) {
-      // 122: Recusado pela entidade bancária ou erro
-      stopPolling()
-      mbwayStatus.value = 'declined'
-    }
-  } catch (err) {
-    console.warn('Erro pontual na consulta de estado MB WAY:', err)
+async function checkPaymentStatusNow() {
+  if (!currentRequestId.value || checkingStatus) return
+  checkingStatus = true
+  try {
+    const res = await getPaymentStatus(currentRequestId.value, savedAttempt.value.key)
+    let state = classifyPaymentStatus(res)
+    if (state === 'waiting' && remainingSeconds.value === 0) state = 'unknown'
+    if (state !== 'waiting') stopPolling()
+    savePaymentState(state)
+  } catch {
+    stopPolling()
+    savePaymentState('unknown')
+  } finally {
+    checkingStatus = false
   }
 }
 
 function startPolling(requestId) {
   stopPolling()
   currentRequestId.value = requestId
-  mbwayStatus.value = 'waiting'
-  remainingSeconds.value = 240
-
+  remainingSeconds.value = Math.max(0, 240 - Math.floor((Date.now() - savedAttempt.value.startedAt) / 1000))
+  savePaymentState(remainingSeconds.value ? 'waiting' : 'unknown', requestId)
+  if (!remainingSeconds.value) {
+    checkPaymentStatusNow()
+    return
+  }
   countdownTimer = setInterval(() => {
-    if (remainingSeconds.value > 0) {
-      remainingSeconds.value -= 1
-    } else {
+    remainingSeconds.value = Math.max(0, remainingSeconds.value - 1)
+    if (remainingSeconds.value === 0) {
       stopPolling()
-      mbwayStatus.value = 'expired'
+      savePaymentState('unknown')
     }
   }, 1000)
-
-  pollInterval = setInterval(async () => {
-    await checkPaymentStatusNow()
-  }, 3500)
+  pollInterval = setInterval(checkPaymentStatusNow, 3500)
 }
 
-function retryPayment() {
-  stopPolling()
-  mbwayStatus.value = null
-  errorMessage.value = ''
+async function recoverPayment() {
+  if (!savedAttempt.value || loading.value) return
+  loading.value = true
+  try {
+    if (currentRequestId.value) {
+      await checkPaymentStatusNow()
+    } else {
+      const result = await recoverDonationAttempt(savedAttempt.value.key)
+      if (!result?.requestId) throw new Error('Unknown payment')
+      startPolling(result.requestId)
+    }
+  } catch {
+    savePaymentState('unknown')
+  } finally {
+    loading.value = false
+  }
 }
 
 const siteOwner = 'ICMAV'
@@ -840,58 +627,54 @@ function copyIban() {
 }
 
 function resetForm() {
+  if (mbwayStatus.value !== 'success') return
+  try {
+    clearConfirmedPayment(sessionStorage)
+  } catch {
+    errorMessage.value = 'Não foi possível concluir este pedido. Contacta a tesouraria.'
+    return
+  }
   stopPolling()
+  savedAttempt.value = null
+  currentRequestId.value = null
   mbwayStatus.value = null
   errorMessage.value = ''
   phone.value = ''
   amount.value = ''
   termsAccepted.value = false
-  wantsReceipt.value = false
-  fiscalData.value = {
-    name: '',
-    nif: '',
-    email: '',
-    address: '',
-    postalCode: '',
-    city: '',
-  }
 }
 
 async function submitMbway() {
-  loading.value = true
+  if (loading.value || mbwayStatus.value || (savedAttempt.value && savedAttempt.value.state !== 'not_sent')) return
   errorMessage.value = ''
-
-  if (!termsAccepted.value) {
-    errorMessage.value = 'Por favor, aceita os Termos e Condições e a Política de Privacidade para prosseguir.'
-    loading.value = false
+  if (savedAttempt.value?.retryAt > Date.now()) {
+    errorMessage.value = 'Aguarda alguns minutos antes de tentar novamente. O pedido não foi enviado.'
     return
   }
-
-  if (wantsReceipt.value && fiscalData.value.nif) {
-    const cleanNif = fiscalData.value.nif.trim()
-    if (!/^\d{9}$/.test(cleanNif)) {
-      errorMessage.value = 'O NIF introduzido é inválido. Deve conter 9 dígitos numéricos.'
-      loading.value = false
-      return
-    }
+  if (!termsAccepted.value) {
+    errorMessage.value = 'Por favor, aceita os Termos e Condições e a Política de Privacidade para prosseguir.'
+    return
   }
-
-  const donorEmail = fiscalData.value.email ? fiscalData.value.email.trim() : null
-
+  loading.value = true
   try {
-    const res = await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value, donorEmail)
-    if (res?.requestId) {
-      startPolling(res.requestId)
-    } else {
-      mbwayStatus.value = 'waiting'
-    }
+    // This write must succeed before any request can reach the payment gateway.
+    savedAttempt.value = savedAttempt.value
+      ? updatePayment(sessionStorage, { state: 'unknown', amount: amount.value, category: selectedCategory.value })
+      : beginPayment(sessionStorage, { amount: amount.value, category: selectedCategory.value })
+    mbwayStatus.value = 'unknown'
+    const res = await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value, null, savedAttempt.value.key)
+    if (!res?.requestId) throw new Error('Unknown payment')
+    startPolling(res.requestId)
   } catch (err) {
-    const detail = err?.response?.data?.detail
-    if (typeof detail === 'string') {
-      errorMessage.value = detail
-    } else {
-      errorMessage.value = 'Não foi possível enviar o pedido MB WAY. Por favor verifica o número introduzido e tenta novamente.'
-    }
+    if (savedAttempt.value && err?.response?.attemptState === 'not-sent') {
+      // Only the server's explicit absence-of-reservation marker permits retry. Keep the same key.
+      const seconds = Number(err.response.retryAfter || 0)
+      const delay = Number.isFinite(seconds) && seconds > 0 ? Math.min(seconds, 3600) * 1000 : 0
+      savedAttempt.value = updatePayment(sessionStorage, { state: 'not_sent', retryAt: Date.now() + delay })
+      mbwayStatus.value = null
+      errorMessage.value = 'O pedido não foi enviado. Verifica os dados ou aguarda antes de tentar novamente.'
+    } else if (savedAttempt.value) savePaymentState('unknown')
+    else errorMessage.value = err.message || 'Não é possível guardar este pedido neste navegador. Nenhum pedido foi enviado.'
   } finally {
     loading.value = false
   }
@@ -899,6 +682,20 @@ async function submitMbway() {
 
 onMounted(async () => {
   document.addEventListener('click', handleClickOutside)
+  try {
+    savedAttempt.value = readPayment(sessionStorage)
+    if (savedAttempt.value) {
+      amount.value = savedAttempt.value.amount
+      selectedCategory.value = savedAttempt.value.category
+      currentRequestId.value = savedAttempt.value.requestId
+      mbwayStatus.value = savedAttempt.value.state === 'not_sent' ? null
+        : savedAttempt.value.state === 'success' ? 'success' : 'unknown'
+      if (mbwayStatus.value === 'unknown') await recoverPayment()
+    }
+  } catch {
+    mbwayStatus.value = 'unknown'
+    errorMessage.value = 'Não foi possível recuperar o pedido guardado. Contacta a tesouraria antes de repetir.'
+  }
 
   try {
     const res = await getDonationsContent()
@@ -908,7 +705,7 @@ onMounted(async () => {
         ...donationsConfig.value,
         ...data,
       }
-      if (Array.isArray(data.categories) && data.categories.length > 0) {
+      if (!savedAttempt.value && Array.isArray(data.categories) && data.categories.length > 0) {
         selectedCategory.value = data.categories[0].name
       }
     }

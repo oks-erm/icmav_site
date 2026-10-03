@@ -10,3 +10,11 @@ backend/.venv
 frontend/node_modules
 frontend/dist
 .env
+**/.env
+**/.env.*
+**/*.db
+**/*.db-*
+.local-backups
+.local-state
+**/uploads
+**/upload.sh

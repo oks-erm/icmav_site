@@ -13,7 +13,7 @@
     <div v-else class="text-center space-y-6">
       <div 
         class="max-w-6xl mx-auto text-center space-y-2" 
-        v-html="donationsContent.donationsBody">
+        v-html="sanitizeHtml(donationsContent.donationsBody)">
       </div>
       <blockquote class="max-w-3xl mx-auto text-center italic border-l-4 border-primary pl-4">
         “{{ donationsContent.donationsQuote }}”<br />
@@ -42,6 +42,7 @@
 </template>
 
 <script setup>
+import { sanitizeHtml } from '../utils/sanitize-html'
 import { ref, computed, onMounted } from 'vue'
 import { getDonationsContent } from '../services/api'
 

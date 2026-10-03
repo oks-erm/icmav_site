@@ -577,19 +577,6 @@ function validateForm() {
 function submitForm() {
   if (!validateForm()) return
 
-  const payload = {
-    requestType: formType.value,
-    prayerMode: formType.value === 'prayer' ? form.value.prayerMode : null,
-    name: requiresIdentityFields.value ? form.value.name.trim() : null,
-    phone: requiresIdentityFields.value ? (phoneMeta.value.number || form.value.phone) : null,
-    phoneCountryCode: requiresIdentityFields.value ? (phoneMeta.value.country?.code || 'PT') : null,
-    phoneDialCode: requiresIdentityFields.value ? (phoneMeta.value.country?.dialCode || '+351') : null,
-    subject: form.value.subject.trim(),
-    pastor: form.value.pastor.trim() || null,
-    consent: form.value.consent,
-  }
-
-  console.log('Help request form payload:', payload)
   step.value = 'success'
 }
 

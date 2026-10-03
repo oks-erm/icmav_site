@@ -7,6 +7,7 @@
 </template>
 
 <script setup>
+import { sanitizeHtml } from '../utils/sanitize-html'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
@@ -27,6 +28,7 @@ let isUpdating = false
 onMounted(() => {
   quill = new Quill(editorContainer.value, {
     theme: 'snow',
+    formats: ['header', 'bold', 'italic', 'underline', 'strike', 'list', 'link'],
     modules: {
       toolbar: [
         [{ 'header': [1, 2, 3, false] }],
@@ -38,13 +40,13 @@ onMounted(() => {
   })
 
   if (props.modelValue) {
-    quill.root.innerHTML = props.modelValue
+    quill.root.innerHTML = sanitizeHtml(props.modelValue)
   }
 
   quill.on('text-change', (delta, oldDelta, source) => {
     if (source !== 'user') return
     isUpdating = true
-    let html = quill.root.innerHTML
+    let html = sanitizeHtml(quill.root.innerHTML)
     if (html === '<p><br></p>') html = ''
     emit('update:modelValue', html)
     setTimeout(() => { isUpdating = false }, 0)
@@ -53,7 +55,7 @@ onMounted(() => {
 
 watch(() => props.modelValue, (newValue) => {
   if (!isUpdating && quill) {
-    const val = newValue || ''
+    const val = sanitizeHtml(newValue)
     if (quill.root.innerHTML !== val) {
       quill.root.innerHTML = val
     }

@@ -126,6 +126,9 @@ python -m venv .venv
 # Instalar dependências
 pip install -r requirements.txt
 
+# Criar credenciais locais privadas (recusa substituir ficheiros existentes)
+python scripts/init_secrets.py
+
 # Iniciar servidor Uvicorn
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
@@ -145,6 +148,17 @@ npm run dev
 ```
 O frontend ficará acessível em: `http://localhost:5173`.
 
+Por padrão, o frontend usa `/api` na mesma origem do website. Em desenvolvimento,
+o Vite encaminha `/api` e `/uploads` para `http://127.0.0.1:8000`.
+Para usar uma API noutro domínio, define `VITE_API_BASE_URL` antes do build.
+
+Para validar o encaminhamento da API e gerar o frontend de produção:
+```bash
+cd frontend
+npm test
+npm run build
+```
+
 ---
 
 ## 🔒 Variáveis de Ambiente
@@ -154,10 +168,53 @@ Podes configurar variáveis de ambiente no teu ficheiro `.env` ou nas configura�
 | Variável | Descrição | Padrão / Exemplo |
 | :--- | :--- | :--- |
 | `PORT` | Porta onde o Uvicorn escuta (injetado pelo Cloud Run) | `8080` / `8000` |
-| `JWT_SECRET` | Chave secreta para assinatura dos tokens JWT | `icmav_jwt_secret_...` |
+| `JWT_SECRET` | Segredo aleatório obrigatório para assinatura JWT | Gerado localmente, nunca partilhado |
+| `ADMIN_USERNAME` | Utilizador administrativo obrigatório | `admin` |
+| `ADMIN_PASSWORD_HASH` | Hash bcrypt obrigatório da password privada | Gerado localmente |
+| `SETTINGS_ENCRYPTION_KEY` | Chave Fernet para cifrar credenciais de pagamento | Guardar em backup privado |
+| `ICMAV_DATA_DIR` | Diretório privado e persistente da base de dados e uploads | Fora de `public_html` |
 | `JWT_EXPIRE_MINUTES` | Duração dos tokens de autenticação em minutos | `120` |
 
-*(As credenciais da Gateway IFTHENPAY podem ser configuradas diretamente através do Painel de Administração / Backoffice).*
+O comando `python scripts/init_secrets.py` cria `backend/.env` e
+`.local-state/admin-login.txt` com permissões privadas, sem imprimir segredos.
+Os ficheiros estão excluídos do Git. A aplicação recusa arrancar com credenciais
+em falta ou com os antigos valores de exemplo.
+
+As credenciais IFTHENPAY configuradas no Backoffice são cifradas na base de dados.
+Ao arrancar, os campos antigos em texto simples são cifrados numa transação;
+se a chave faltar ou não corresponder, o arranque falha sem apagar os dados.
+Guarda uma cópia privada de `SETTINGS_ENCRYPTION_KEY`: a sua perda impede recuperar
+as credenciais cifradas. Backups antigos também devem permanecer privados.
+
+Para executar os testes de segurança a partir da raiz:
+```bash
+PYTHONPATH=backend backend/.venv/bin/python -m unittest discover -s backend/tests -v
+```
+
+O diretório configurado por `ICMAV_DATA_DIR` deve ser persistente. Ao mudar de
+caminho, copia primeiro a base de dados existente e os uploads. Um caminho novo
+não migra os dados automaticamente. O sistema de ficheiros efémero do Cloud Run
+não serve para preservar estes dados.
+
+Os pedidos MB WAY exigem um cabeçalho `Idempotency-Key` UUID v4. A aplicação
+reserva cada tentativa na base de dados antes de contactar o fornecedor. Repetir
+a mesma tentativa não volta a iniciar o pagamento; dados diferentes com a mesma
+chave são rejeitados. O navegador conserva a chave durante a sessão e recupera o
+estado após recarregar. Um erro de transporte não significa que não houve débito:
+confirma primeiro na app MB WAY e com a tesouraria. Só uma resposta explícita
+`X-Payment-Attempt-State: not-sent` permite corrigir/repetir, sempre com a mesma
+chave e respeitando `Retry-After`. Não apagues o registo de tentativas para resolver
+erros. Este registo requer SQLite persistente; não uses réplicas com discos separados.
+
+Existem limites de iniciação por telefone, IP e globais, e de consulta de estado.
+Guarda uma cópia consistente da base de dados e da chave de cifragem antes de
+migrações. Os formulários de ajuda/grupos ainda não enviam pedidos para um backend;
+a emissão automática de recibos também não está implementada.
+
+A auditoria npm ainda identifica um aviso upstream de baixa gravidade no Quill
+2.0.3, sem versão corrigida publicada. Os formatos vulneráveis de vídeo/fórmula
+estão desativados e todo o HTML do editor e dos componentes é sanitizado; os testes
+cobrem estes limites. Reavaliar a dependência quando existir uma correção oficial.
 
 ---
 
@@ -170,9 +227,22 @@ Para testar a imagem de produção localmente ou criar a imagem para deployment:
 docker build -t icmav-site:latest .
 
 # Executar o contentor
-docker run -p 8080:8080 -e PORT=8080 icmav-site:latest
+docker run -p 8080:8080 --env-file backend/.env -e PORT=8080 \
+  -e ICMAV_DATA_DIR=/data -v icmav-data:/data icmav-site:latest
 ```
-Acede a `http://localhost:8080` no teu navegador.
+Acede a `http://localhost:8080` no teu navegador. O volume local `icmav-data`
+preserva os dados entre contentores; faz backups privados desse volume e da chave
+de cifragem. Os ficheiros `.env`, backups, bases de dados e uploads são excluídos
+da imagem.
+
+O script FTP local publica apenas conteúdo estático. O plano WebHS HS S verificado
+não tem Python, Passenger nem SSH ativos. O backend exige ativação adequada pela
+WebHS ou outro alojamento; copiar ficheiros Python para `public_html` não o executa.
+O script mantém as credenciais no `.env` privado original, verifica o certificado
+FTPS, faz backup antes de escrever e publica os recursos antes de `index.html`.
+Não elimina ficheiros remotos. `--project CAMINHO --dry-run` seleciona um projeto
+estático e valida sem publicar; projetos com backend são bloqueados antes do build
+ou da ligação à rede. O script e as credenciais não devem ser versionados.
 
 ---
 

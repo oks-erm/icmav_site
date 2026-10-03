@@ -7,15 +7,17 @@ from pathlib import Path
 
 # Diretórios de Upload
 BASE_DIR = Path(__file__).resolve().parent
-UPLOADS_DIR = BASE_DIR / "uploads"
+UPLOADS_DIR = (
+    Path(os.environ["ICMAV_DATA_DIR"]).expanduser().resolve() / "uploads"
+    if os.getenv("ICMAV_DATA_DIR") else BASE_DIR / "uploads"
+)
 PASTORAL_TEAM_UPLOADS_DIR = UPLOADS_DIR / "pastoral_team"
 GALLERY_UPLOADS_DIR = UPLOADS_DIR / "gallery"
 MINISTRIES_UPLOADS_DIR = UPLOADS_DIR / "ministries"
 
 # Criar diretórios se não existirem
-PASTORAL_TEAM_UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
-GALLERY_UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
-MINISTRIES_UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+for directory in (UPLOADS_DIR, PASTORAL_TEAM_UPLOADS_DIR, GALLERY_UPLOADS_DIR, MINISTRIES_UPLOADS_DIR):
+    directory.mkdir(mode=0o700, parents=True, exist_ok=True)
 
 # 1. WELCOME
 DEFAULT_WELCOME_CONTENT = """
@@ -522,4 +524,3 @@ DEFAULT_GOOGLE_MAPS_CONFIG = {
     "apiKey": os.getenv("GOOGLE_MAPS_API_KEY", os.getenv("VITE_GOOGLE_MAPS_API_KEY", "")),
     "mapId": os.getenv("GOOGLE_MAP_ID", os.getenv("VITE_GOOGLE_MAP_ID", "")),
 }
-

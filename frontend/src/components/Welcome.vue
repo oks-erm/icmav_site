@@ -2,11 +2,12 @@
 
 <template>
   <section id="welcome-text" class="py-10 bg-gray-50">
-    <p class="max-w-3xl mx-auto px-4 text-center text-lg text-base-content/80 space-y-4" v-html="infoContent" data-aos="fade-up"></p>
+    <p class="max-w-3xl mx-auto px-4 text-center text-lg text-base-content/80 space-y-4" v-html="sanitizeHtml(infoContent)" data-aos="fade-up"></p>
   </section>
 </template>
 
 <script setup>
+import { sanitizeHtml } from '../utils/sanitize-html'
 import { ref, onMounted } from 'vue'
 import { getWelcomeContent } from '../services/api'
 

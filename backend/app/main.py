@@ -10,14 +10,22 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 load_dotenv()
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.security import HTTPAuthorizationCredentials
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import request_validation_exception_handler
+from sqlmodel import Session
 
-from .database import create_db_and_tables
+from .database import create_db_and_tables, engine
+from .payment_attempts import attempt_was_started
 from .defaults import UPLOADS_DIR
 from .colormanagement import TAILWIND_ALLOWED_COLORS
+from .request_limits import RequestBodyLimitMiddleware
+from .auth import get_current_admin
 from .routers import auth, settings, donations
 
 logger = logging.getLogger("icmav_api")
@@ -42,29 +50,23 @@ app = FastAPI(
 
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# ─── Middleware de Cache-Control HTTP ────────────────────────────────────────
 
-@app.middleware("http")
-async def add_cache_headers(request: Request, call_next):
-    response: Response = await call_next(request)
+def authorize_upload(scope: dict) -> bool:
+    """Authenticate upload headers before accepting their large request bodies."""
+    headers = [value for name, value in scope.get("headers", []) if name.lower() == b"authorization"]
+    if len(headers) != 1 or len(headers[0]) > 8192:
+        return False
+    try:
+        scheme, separator, token = headers[0].decode("ascii").partition(" ")
+        if scheme.lower() != "bearer" or not separator or not token or token != token.strip():
+            return False
+        get_current_admin(HTTPAuthorizationCredentials(scheme="Bearer", credentials=token))
+    except (UnicodeError, HTTPException):
+        return False
+    return True
 
-    # Apenas para pedidos GET públicos
-    if request.method == "GET":
-        path = request.url.path
-        if path.startswith("/uploads/"):
-            # Ficheiros estáticos com cache de longa duração (1 dia)
-            response.headers["Cache-Control"] = "public, max-age=86400, immutable"
-        elif path.startswith("/api/settings/"):
-            # Conteúdos de leitura: cache curta (60s) com revalidação em background
-            response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
-        elif path.startswith("/api/health"):
-            response.headers["Cache-Control"] = "no-cache"
 
-    return response
-
-# ─── Ficheiros Estáticos (Uploads) ───────────────────────────────────────────
-
-app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
+app.add_middleware(RequestBodyLimitMiddleware, upload_authorizer=authorize_upload)
 
 # ─── Configuração de CORS ────────────────────────────────────────────────────
 
@@ -77,7 +79,74 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Payment-Attempt-State", "Retry-After"],
 )
+
+# ─── Middleware de Cache-Control HTTP ────────────────────────────────────────
+
+SECURITY_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Frame-Options": "DENY",
+}
+
+PUBLIC_SETTINGS_PATHS = {
+    f"/api/settings/{section}"
+    for section in (
+        "welcome", "purposes", "pastoral-team", "message", "ministries-presentation",
+        "services-banner", "local-gatherings", "local-gathering-options", "gallery",
+        "social-media", "donations", "locations", "google-maps-config",
+    )
+}
+
+
+@app.middleware("http")
+async def add_cache_headers(request: Request, call_next):
+    response: Response = await call_next(request)
+
+    # Só conteúdos explicitamente públicos podem entrar em caches partilhadas.
+    response.headers["Cache-Control"] = "private, no-store"
+    if (
+        request.method in {"GET", "HEAD"}
+        and 200 <= response.status_code < 300
+        and "authorization" not in request.headers
+        and "cookie" not in request.headers
+        and "set-cookie" not in response.headers
+    ):
+        path = request.url.path
+        if path.startswith("/uploads/"):
+            response.headers["Cache-Control"] = "public, max-age=86400"
+        elif path in PUBLIC_SETTINGS_PATHS:
+            response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
+        elif path == "/api/health":
+            response.headers["Cache-Control"] = "no-cache"
+
+    response.headers.update(SECURITY_HEADERS)
+    return response
+
+@app.exception_handler(Exception)
+async def unhandled_error(request: Request, exc: Exception):
+    # O middleware de erros do Starlette é exterior aos middlewares da aplicação.
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error"},
+        headers={**SECURITY_HEADERS, "Cache-Control": "private, no-store"},
+    )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_error(request: Request, exc: RequestValidationError):
+    response = await request_validation_exception_handler(request, exc)
+    if request.method == "POST" and request.url.path == "/api/donate/mbway":
+        with Session(engine) as session:
+            if not attempt_was_started(session, request.headers.get("Idempotency-Key")):
+                response.headers["X-Payment-Attempt-State"] = "not-sent"
+    return response
+
+
+# ─── Ficheiros Estáticos (Uploads) ───────────────────────────────────────────
+
+app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
 
 # ─── Routers ─────────────────────────────────────────────────────────────────
 
@@ -100,6 +169,7 @@ if not frontend_dist.exists():
     frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
 
 if frontend_dist.exists():
+    frontend_dist = frontend_dist.resolve()
     assets_dir = frontend_dist / "assets"
     if assets_dir.exists():
         app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
@@ -107,8 +177,15 @@ if frontend_dist.exists():
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
         # Se for um ficheiro estático existente na raiz do dist (ex: favicon, robots.txt)
-        file_path = frontend_dist / full_path
+        try:
+            file_path = (frontend_dist / full_path).resolve()
+            file_path.relative_to(frontend_dist)
+        except (ValueError, OSError, RuntimeError):
+            raise HTTPException(status_code=404, detail="Not found") from None
         if full_path and file_path.is_file():
             return FileResponse(file_path)
         # Fallback para o index.html da SPA (Vue Router)
-        return FileResponse(frontend_dist / "index.html")
+        index_path = (frontend_dist / "index.html").resolve()
+        if not index_path.is_relative_to(frontend_dist) or not index_path.is_file():
+            raise HTTPException(status_code=404, detail="Not found")
+        return FileResponse(index_path)

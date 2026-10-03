@@ -16,7 +16,7 @@
         <span class="font-medium">— {{ content.localGatheringsQuoteReference }} —</span>
       </blockquote>
 
-      <div class="max-w-6xl mx-auto text-center space-y-2" v-html="content.localGatheringsBody"></div>
+      <div class="max-w-6xl mx-auto text-center space-y-2" v-html="sanitizeHtml(content.localGatheringsBody)"></div>
     </div>
 
     <div class="relative pt-10">
@@ -399,6 +399,7 @@
 </template>
 
 <script setup>
+import { sanitizeHtml } from '../utils/sanitize-html'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { getLocalGatheringsContent, getLocalGatheringOptions } from '../services/api'
 
@@ -717,21 +718,6 @@ function validateForm() {
 function submitForm() {
   if (!validateForm()) return
 
-  const payload = {
-    mode: form.value.mode,
-    name: form.value.name.trim(),
-    age: form.value.age.trim(),
-    maritalStatus: form.value.maritalStatus.trim(),
-    phone: phoneMeta.value.number || form.value.phone,
-    phoneCountryCode: phoneMeta.value.country?.code || 'PT',
-    phoneDialCode: phoneMeta.value.country?.dialCode || '+351',
-    email: form.value.email.trim(),
-    address: form.value.mode === 'recommend' ? form.value.address.trim() : null,
-    selectedGroupLabel: form.value.mode === 'choose' ? form.value.selectedGroupLabel.trim() : null,
-    consent: form.value.consent,
-  }
-
-  console.log('Local gathering form payload:', payload)
   step.value = 'success'
 }
 

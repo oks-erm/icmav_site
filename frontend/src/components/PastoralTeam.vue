@@ -65,7 +65,7 @@
 
             <div
               class="pastor-bio text-gray-700 text-left max-w-none"
-              v-html="activeLeadPastor.bio"
+              v-html="sanitizeHtml(activeLeadPastor.bio)"
             ></div>
           </div>
         </transition>
@@ -78,7 +78,7 @@
       >
         <div
           class="message-content text-center max-w-none"
-          v-html="messageContent"
+          v-html="sanitizeHtml(messageContent)"
         ></div>
       </div>
 
@@ -162,7 +162,7 @@
 
             <div
               class="pastor-bio text-gray-700 text-left max-w-none"
-              v-html="activeOtherPastor.bio"
+              v-html="sanitizeHtml(activeOtherPastor.bio)"
             ></div>
           </div>
         </transition>
@@ -172,6 +172,7 @@
 </template>
   
 <script setup>
+import { sanitizeHtml } from '../utils/sanitize-html'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { getPastoralTeamContent, getMessageContent } from '../services/api'
 
@@ -369,4 +370,3 @@ async function loadMessage() {
   margin-bottom: 0;
 }
 </style>
-  

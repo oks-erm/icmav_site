@@ -4,12 +4,14 @@ validators.py — Funções de validação de schemas dinâmicos e manipulação
 
 import io
 import uuid
+import warnings
 from typing import Any
 from pathlib import Path
 from fastapi import HTTPException, UploadFile
 from PIL import Image, UnidentifiedImageError
 
 from .defaults import MAP_CENTER_LAT_OFFSET, MAP_CENTER_LNG_OFFSET
+from .gateway import IFTHENPAY_API_BASE, validate_gateway_base, validate_email
 
 MAX_UPLOAD_SIZE = 5 * 1024 * 1024  # 5 MB
 ALLOWED_IMAGE_FORMATS = {
@@ -29,17 +31,20 @@ async def save_and_validate_media(file: UploadFile, target_dir: Path) -> dict:
     if not file.filename:
         raise HTTPException(status_code=400, detail="Ficheiro inválido")
 
-    contents = await file.read()
     filename_lower = file.filename.lower()
 
     # Verificar se é vídeo
     matched_video_ext = next((ext for ext in ALLOWED_VIDEO_FORMATS if filename_lower.endswith(ext)), None)
+    limit = MAX_VIDEO_UPLOAD_SIZE if matched_video_ext else MAX_UPLOAD_SIZE
+    contents = await file.read(limit + 1)
     if matched_video_ext:
         if len(contents) > MAX_VIDEO_UPLOAD_SIZE:
             raise HTTPException(
                 status_code=400,
                 detail=f"Vídeo demasiado grande. Limite máximo: {MAX_VIDEO_UPLOAD_SIZE // (1024 * 1024)}MB"
             )
+        if not _valid_video_header(contents, matched_video_ext):
+            raise HTTPException(status_code=400, detail="O ficheiro enviado não é um vídeo MP4 ou WEBM válido.")
         filename = f"{uuid.uuid4().hex}{matched_video_ext}"
         destination = target_dir / filename
         destination.write_bytes(contents)
@@ -53,10 +58,8 @@ async def save_and_validate_media(file: UploadFile, target_dir: Path) -> dict:
         )
 
     try:
-        image = Image.open(io.BytesIO(contents))
-        image.verify()
-        image_format = image.format
-    except (UnidentifiedImageError, Exception):
+        image_format = _verified_image_format(contents)
+    except (UnidentifiedImageError, OSError, SyntaxError, ValueError, Image.DecompressionBombError, Image.DecompressionBombWarning):
         raise HTTPException(
             status_code=400,
             detail="Ficheiro inválido. Envia uma imagem (JPG, PNG, WEBP) ou vídeo (MP4, WEBM)."
@@ -80,7 +83,7 @@ async def save_and_validate_image(file: UploadFile, target_dir: Path) -> str:
     if not file.filename:
         raise HTTPException(status_code=400, detail="Ficheiro inválido")
 
-    contents = await file.read()
+    contents = await file.read(MAX_UPLOAD_SIZE + 1)
 
     if len(contents) > MAX_UPLOAD_SIZE:
         raise HTTPException(
@@ -89,10 +92,8 @@ async def save_and_validate_image(file: UploadFile, target_dir: Path) -> str:
         )
 
     try:
-        image = Image.open(io.BytesIO(contents))
-        image.verify()
-        image_format = image.format
-    except (UnidentifiedImageError, Exception):
+        image_format = _verified_image_format(contents)
+    except (UnidentifiedImageError, OSError, SyntaxError, ValueError, Image.DecompressionBombError, Image.DecompressionBombWarning):
         raise HTTPException(
             status_code=400,
             detail="O ficheiro enviado não é uma imagem válida (JPG, PNG ou WEBP)."
@@ -109,6 +110,28 @@ async def save_and_validate_image(file: UploadFile, target_dir: Path) -> str:
     destination = target_dir / filename
     destination.write_bytes(contents)
     return filename
+
+
+def _verified_image_format(contents: bytes) -> str | None:
+    with warnings.catch_warnings():
+        warnings.simplefilter('error', Image.DecompressionBombWarning)
+        with Image.open(io.BytesIO(contents)) as image:
+            image.verify()
+            return image.format
+
+
+def _valid_video_header(contents: bytes, extension: str) -> bool:
+    """Check container identity; full codec validation requires a media scanner."""
+    if extension == '.mp4':
+        if len(contents) < 24 or contents[4:8] != b'ftyp':
+            return False
+        box_size = int.from_bytes(contents[:4], 'big')
+        if box_size < 16 or box_size > len(contents) or box_size % 4:
+            return False
+        brands = [contents[8:12]] + [contents[i:i + 4] for i in range(16, box_size, 4)]
+        return bool(set(brands) & {b'isom', b'iso2', b'mp41', b'mp42', b'avc1', b'M4V ', b'dash'})
+    # EBML header and WebM DocType element (not merely an arbitrary .webm suffix).
+    return contents.startswith(b'\x1a\x45\xdf\xa3') and b'\x42\x82\x84webm' in contents[:4096]
 
 
 # ─── PURPOSES VALIDATOR ──────────────────────────────────────────────────────
@@ -500,12 +523,16 @@ def validate_ifthenpay_config(payload: Any) -> dict:
     if not isinstance(payload, dict):
         raise HTTPException(status_code=400, detail="O valor deve ser um objeto")
 
-    api_base = str(payload.get("api_base") or payload.get("sibs_api_base") or "https://api.ifthenpay.com/spg/payment").strip().rstrip("/")
-    if not api_base:
-        api_base = "https://api.ifthenpay.com/spg/payment"
+    try:
+        api_base = validate_gateway_base(payload.get("api_base") or payload.get("sibs_api_base") or IFTHENPAY_API_BASE)
+        default_email = validate_email(payload.get("default_email") or payload.get("ifthenpay_default_email") or "")
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from None
 
-    mbway_key = str(payload.get("mbway_key") or payload.get("ifthenpay_mbway_key") or payload.get("sibs_client_id") or "").strip()
-    default_email = str(payload.get("default_email") or payload.get("ifthenpay_default_email") or "").strip()
+    mbway_key = payload.get("mbway_key") or payload.get("ifthenpay_mbway_key") or payload.get("sibs_client_id") or ""
+    if not isinstance(mbway_key, str) or len(mbway_key) > 256 or any(ord(c) < 32 or ord(c) == 127 for c in mbway_key):
+        raise HTTPException(status_code=400, detail="Chave MB WAY inválida.")
+    mbway_key = mbway_key.strip()
 
     return {
         "api_base": api_base,
@@ -529,4 +556,3 @@ def validate_google_maps_config(payload: Any) -> dict:
         "apiKey": api_key,
         "mapId": map_id,
     }
-
