@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import 'aos/dist/aos.css';
+
+@source "./utils/colormanagement.js";
+@source "../index.html";
+@source "./**/*.{vue,js,ts,jsx,tsx}";
+
+@plugin 'daisyui' {
+    themes: light --default, dark --prefersdark, cmyk, abyss;
+}
+
+@theme {
+    --font-sans: 'Montserrat', ui-sans-serif, system-ui;
+    --spacing-128: 32rem;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+}
+
+@media (max-width: 640px) {
+    html {
+        scroll-padding-top: 64px;
+    }
+}
+
+#main-button {
+    color: aliceblue;
+    border-color: aliceblue;
+    margin-top: 30px;
+}
+
+#main-button:hover {
+    color: black;
+    background-color: aliceblue;
+}
+
+#hero-text {
+    color: aliceblue;
+}
+
+#join {
+    padding: 0 2.7em 0 2.7em;
+    color: aliceblue;
+}
+
+#iban-box {
+    max-width: 500px;
+}

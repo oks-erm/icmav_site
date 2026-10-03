@@ -1,3 +1,53 @@
+# Environment variables
+.env
+.env.*
+.env*.local
+!.env.example
+!**/.env.example
+*.db
+*.db-*
+.local-state/
+.local-backups/
+backend/app/uploads/
+upload.sh
+
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/.venv/
+.venv/
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+backend/app.db
+
+# Node / Frontend
+frontend/node_modules/
+node_modules/
+frontend/dist/
+dist/
+dist-ssr/
+*.local
+
 # Logs
 logs
 *.log
@@ -5,39 +55,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules/
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# IDE & OS
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Vite cache and build artifacts
-.vite/
-dist/
-*.log
-
-# Local environment files (if any)
-.env
-.env.*.local
-
-# OS-specific (macOS, etc.)
+.idea/
 .DS_Store
 Thumbs.db
-
-# IDE/editor files
-.vscode/
-.idea/
-*.suo
-*.ntvs*
