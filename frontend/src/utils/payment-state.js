@@ -12,9 +12,22 @@ export function readPayment(storage) {
   return value
 }
 
+const TERMINAL_CLEARABLE_STATES = new Set(['success', 'rejected', 'expired', 'declined'])
+
+function generateUUID() {
+  if (typeof crypto?.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  bytes[6] = (bytes[6] & 0x0f) | 0x40
+  bytes[8] = (bytes[8] & 0x3f) | 0x80
+  const hex = [...bytes].map(b => b.toString(16).padStart(2, '0')).join('')
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
+}
+
 export function beginPayment(storage, { amount, category }) {
   if (readPayment(storage)) throw new Error('Existe um pedido de pagamento por confirmar.')
-  const attempt = { key: crypto.randomUUID(), amount, category, startedAt: Date.now(), state: 'unknown', requestId: null }
+  const attempt = { key: generateUUID(), amount, category, startedAt: Date.now(), state: 'unknown', requestId: null }
   storage.setItem(STORAGE_KEY, JSON.stringify(attempt))
   return attempt
 }
@@ -33,12 +46,25 @@ export function updatePayment(storage, { state, requestId, amount, category, ret
 
 export function clearConfirmedPayment(storage) {
   const attempt = readPayment(storage)
-  if (attempt && attempt.state !== 'success') throw new Error('Confirma o estado do pagamento antes de iniciar outro.')
+  if (attempt && !TERMINAL_CLEARABLE_STATES.has(attempt.state)) {
+    throw new Error('Confirma o estado do pagamento antes de iniciar outro.')
+  }
   storage.removeItem(STORAGE_KEY)
 }
 
 export function classifyPaymentStatus(result) {
-  if (result?.Status === '000' && result.Message === 'Success') return 'success'
-  if (result?.Status === '000' && result.Message === 'Pending') return 'waiting'
+  if (!result || typeof result !== 'object') return 'unknown'
+  const status = String(result.Status || '').trim()
+  const msg = String(result.Message || '').trim()
+  const msgLower = msg.toLowerCase()
+
+  if (status === '000') {
+    if (msg === 'Success' || msgLower === 'success' || msgLower === 'sucesso') return 'success'
+    if (msg === 'Pending' || msgLower === 'pending' || msgLower === 'pendente') return 'waiting'
+    return 'unknown'
+  }
+  if (status === '020') return 'rejected'
+  if (status === '101') return 'expired'
+  if (status === '122' || status === '100') return 'declined'
   return 'unknown'
 }

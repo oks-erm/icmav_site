@@ -30,10 +30,13 @@ test('only confirmed success permits explicitly starting another contribution', 
   assert.notEqual(beginPayment(store, { amount: '12.50' }).key, first.key)
 })
 
-test('ambiguous gateway messages and local timeouts never imply success or no debit', () => {
+test('gateway status codes classify into waiting, success, rejected, expired, declined, or unknown', () => {
   assert.equal(classifyPaymentStatus({ Status: '000', Message: 'Success' }), 'success')
   assert.equal(classifyPaymentStatus({ Status: '000', Message: 'Pending' }), 'waiting')
-  for (const result of [null, {}, { Status: '000', Message: 'anything' }, { Status: '101', Message: 'expired' }, { Status: '020', Message: 'cancelled' }]) {
+  assert.equal(classifyPaymentStatus({ Status: '020', Message: 'cancelled' }), 'rejected')
+  assert.equal(classifyPaymentStatus({ Status: '101', Message: 'expired' }), 'expired')
+  assert.equal(classifyPaymentStatus({ Status: '122', Message: 'declined' }), 'declined')
+  for (const result of [null, {}, { Status: '000', Message: 'anything' }, { Status: '999', Message: 'error' }]) {
     assert.equal(classifyPaymentStatus(result), 'unknown')
   }
 })
