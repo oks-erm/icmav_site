@@ -371,7 +371,10 @@
           <p class="text-sm text-gray-700">Contacto: <strong>{{ donationsConfig.treasuryEmail }}</strong></p>
           <p v-if="savedAttempt" class="text-xs text-gray-500 break-all">Referência do pedido: {{ savedAttempt.key }}</p>
           <p v-if="errorMessage" class="text-xs text-red-700">{{ errorMessage }}</p>
-          <button type="button" :disabled="loading || !savedAttempt" @click="recoverPayment" class="w-full py-3 rounded-xl bg-primary text-white font-semibold disabled:opacity-50">Verificar o mesmo pedido</button>
+          <div class="space-y-2.5 pt-2">
+            <button type="button" :disabled="loading || !savedAttempt" @click="recoverPayment" class="w-full py-3 rounded-xl bg-primary text-white font-semibold disabled:opacity-50 cursor-pointer">Verificar o mesmo pedido</button>
+            <button type="button" @click="discardUnknownPayment" class="w-full py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer">Já verifiquei na App MB WAY — Iniciar novo pedido</button>
+          </div>
         </div>
 
         <!-- ══════════════════ FLUXO 1: MB WAY ══════════════════ -->
@@ -596,7 +599,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { submitDonationMbway, recoverDonationAttempt, getPaymentStatus, getDonationsContent } from '../services/api'
-import { beginPayment, readPayment, updatePayment, clearConfirmedPayment, classifyPaymentStatus } from '../utils/payment-state'
+import { beginPayment, readPayment, updatePayment, clearConfirmedPayment, dismissUnknownAttempt, classifyPaymentStatus } from '../utils/payment-state'
 import logoWhite from '../assets/logo_provisory_white.png'
 import MbwayLogo from '../components/icons/MbwayLogo.vue'
 
@@ -739,6 +742,19 @@ function retryPayment() {
   } catch {
     errorMessage.value = 'Não foi possível reiniciar o pedido. Contacta a tesouraria.'
     return
+  }
+  stopPolling()
+  savedAttempt.value = null
+  currentRequestId.value = null
+  mbwayStatus.value = null
+  errorMessage.value = ''
+}
+
+function discardUnknownPayment() {
+  try {
+    dismissUnknownAttempt(sessionStorage)
+  } catch {
+    // ignore
   }
   stopPolling()
   savedAttempt.value = null

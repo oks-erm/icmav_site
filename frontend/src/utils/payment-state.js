@@ -52,6 +52,10 @@ export function clearConfirmedPayment(storage) {
   storage.removeItem(STORAGE_KEY)
 }
 
+export function dismissUnknownAttempt(storage) {
+  storage.removeItem(STORAGE_KEY)
+}
+
 export function classifyPaymentStatus(result) {
   if (!result || typeof result !== 'object') return 'unknown'
   const status = String(result.Status || '').trim()

@@ -93,14 +93,25 @@ def validate_gateway_response(result: dict, *, amount: Decimal | None = None,
     message = result.get('Message')
     if not isinstance(status, str) or not re.fullmatch(r'[0-9]{3}', status):
         raise invalid_response()
+    if message is None:
+        message = 'Pending' if (amount is not None and status == '000') else ''
     if not isinstance(message, str) or len(message) > 300 or any(ord(c) < 32 for c in message):
         raise invalid_response()
     validated = {'Status': status}
     if status == '000':
-        # Never expose arbitrary provider text, nor interpret an unknown success message.
-        safe_messages = {'pending': 'Pending', 'pendente': 'Pending', 'success': 'Success'}
-        safe_message = safe_messages.get(message.strip().lower())
-        if safe_message is None or (amount is not None and safe_message != 'Pending'):
+        msg_clean = message.strip().lower()
+        safe_messages = {
+            'pending': 'Pending',
+            'pendente': 'Pending',
+            'success': 'Success',
+            'sucesso': 'Success',
+        }
+        if amount is not None:
+            # On POST /mbway initialization, Status '000' means the request was queued/sent to MB WAY (Pending).
+            safe_message = 'Pending'
+        else:
+            safe_message = safe_messages.get(msg_clean)
+        if safe_message is None:
             raise invalid_response()
         validated['Message'] = safe_message
     else:
@@ -113,15 +124,17 @@ def validate_gateway_response(result: dict, *, amount: Decimal | None = None,
         validated['RequestId'] = response_id
     if amount is not None and status == '000':
         raw_amount = result.get('Amount')
+        if raw_amount is None:
+            raise invalid_response()
         try:
-            provider_amount = Decimal(str(raw_amount))
+            provider_amount = Decimal(str(raw_amount).replace(',', '.'))
         except (InvalidOperation, ValueError):
             raise invalid_response() from None
         if not provider_amount.is_finite() or provider_amount != amount:
             raise invalid_response()
         validated['Amount'] = float(provider_amount)
     for name in ('CreatedAt', 'UpdateAt'):
-        if name in result:
+        if name in result and result[name] is not None:
             value = result[name]
             if not isinstance(value, str) or not re.fullmatch(r'[0-9TZ:+. /-]{1,40}', value):
                 raise invalid_response()
