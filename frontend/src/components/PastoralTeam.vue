@@ -176,8 +176,8 @@ import { sanitizeHtml } from '../utils/sanitize-html'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { getPastoralTeamContent, getMessageContent } from '../services/api'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const BACKEND_BASE_URL = API_BASE_URL.replace('/api', '')
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
+const BACKEND_BASE_URL = API_BASE_URL.replace(/\/api$/, '')
 const pastors = ref([])
 const loading = ref(true)
 const error = ref('')

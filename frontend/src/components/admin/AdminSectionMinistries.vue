@@ -243,7 +243,7 @@ import { ref, onBeforeUpdate } from 'vue'
 import AdminSectionWrapper from './AdminSectionWrapper.vue'
 import { uploadMinistryLeaderPhoto, uploadMinistryMedia } from '../../services/api'
 
-const BACKEND_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
+const BACKEND_BASE = (import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/api$/, '')
 
 const ministries = defineModel({ type: Array, default: () => [] })
 
@@ -267,6 +267,7 @@ function getMediaSrc(path) {
   if (!path) return ''
   if (path.startsWith('http://') || path.startsWith('https://')) return path
   if (path.startsWith('/uploads/')) return `${BACKEND_BASE}${path}`
+  if (path.startsWith('/src/assets/')) return path.replace('/src/assets/', '/')
   return path
 }
 
