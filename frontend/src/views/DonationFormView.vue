@@ -170,16 +170,6 @@
             <i class="fa-solid fa-spinner animate-spin text-primary"></i>
             <span>A verificar confirmação em tempo real...</span>
           </div>
-
-          <div class="pt-2">
-            <button
-              type="button"
-              @click="recoverPayment"
-              class="w-full py-3 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition cursor-pointer"
-            >
-              Verificar o mesmo pedido
-            </button>
-          </div>
         </div>
 
         <!-- 2. SUCESSO / PAGAMENTO CONFIRMADO (MENSAGEM DE AGRADECIMENTO) -->
@@ -706,11 +696,22 @@ async function checkPaymentStatusNow() {
     const res = await getPaymentStatus(currentRequestId.value, savedAttempt.value.key)
     let state = classifyPaymentStatus(res)
     if (state === 'waiting' && remainingSeconds.value === 0) state = 'expired'
-    if (state !== 'waiting') stopPolling()
-    savePaymentState(state)
+    if (['success', 'rejected', 'expired', 'declined'].includes(state)) {
+      stopPolling()
+      savePaymentState(state)
+    } else if (remainingSeconds.value > 0 && mbwayStatus.value === 'waiting') {
+      // Keep waiting while timer is active unless a terminal status arrives
+      savePaymentState('waiting')
+    } else {
+      stopPolling()
+      savePaymentState(state)
+    }
   } catch {
-    stopPolling()
-    savePaymentState('unknown')
+    // Transient network/rate-limit errors while timer is running should not interrupt the timer
+    if (mbwayStatus.value !== 'waiting' || remainingSeconds.value === 0) {
+      stopPolling()
+      savePaymentState('unknown')
+    }
   } finally {
     checkingStatus = false
   }
@@ -732,7 +733,7 @@ function startPolling(requestId) {
       savePaymentState('expired')
     }
   }, 1000)
-  pollInterval = setInterval(checkPaymentStatusNow, 3500)
+  pollInterval = setInterval(checkPaymentStatusNow, 1000)
 }
 
 function retryPayment() {
@@ -768,6 +769,7 @@ async function recoverPayment() {
   loading.value = true
   try {
     if (currentRequestId.value) {
+      startPolling(currentRequestId.value)
       await checkPaymentStatusNow()
     } else {
       const result = await recoverDonationAttempt(savedAttempt.value.key)
@@ -830,7 +832,6 @@ async function submitMbway() {
     savedAttempt.value = savedAttempt.value
       ? updatePayment(sessionStorage, { state: 'unknown', amount: amount.value, category: selectedCategory.value })
       : beginPayment(sessionStorage, { amount: amount.value, category: selectedCategory.value })
-    mbwayStatus.value = 'unknown'
     const res = await submitDonationMbway(Number(amount.value), phone.value, selectedCategory.value, null, savedAttempt.value.key)
     if (!res?.requestId) throw new Error('Unknown payment')
     startPolling(res.requestId)
@@ -858,9 +859,16 @@ onMounted(async () => {
       selectedCategory.value = savedAttempt.value.category
       currentRequestId.value = savedAttempt.value.requestId
       const restoredState = savedAttempt.value.state
-      mbwayStatus.value = restoredState === 'not_sent' ? null
-        : ['success', 'rejected', 'expired', 'declined'].includes(restoredState) ? restoredState : 'unknown'
-      if (mbwayStatus.value === 'unknown') await recoverPayment()
+      if (restoredState === 'not_sent') {
+        mbwayStatus.value = null
+      } else if (['success', 'rejected', 'expired', 'declined'].includes(restoredState)) {
+        mbwayStatus.value = restoredState
+      } else if (restoredState === 'waiting' && currentRequestId.value) {
+        startPolling(currentRequestId.value)
+      } else {
+        mbwayStatus.value = 'unknown'
+        await recoverPayment()
+      }
     }
   } catch {
     mbwayStatus.value = 'unknown'

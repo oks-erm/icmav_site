@@ -113,10 +113,10 @@ def claim_status_poll(session: Session, key: str, request_id: str) -> dict | Non
         cached = json.loads(attempt.status_json) if attempt.status_json else None
         if cached and cached.get('Status') == '000' and cached.get('Message') == 'Success':
             return cached
-        if now - attempt.last_poll_at < 3:
+        if now - attempt.last_poll_at < 1.0:
             if cached:
                 return cached
-            raise HTTPException(429, 'Aguarda antes de consultar novamente.', headers={'Retry-After': '3'})
+            return {'Status': '000', 'Message': 'Pending', 'RequestId': request_id}
         attempt.last_poll_at = now
         ledger.add(attempt)
         ledger.commit()
