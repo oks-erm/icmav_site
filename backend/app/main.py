@@ -313,7 +313,7 @@ if frontend_dist.exists():
     frontend_dist = frontend_dist.resolve()
     assets_dir = (frontend_dist / "assets").resolve()
 
-    @app.get("/assets/{asset_path:path}")
+    @app.api_route("/assets/{asset_path:path}", methods=["GET", "HEAD"])
     async def serve_asset(asset_path: str, request: Request = None):
         try:
             file_path = (assets_dir / asset_path).resolve()
@@ -324,7 +324,7 @@ if frontend_dist.exists():
             raise HTTPException(status_code=404, detail="Not found")
         return _serve_ram_or_file(file_path, request)
 
-    @app.get("/{full_path:path}")
+    @app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
     async def serve_spa(full_path: str, request: Request = None):
         # Se for um ficheiro estático existente na raiz do dist (ex: favicon, robots.txt)
         try:
