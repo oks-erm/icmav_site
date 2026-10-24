@@ -56,23 +56,25 @@ async function handleResponseError(response, defaultMsg) {
 
 const memoryCache = new Map()
 const inFlightRequests = new Map()
+let inFlightBootstrap = null
 
-/**
- * Faz fetch com deduplicação de pedidos concorrentes e cache de curta duração.
- */
-async function cachedGet(url, ttlMs = 15000) {
-  const now = Date.now()
-  const cached = memoryCache.get(url)
+const PUBLIC_BOOTSTRAP_SECTIONS = new Set([
+  'welcome',
+  'purposes',
+  'pastoral-team',
+  'message',
+  'ministries-presentation',
+  'services-banner',
+  'local-gatherings',
+  'local-gathering-options',
+  'gallery',
+  'social-media',
+  'donations',
+  'locations',
+  'google-maps-config',
+])
 
-  if (cached && now - cached.timestamp < ttlMs) {
-    return cached.data
-  }
-
-  // Se já houver um pedido em voo para este mesmo URL, partilhar a mesma Promise
-  if (inFlightRequests.has(url)) {
-    return inFlightRequests.get(url)
-  }
-
+function fetchAndCache(url) {
   const requestPromise = fetch(url)
     .then(async (response) => {
       if (!response.ok) {
@@ -88,6 +90,83 @@ async function cachedGet(url, ttlMs = 15000) {
 
   inFlightRequests.set(url, requestPromise)
   return requestPromise
+}
+
+/**
+ * Faz fetch com deduplicação de pedidos concorrentes e cache de curta duração.
+ */
+async function cachedGet(url, ttlMs = 60000) {
+  const now = Date.now()
+  const cached = memoryCache.get(url)
+
+  if (cached && now - cached.timestamp < ttlMs) {
+    return cached.data
+  }
+
+  // Se houver um pedido de bootstrap público em voo para esta secção, aguarda-o primeiro
+  const prefix = `${API_BASE_URL}/settings/`
+  if (inFlightBootstrap && url.startsWith(prefix)) {
+    const section = url.slice(prefix.length)
+    if (PUBLIC_BOOTSTRAP_SECTIONS.has(section)) {
+      await inFlightBootstrap
+      const afterBootstrap = memoryCache.get(url)
+      if (afterBootstrap && Date.now() - afterBootstrap.timestamp < ttlMs) {
+        return afterBootstrap.data
+      }
+    }
+  }
+
+  // Se já houver um pedido em voo para este mesmo URL, partilhar a mesma Promise
+  if (inFlightRequests.has(url)) {
+    return inFlightRequests.get(url)
+  }
+
+  return fetchAndCache(url)
+}
+
+/**
+ * Pré-carrega todas as secções públicas da Home num único pedido HTTP,
+ * populando a cache e partilhando a Promise com todos os componentes filhos.
+ */
+export function preloadPublicSettings(ttlMs = 60000) {
+  if (inFlightBootstrap) {
+    return inFlightBootstrap
+  }
+
+  const now = Date.now()
+  const allCached = [...PUBLIC_BOOTSTRAP_SECTIONS].every((section) => {
+    const cached = memoryCache.get(`${API_BASE_URL}/settings/${section}`)
+    return cached && now - cached.timestamp < ttlMs
+  })
+
+  if (allCached) {
+    return Promise.resolve()
+  }
+
+  const bootstrapUrl = `${API_BASE_URL}/settings/public-bootstrap`
+  inFlightBootstrap = fetch(bootstrapUrl)
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error('Bootstrap indisponível')
+      }
+      const payload = await response.json()
+      const timestamp = Date.now()
+      for (const section of PUBLIC_BOOTSTRAP_SECTIONS) {
+        if (payload && payload[section] !== undefined) {
+          memoryCache.set(`${API_BASE_URL}/settings/${section}`, {
+            data: payload[section],
+            timestamp,
+          })
+        }
+      }
+      return payload
+    })
+    .catch(() => null)
+    .finally(() => {
+      inFlightBootstrap = null
+    })
+
+  return inFlightBootstrap
 }
 
 export function invalidateCache(urlPattern = '') {

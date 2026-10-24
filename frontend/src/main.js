@@ -5,8 +5,6 @@ import 'aos/dist/aos.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import VueTelInput from 'vue-tel-input'
-import 'vue-tel-input/vue-tel-input.css'
 
 function updateFavicon() {
     const favicon = document.getElementById('app-favicon')
@@ -27,7 +25,6 @@ window
 
 createApp(App)
     .use(router)
-    .use(VueTelInput)
     .mount('#app')
 
 AOS.init({ duration: 800, once: true })

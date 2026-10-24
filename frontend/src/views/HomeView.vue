@@ -97,6 +97,7 @@
 <script setup>
 import { onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
+import { preloadPublicSettings } from '../services/api'
 import Hero                     from '../components/Hero.vue'
 import StickyHeader             from '../components/StickyHeader.vue'
 import Welcome                  from '../components/Welcome.vue'
@@ -111,6 +112,9 @@ import SocialMedia              from '../components/SocialMedia.vue'
 import Donations                from '../components/Donations.vue'
 import Locations                from '../components/Locations.vue'
 import Footer                   from '../components/Footer.vue'
+
+// Inicia o pedido único de bootstrap antes do onMounted das secções filhas
+preloadPublicSettings()
 
 const route = useRoute()
 

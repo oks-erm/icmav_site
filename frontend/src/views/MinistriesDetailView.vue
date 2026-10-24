@@ -350,8 +350,11 @@ function resolveMediaUrl(url) {
   if (!url) return ''
   if (url.startsWith('http://') || url.startsWith('https://')) return url
   if (url.startsWith('/uploads/')) return url
-  if (url.startsWith('/src/assets/')) return url.replace('/src/assets/', '/')
-  return url
+  const normalized = url.startsWith('/src/assets/') ? url.replace('/src/assets/', '/') : url
+  if ((normalized.startsWith('/photos/') || normalized.startsWith('/fallbacks/')) && /\.(png|jpe?g)$/i.test(normalized)) {
+    return normalized.replace(/\.(png|jpe?g)$/i, '.webp')
+  }
+  return normalized
 }
 
 function getSocialName(icon) {

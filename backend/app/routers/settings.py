@@ -706,3 +706,23 @@ def reset_google_maps_config(
     )
     return {"success": True, "key": setting.key, "value": DEFAULT_GOOGLE_MAPS_CONFIG}
 
+
+# ─── PUBLIC BOOTSTRAP (AGREGAÇÃO DE SECÇÕES PÚBLICAS NUM SÓ PEDIDO) ───────────
+
+@router.get("/public-bootstrap")
+def read_public_bootstrap(session: Session = Depends(get_session)):
+    return {
+        "welcome": read_welcome(session),
+        "purposes": read_purposes(session),
+        "pastoral-team": read_pastoral_team(session),
+        "message": read_message(session),
+        "ministries-presentation": read_ministries_presentation(session),
+        "services-banner": read_services_banner(session),
+        "local-gatherings": read_local_gatherings(session),
+        "local-gathering-options": read_local_gathering_options(session),
+        "gallery": read_gallery(session),
+        "social-media": read_social_media(session),
+        "donations": read_donations(session),
+        "locations": read_locations(session),
+        "google-maps-config": read_google_maps_config(session),
+    }

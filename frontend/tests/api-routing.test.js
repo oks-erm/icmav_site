@@ -30,6 +30,49 @@ test('default API requests use the website origin', async () => {
   }
 })
 
+test('preloadPublicSettings batches public section reads into a single bootstrap request', async () => {
+  const originalBaseUrl = process.env.VITE_API_BASE_URL
+  delete process.env.VITE_API_BASE_URL
+  let server
+  const originalFetch = globalThis.fetch
+  const requestedUrls = []
+  globalThis.fetch = async (url) => {
+    requestedUrls.push(url)
+    return {
+      ok: true,
+      json: async () => ({
+        welcome: { key: 'welcome_content', value: 'Bem-vindo' },
+        purposes: { key: 'purposes_content', value: [{ title: 'Pertencer' }] },
+        donations: { key: 'donations_content', value: { beneficiary: 'ICMAV' } },
+      }),
+    }
+  }
+  try {
+    server = await createServer({
+      envDir: false,
+      server: { middlewareMode: true, hmr: false },
+      mode: 'production',
+    })
+    const api = await server.ssrLoadModule('/src/services/api.js')
+    api.invalidateCache()
+    api.preloadPublicSettings()
+    const [welcome, purposes, donations] = await Promise.all([
+      api.getWelcomeContent(),
+      api.getPurposesContent(),
+      api.getDonationsContent(),
+    ])
+    assert.deepEqual(requestedUrls, ['/api/settings/public-bootstrap'])
+    assert.equal(welcome.value, 'Bem-vindo')
+    assert.equal(purposes.value[0].title, 'Pertencer')
+    assert.equal(donations.value.beneficiary, 'ICMAV')
+  } finally {
+    globalThis.fetch = originalFetch
+    if (originalBaseUrl === undefined) delete process.env.VITE_API_BASE_URL
+    else process.env.VITE_API_BASE_URL = originalBaseUrl
+    await server?.close()
+  }
+})
+
 test('relative API configuration supports the local backend proxy', async () => {
   const originalBaseUrl = process.env.VITE_API_BASE_URL
   process.env.VITE_API_BASE_URL = '/api'

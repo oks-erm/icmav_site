@@ -93,11 +93,15 @@ SECURITY_HEADERS = {
 PUBLIC_SETTINGS_PATHS = {
     f"/api/settings/{section}"
     for section in (
+        "public-bootstrap",
         "welcome", "purposes", "pastoral-team", "message", "ministries-presentation",
         "services-banner", "local-gatherings", "local-gathering-options", "gallery",
         "social-media", "donations", "locations", "google-maps-config",
     )
 }
+
+PUBLIC_STATIC_PREFIXES = ("/photos/", "/fallbacks/", "/videos/")
+PUBLIC_STATIC_FILES = {"/favicon.ico", "/logo_provisory_white.png", "/logo_provisory_black.png"}
 
 
 @app.middleware("http")
@@ -116,6 +120,13 @@ async def add_cache_headers(request: Request, call_next):
         path = request.url.path
         if path.startswith("/uploads/"):
             response.headers["Cache-Control"] = "public, max-age=86400"
+        elif path.startswith("/assets/"):
+            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        elif (
+            (path.startswith(PUBLIC_STATIC_PREFIXES) or path in PUBLIC_STATIC_FILES)
+            and not response.headers.get("content-type", "").startswith("text/html")
+        ):
+            response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
         elif path in PUBLIC_SETTINGS_PATHS:
             response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
         elif path == "/api/health":

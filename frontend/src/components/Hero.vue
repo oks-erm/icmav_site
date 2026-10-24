@@ -5,6 +5,7 @@
         <video
             v-if="useVideo"
             class="absolute inset-0 w-full h-full object-cover"
+            poster="/fallbacks/hero.webp"
             autoplay
             muted
             loop
@@ -12,12 +13,12 @@
             preload="metadata"
             data-aos="fade-in"
         >
-            <source src="/src/assets/videos/hero.mp4" type="video/mp4" />
+            <source v-if="videoReady" src="/videos/hero.mp4" type="video/mp4" />
         </video>
 
         <img
             v-else
-            src="/src/assets/fallbacks/hero.jpg"
+            src="/fallbacks/hero.webp"
             alt="Hero Background ICMAV"
             fetchpriority="high"
             decoding="async"
@@ -97,7 +98,9 @@
 import { ref, onMounted } from 'vue'
 import { getPurposesContent } from '../services/api'
 
-const useVideo = ref(true)
+const saveDataEnabled = typeof navigator !== 'undefined' && Boolean(navigator.connection?.saveData)
+const useVideo = ref(!saveDataEnabled)
+const videoReady = ref(false)
 const purposes = ref([])
 const hoveredPurpose = ref(null)
 
@@ -128,6 +131,12 @@ function getDockScale(i) {
 }
 
 onMounted(async () => {
+  if (useVideo.value) {
+    setTimeout(() => {
+      videoReady.value = true
+    }, 150)
+  }
+
   try {
     const data = await getPurposesContent()
     if (Array.isArray(data.value)) {

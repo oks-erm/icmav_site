@@ -400,7 +400,12 @@
 
 <script setup>
 import { sanitizeHtml } from '../utils/sanitize-html'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, defineAsyncComponent } from 'vue'
+const VueTelInput = defineAsyncComponent(async () => {
+  await import('vue-tel-input/vue-tel-input.css')
+  const mod = await import('vue-tel-input')
+  return mod.VueTelInput || mod.default
+})
 import { getLocalGatheringsContent, getLocalGatheringOptions } from '../services/api'
 
 const loading = ref(true)

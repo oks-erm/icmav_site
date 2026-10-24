@@ -1,16 +1,17 @@
 // src/router/index.js
 
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AdminView from '../views/AdminView.vue'
-import MinistriesDetailView from '../views/MinistriesDetailView.vue'
-import MaintenanceView from '../views/MaintenanceView.vue'
-import DonationFormView from '../views/DonationFormView.vue'
-import TermsView from '../views/TermsView.vue'
-import PrivacyView from '../views/PrivacyView.vue'
-import RefundView from '../views/RefundView.vue'
-import CookiePolicyView from '../views/CookiePolicyView.vue'
-import NotFoundView from '../views/NotFoundView.vue'
+
+const HomeView = () => import('../views/HomeView.vue')
+const AdminView = () => import('../views/AdminView.vue')
+const MinistriesDetailView = () => import('../views/MinistriesDetailView.vue')
+const MaintenanceView = () => import('../views/MaintenanceView.vue')
+const DonationFormView = () => import('../views/DonationFormView.vue')
+const TermsView = () => import('../views/TermsView.vue')
+const PrivacyView = () => import('../views/PrivacyView.vue')
+const RefundView = () => import('../views/RefundView.vue')
+const CookiePolicyView = () => import('../views/CookiePolicyView.vue')
+const NotFoundView = () => import('../views/NotFoundView.vue')
 
 // Modo manutenção ativado por variável de ambiente se configurado como 'true'
 const isMaintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === 'true'

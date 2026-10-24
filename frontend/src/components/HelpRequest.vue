@@ -325,7 +325,12 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, defineAsyncComponent } from 'vue'
+const VueTelInput = defineAsyncComponent(async () => {
+  await import('vue-tel-input/vue-tel-input.css')
+  const mod = await import('vue-tel-input')
+  return mod.VueTelInput || mod.default
+})
 import { getPastoralTeamContent } from '../services/api'
 
 const loading = ref(true)

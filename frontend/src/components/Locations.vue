@@ -1,7 +1,7 @@
 <!-- src/components/Locations.vue -->
 
 <template>
-  <section id="locations" class="relative w-full" data-aos="fade-up">
+  <section id="locations" ref="sectionEl" class="relative w-full" data-aos="fade-up">
     <div v-if="loading" class="text-center py-12 text-gray-500">
       A carregar localizações...
     </div>
@@ -191,7 +191,9 @@ const loading = ref(true)
 const error = ref('')
 const selectedIndex = ref(0)
 const isCardExpanded = ref(false)
+const sectionEl = ref(null)
 const mapEl = ref(null)
+const shouldLoadMap = ref(false)
 
 function handleSelectLocation(index) {
   selectedIndex.value = index
@@ -205,6 +207,7 @@ let map = null
 let marker = null
 let googleMapsPromise = null
 let AdvancedMarkerElementClass = null
+let mapObserver = null
 
 const current = computed(() => locations.value[selectedIndex.value] || null)
 
@@ -398,9 +401,9 @@ function handleResize() {
 }
 
 watch(
-  [current, mapEl, loading, googleMapsApiKey],
-  async ([newCurrent, newMapEl, isLoading, newApiKey]) => {
-    if (isLoading || !newCurrent || !newMapEl || !newApiKey) return
+  [current, mapEl, loading, googleMapsApiKey, shouldLoadMap],
+  async ([newCurrent, newMapEl, isLoading, newApiKey, canLoad]) => {
+    if (!canLoad || isLoading || !newCurrent || !newMapEl || !newApiKey) return
 
     await nextTick()
 
@@ -414,11 +417,31 @@ watch(
 )
 
 onMounted(() => {
+  if (typeof IntersectionObserver !== 'undefined' && sectionEl.value) {
+    mapObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          shouldLoadMap.value = true
+          mapObserver?.disconnect()
+          mapObserver = null
+        }
+      },
+      { rootMargin: '500px 0px' }
+    )
+    mapObserver.observe(sectionEl.value)
+  } else {
+    shouldLoadMap.value = true
+  }
+
   loadLocations()
   window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
+  if (mapObserver) {
+    mapObserver.disconnect()
+    mapObserver = null
+  }
   window.removeEventListener('resize', handleResize)
 })
 </script>
@@ -434,4 +457,3 @@ onBeforeUnmount(() => {
   height: 0;
 }
 </style>
-

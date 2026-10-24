@@ -159,6 +159,14 @@ class CoreSecurityTests(unittest.TestCase):
         response = self.client.get("/api/settings/welcome")
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.headers.get("cache-control", "").startswith("public,"))
+        bootstrap = self.client.get("/api/settings/public-bootstrap")
+        self.assertEqual(bootstrap.status_code, 200)
+        self.assertTrue(bootstrap.headers.get("cache-control", "").startswith("public,"))
+        self.assertNotIn("ifthenpay_config", bootstrap.json())
+        self.assertNotIn("sibs_config", bootstrap.json())
+        favicon = self.client.get("/favicon.ico")
+        self.assertEqual(favicon.status_code, 200)
+        self.assertTrue(favicon.headers.get("cache-control", "").startswith("public,"))
         for path in ["/", "/api/settings/welcome", "/uploads/missing.png"]:
             with self.subTest(path=path):
                 headers = self.client.get(path).headers

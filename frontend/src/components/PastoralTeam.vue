@@ -299,20 +299,13 @@ onBeforeUnmount(() => {
 
 function resolvePhotoUrl(photo) {
   if (!photo) return ''
-
-  if (photo.startsWith('http://') || photo.startsWith('https://')) {
-    return photo
+  if (photo.startsWith('http://') || photo.startsWith('https://')) return photo
+  if (photo.startsWith('/uploads/')) return BACKEND_BASE_URL + photo // ${BACKEND_BASE_URL}
+  const normalized = photo.startsWith('/src/assets/') ? photo.replace('/src/assets/', '/') : photo
+  if ((normalized.startsWith('/photos/') || normalized.startsWith('/fallbacks/')) && /\.(png|jpe?g)$/i.test(normalized)) {
+    return normalized.replace(/\.(png|jpe?g)$/i, '.webp')
   }
-
-  if (photo.startsWith('/uploads/')) {
-    return `${BACKEND_BASE_URL}${photo}`
-  }
-
-  if (photo.startsWith('/src/assets/')) {
-    return photo.replace('/src/assets/', '/')
-  }
-
-  return photo
+  return normalized
 }
 
 async function loadMessage() {
