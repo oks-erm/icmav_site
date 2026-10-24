@@ -46,7 +46,8 @@
     </section>
 
     <!-- Local gatherings -->
-    <section id="localGatherings" class="py-16 bg-gray-50">
+    <!-- Local gatherings (temporariamente oculto até existir processo interno) -->
+    <section v-if="false" id="localGatherings" class="py-16 bg-gray-50">
       <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-center px-4 md:px-0 mb-8" data-aos="fade-up">
         Pequenos Grupos
       </h2>
@@ -59,7 +60,8 @@
     </section>
 
     <!-- Help request section -->
-    <section id="helpRequest" class="py-16 bg-base-100">
+    <!-- Help request section (temporariamente oculto até existir processo interno) -->
+    <section v-if="false" id="helpRequest" class="py-16 bg-base-100">
       <div class="max-w-7xl mx-auto px-4" data-aos="fade-up">
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-center px-4 md:px-0 mb-8">
           O que podemos fazer por ti?

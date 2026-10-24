@@ -107,8 +107,9 @@ const navLinks = [
   { name: 'Propósitos', hash: 'purposes', icon: 'fa-solid fa-compass' },
   { name: 'Equipa', hash: 'pastoralTeam', icon: 'fa-solid fa-users' },
   { name: 'Ministérios', hash: 'ministriesPresentation', icon: 'fa-solid fa-hand-holding-heart' },
-  { name: 'Pequenos Grupos', hash: 'localGatherings', icon: 'fa-solid fa-house-chimney-user' },
-  { name: 'Cuidado', hash: 'helpRequest', icon: 'fa-solid fa-hands-holding' },
+  // Temporariamente ocultos até existir processo interno a sustentar os formulários:
+  // { name: 'Pequenos Grupos', hash: 'localGatherings', icon: 'fa-solid fa-house-chimney-user' },
+  // { name: 'Cuidado', hash: 'helpRequest', icon: 'fa-solid fa-hands-holding' },
   { name: 'Redes Sociais', hash: 'socialMedia', icon: 'fa-solid fa-share-nodes' },
   { name: 'Contribuir', hash: 'donations', icon: 'fa-solid fa-hand-holding-dollar' },
   { name: 'Localizações', hash: 'locations', icon: 'fa-solid fa-location-dot' },
