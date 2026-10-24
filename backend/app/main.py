@@ -14,10 +14,11 @@ from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials
 from fastapi.exceptions import RequestValidationError
 from fastapi.exception_handlers import request_validation_exception_handler
+from starlette.datastructures import Headers, MutableHeaders
 from sqlmodel import Session
 
 from .database import create_db_and_tables, engine
@@ -46,9 +47,34 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ─── Compressão GZip (respostas >= 1KB) ───────────────────────────────────────
+# ─── Compressão GZip seletiva (respostas textuais >= 1KB, nível 5) ───────────
 
-app.add_middleware(GZipMiddleware, minimum_size=1000)
+GZIP_SKIP_PREFIXES = ("/videos/", "/photos/", "/fallbacks/", "/uploads/")
+GZIP_SKIP_SUFFIXES = (
+    ".mp4", ".webm", ".webp", ".png", ".jpg", ".jpeg", ".gif", ".woff2", ".woff", ".ico",
+)
+
+
+class SelectiveGZipMiddleware:
+    """Aplica GZip rápido apenas a respostas textuais/API sem cabeçalho Range."""
+
+    def __init__(self, app, minimum_size: int = 1000, compresslevel: int = 5):
+        self.app = app
+        self.gzip_app = GZipMiddleware(app, minimum_size=minimum_size, compresslevel=compresslevel)
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+        path = (scope.get("path") or "").lower()
+        has_range = any(name.lower() == b"range" for name, _ in scope.get("headers", []))
+        if has_range or path.startswith(GZIP_SKIP_PREFIXES) or path.endswith(GZIP_SKIP_SUFFIXES):
+            await self.app(scope, receive, send)
+            return
+        await self.gzip_app(scope, receive, send)
+
+
+app.add_middleware(SelectiveGZipMiddleware, minimum_size=1000, compresslevel=5)
 
 
 def authorize_upload(scope: dict) -> bool:
@@ -104,36 +130,59 @@ PUBLIC_STATIC_PREFIXES = ("/photos/", "/fallbacks/", "/videos/")
 PUBLIC_STATIC_FILES = {"/favicon.ico", "/logo_provisory_white.png", "/logo_provisory_black.png"}
 
 
-@app.middleware("http")
-async def add_cache_headers(request: Request, call_next):
-    response: Response = await call_next(request)
+class CacheAndSecurityHeadersMiddleware:
+    """Middleware ASGI puro para cabeçalhos de segurança e Cache-Control."""
 
-    # Só conteúdos explicitamente públicos podem entrar em caches partilhadas.
-    response.headers["Cache-Control"] = "private, no-store"
-    if (
-        request.method in {"GET", "HEAD"}
-        and 200 <= response.status_code < 300
-        and "authorization" not in request.headers
-        and "cookie" not in request.headers
-        and "set-cookie" not in response.headers
-    ):
-        path = request.url.path
-        if path.startswith("/uploads/"):
-            response.headers["Cache-Control"] = "public, max-age=86400"
-        elif path.startswith("/assets/"):
-            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
-        elif (
-            (path.startswith(PUBLIC_STATIC_PREFIXES) or path in PUBLIC_STATIC_FILES)
-            and not response.headers.get("content-type", "").startswith("text/html")
-        ):
-            response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
-        elif path in PUBLIC_SETTINGS_PATHS:
-            response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
-        elif path == "/api/health":
-            response.headers["Cache-Control"] = "no-cache"
+    def __init__(self, app):
+        self.app = app
 
-    response.headers.update(SECURITY_HEADERS)
-    return response
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        req_headers = Headers(scope=scope)
+        method = scope.get("method", "GET")
+        path = scope.get("path", "")
+        is_unauthenticated_read = (
+            method in {"GET", "HEAD"}
+            and "authorization" not in req_headers
+            and "cookie" not in req_headers
+        )
+
+        async def send_with_headers(message):
+            if message["type"] == "http.response.start":
+                status_code = message.get("status", 200)
+                res_headers = MutableHeaders(raw=message["headers"])
+                res_headers["Cache-Control"] = "private, no-store"
+                if (
+                    is_unauthenticated_read
+                    and 200 <= status_code < 300
+                    and "set-cookie" not in res_headers
+                ):
+                    if path.startswith("/uploads/"):
+                        res_headers["Cache-Control"] = "public, max-age=86400"
+                    elif path.startswith("/assets/"):
+                        res_headers["Cache-Control"] = "public, max-age=31536000, immutable"
+                    elif (
+                        (path.startswith(PUBLIC_STATIC_PREFIXES) or path in PUBLIC_STATIC_FILES)
+                        and not res_headers.get("content-type", "").startswith("text/html")
+                    ):
+                        res_headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
+                    elif path in PUBLIC_SETTINGS_PATHS:
+                        res_headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
+                    elif path == "/api/health":
+                        res_headers["Cache-Control"] = "no-cache"
+
+                for header_name, header_value in SECURITY_HEADERS.items():
+                    res_headers[header_name] = header_value
+
+            await send(message)
+
+        await self.app(scope, receive, send_with_headers)
+
+
+app.add_middleware(CacheAndSecurityHeadersMiddleware)
 
 @app.exception_handler(Exception)
 async def unhandled_error(request: Request, exc: Exception):
@@ -173,7 +222,19 @@ async def health_check():
 
 # ─── Servir Frontend Vue SPA (Produção / Cloud Run) ──────────────────────────
 
-from fastapi.responses import FileResponse
+_spa_index_cache: tuple[str, int, str] | None = None
+
+
+def _read_cached_index_html(index_path: Path) -> str:
+    global _spa_index_cache
+    stat_mtime = index_path.stat().st_mtime_ns
+    path_key = str(index_path)
+    if _spa_index_cache is not None and _spa_index_cache[0] == path_key and _spa_index_cache[1] == stat_mtime:
+        return _spa_index_cache[2]
+    content = index_path.read_text(encoding="utf-8")
+    _spa_index_cache = (path_key, stat_mtime, content)
+    return content
+
 
 frontend_dist = Path(__file__).resolve().parent.parent / "frontend_dist"
 if not frontend_dist.exists():
@@ -195,8 +256,8 @@ if frontend_dist.exists():
             raise HTTPException(status_code=404, detail="Not found") from None
         if full_path and file_path.is_file():
             return FileResponse(file_path)
-        # Fallback para o index.html da SPA (Vue Router)
+        # Fallback para o index.html da SPA (Vue Router) servido a partir de memória
         index_path = (frontend_dist / "index.html").resolve()
         if not index_path.is_relative_to(frontend_dist) or not index_path.is_file():
             raise HTTPException(status_code=404, detail="Not found")
-        return FileResponse(index_path)
+        return HTMLResponse(_read_cached_index_html(index_path))

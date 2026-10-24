@@ -34,7 +34,7 @@
           <img
             :src="logoWhite"
             alt="ICMAV Logo"
-            class="w-full h-auto object-contain opacity-50 drop-shadow-2xl"
+            fetchpriority="high" decoding="async" class="w-full h-auto object-contain opacity-50 drop-shadow-2xl"
           />
         </div>
 

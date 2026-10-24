@@ -97,6 +97,8 @@
 <script setup>
 import { onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { preloadPublicSettings } from '../services/api'
 import Hero                     from '../components/Hero.vue'
 import StickyHeader             from '../components/StickyHeader.vue'
@@ -148,6 +150,7 @@ function scrollToSection(hashWithPrefix) {
 }
 
 onMounted(() => {
+  AOS.init({ duration: 800, once: true })
   if (route.hash) {
     scrollToSection(route.hash)
   }

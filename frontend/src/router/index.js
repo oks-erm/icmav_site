@@ -1,12 +1,12 @@
 // src/router/index.js
 
 import { createRouter, createWebHistory } from 'vue-router'
+import DonationFormView from '../views/DonationFormView.vue'
 
 const HomeView = () => import('../views/HomeView.vue')
 const AdminView = () => import('../views/AdminView.vue')
 const MinistriesDetailView = () => import('../views/MinistriesDetailView.vue')
 const MaintenanceView = () => import('../views/MaintenanceView.vue')
-const DonationFormView = () => import('../views/DonationFormView.vue')
 const TermsView = () => import('../views/TermsView.vue')
 const PrivacyView = () => import('../views/PrivacyView.vue')
 const RefundView = () => import('../views/RefundView.vue')

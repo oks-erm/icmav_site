@@ -184,7 +184,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import StickyHeader from '../components/StickyHeader.vue'
+import AOS from 'aos'; import 'aos/dist/aos.css'; import StickyHeader from '../components/StickyHeader.vue'
 import Footer from '../components/Footer.vue'
 import { getMinistriesPresentationContent } from '../services/api'
 
@@ -381,7 +381,7 @@ async function loadData() {
 }
 
 onMounted(() => {
-  loadData()
+  AOS.init({ duration: 800, once: true }); loadData()
   window.scrollTo({ top: 0, behavior: 'instant' })
 })
 </script>
