@@ -79,6 +79,9 @@ class RequestBodyLimitMiddleware:
                 await self._reject(send, 413)
                 return
 
+        if scope.get('method') in ('GET', 'HEAD', 'OPTIONS') and (not lengths or lengths == [b'0']) and not any(name.lower() == b'transfer-encoding' for name, _ in scope.get('headers', [])):
+            await self.app(scope, receive, send)
+            return
         # Context manager also closes rolled-over files on cancellation and app errors.
         with tempfile.SpooledTemporaryFile(max_size=self.memory_bytes, mode='w+b') as body_file:
             size = 0

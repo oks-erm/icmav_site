@@ -3,6 +3,15 @@ from .models import AppSetting
 from .secret_storage import decrypt_setting, encrypt_setting, SENSITIVE_SETTINGS, SECRET_FIELDS, PREFIX
 import json
 
+_public_cache: dict[tuple[int, str], tuple[int | None, str]] = {}
+
+
+def _bind_id(session: Session) -> int:
+    try:
+        return id(session.get_bind())
+    except Exception:
+        return 0
+
 
 def _get_record(session: Session, key: str):
     return session.exec(select(AppSetting).where(AppSetting.key == key)).first()
@@ -14,8 +23,18 @@ def _snapshot(setting: AppSetting):
 
 
 def get_setting(session: Session, key: str):
+    if key not in SENSITIVE_SETTINGS:
+        cache_key = (_bind_id(session), key)
+        cached = _public_cache.get(cache_key)
+        if cached is not None:
+            return AppSetting(id=cached[0], key=key, value=cached[1])
     setting = _get_record(session, key)
-    return _snapshot(setting) if setting else None
+    if not setting:
+        return None
+    snap = _snapshot(setting)
+    if key not in SENSITIVE_SETTINGS:
+        _public_cache[(_bind_id(session), key)] = (snap.id, snap.value)
+    return snap
 
 
 def upsert_setting(session: Session, key: str, value: str):
@@ -28,7 +47,10 @@ def upsert_setting(session: Session, key: str, value: str):
         session.add(setting)
     session.commit()
     session.refresh(setting)
-    return _snapshot(setting)
+    snap = _snapshot(setting)
+    if key not in SENSITIVE_SETTINGS:
+        _public_cache[(_bind_id(session), key)] = (snap.id, snap.value)
+    return snap
 
 
 def migrate_secret_settings(session: Session):

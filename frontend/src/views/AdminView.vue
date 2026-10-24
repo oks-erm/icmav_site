@@ -172,7 +172,7 @@ import Footer from '../components/Footer.vue'
 
 import AdminSectionWelcome from '../components/admin/AdminSectionWelcome.vue'
 import AdminSectionMessage from '../components/admin/AdminSectionMessage.vue'
-import AdminSectionPurposes from '../components/admin/AdminSectionPurposes.vue'
+import '@fortawesome/fontawesome-free/css/all.css'; import AdminSectionPurposes from '../components/admin/AdminSectionPurposes.vue'
 import AdminSectionPastoralTeam from '../components/admin/AdminSectionPastoralTeam.vue'
 import AdminSectionMinistries from '../components/admin/AdminSectionMinistries.vue'
 import AdminSectionServicesBanner from '../components/admin/AdminSectionServicesBanner.vue'

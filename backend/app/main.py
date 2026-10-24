@@ -2,7 +2,10 @@
 main.py — Ponto de entrada da aplicação FastAPI com inicialização limpa, compressão GZip e cache control.
 """
 
+import gzip
+import mimetypes
 import os
+import re
 import logging
 from pathlib import Path
 from contextlib import asynccontextmanager
@@ -36,6 +39,7 @@ logger = logging.getLogger("icmav_api")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     create_db_and_tables()
+    _preload_frontend_dist()
     yield
 
 # ─── App FastAPI ─────────────────────────────────────────────────────────────
@@ -222,32 +226,106 @@ async def health_check():
 
 # ─── Servir Frontend Vue SPA (Produção / Cloud Run) ──────────────────────────
 
-_spa_index_cache: tuple[str, int, str] | None = None
+_spa_index_cache: tuple[str, int, str, bytes] | None = None
+_static_ram_cache: dict[str, tuple[int, str, bytes, bytes | None]] = {}
+_CSS_LINK_RE = re.compile(r'<link\s+rel="stylesheet"\s+crossorigin\s+href="(/assets/[^"]+\.css)"\s*/?>')
+_COMPRESSIBLE_EXTS = {".js", ".css", ".svg", ".html", ".json", ".txt", ".xml"}
+_MAX_RAM_CACHE_FILE_BYTES = 2 * 1024 * 1024
 
 
-def _read_cached_index_html(index_path: Path) -> str:
+def _read_cached_index_html(index_path: Path) -> tuple[str, bytes]:
     global _spa_index_cache
     stat_mtime = index_path.stat().st_mtime_ns
     path_key = str(index_path)
     if _spa_index_cache is not None and _spa_index_cache[0] == path_key and _spa_index_cache[1] == stat_mtime:
-        return _spa_index_cache[2]
+        return _spa_index_cache[2], _spa_index_cache[3]
     content = index_path.read_text(encoding="utf-8")
-    _spa_index_cache = (path_key, stat_mtime, content)
-    return content
+    dist_root = index_path.parent.resolve()
+
+    def _inline_css(match: re.Match) -> str:
+        rel_href = match.group(1).lstrip("/")
+        try:
+            css_file = (dist_root / rel_href).resolve()
+            css_file.relative_to(dist_root)
+            if css_file.is_file():
+                css_text = css_file.read_text(encoding="utf-8")
+                return f"<style>{css_text}</style>"
+        except (ValueError, OSError, RuntimeError):
+            pass
+        return match.group(0)
+
+    content = _CSS_LINK_RE.sub(_inline_css, content)
+    raw_bytes = content.encode("utf-8")
+    gz_bytes = gzip.compress(raw_bytes, compresslevel=9) if len(raw_bytes) >= 1000 else raw_bytes
+    _spa_index_cache = (path_key, stat_mtime, content, gz_bytes)
+    return content, gz_bytes
+
+
+def _serve_ram_or_file(file_path: Path, request: Request | None) -> Response:
+    stat = file_path.stat()
+    if stat.st_size > _MAX_RAM_CACHE_FILE_BYTES:
+        return FileResponse(file_path, stat_result=stat)
+    key = str(file_path)
+    cached = _static_ram_cache.get(key)
+    if cached is None or cached[0] != stat.st_mtime_ns:
+        raw_bytes = file_path.read_bytes()
+        media_type = mimetypes.guess_type(file_path.name)[0] or "application/octet-stream"
+        ext = file_path.suffix.lower()
+        gz_bytes = (
+            gzip.compress(raw_bytes, compresslevel=9)
+            if ext in _COMPRESSIBLE_EXTS and len(raw_bytes) >= 1000
+            else None
+        )
+        if gz_bytes is not None and len(gz_bytes) >= len(raw_bytes):
+            gz_bytes = None
+        cached = (stat.st_mtime_ns, media_type, raw_bytes, gz_bytes)
+        _static_ram_cache[key] = cached
+
+    _, media_type, raw_bytes, gz_bytes = cached
+    accept_encoding = request.headers.get("accept-encoding", "") if request is not None else ""
+    if gz_bytes is not None and "gzip" in accept_encoding:
+        return Response(
+            content=gz_bytes,
+            media_type=media_type,
+            headers={"Content-Encoding": "gzip", "Vary": "Accept-Encoding"},
+        )
+    return Response(content=raw_bytes, media_type=media_type)
 
 
 frontend_dist = Path(__file__).resolve().parent.parent / "frontend_dist"
 if not frontend_dist.exists():
     frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
 
+def _preload_frontend_dist() -> None:
+    if not frontend_dist.exists():
+        return
+    idx = (frontend_dist / "index.html").resolve()
+    if idx.is_relative_to(frontend_dist) and idx.is_file():
+        _read_cached_index_html(idx)
+    assets_root = (frontend_dist / "assets").resolve()
+    if assets_root.is_dir():
+        for p in assets_root.iterdir():
+            if p.is_file():
+                _serve_ram_or_file(p.resolve(), None)
+
+
 if frontend_dist.exists():
     frontend_dist = frontend_dist.resolve()
-    assets_dir = frontend_dist / "assets"
-    if assets_dir.exists():
-        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+    assets_dir = (frontend_dist / "assets").resolve()
+
+    @app.get("/assets/{asset_path:path}")
+    async def serve_asset(asset_path: str, request: Request = None):
+        try:
+            file_path = (assets_dir / asset_path).resolve()
+            file_path.relative_to(assets_dir)
+        except (ValueError, OSError, RuntimeError):
+            raise HTTPException(status_code=404, detail="Not found") from None
+        if not asset_path or not file_path.is_file():
+            raise HTTPException(status_code=404, detail="Not found")
+        return _serve_ram_or_file(file_path, request)
 
     @app.get("/{full_path:path}")
-    async def serve_spa(full_path: str):
+    async def serve_spa(full_path: str, request: Request = None):
         # Se for um ficheiro estático existente na raiz do dist (ex: favicon, robots.txt)
         try:
             file_path = (frontend_dist / full_path).resolve()
@@ -255,9 +333,17 @@ if frontend_dist.exists():
         except (ValueError, OSError, RuntimeError):
             raise HTTPException(status_code=404, detail="Not found") from None
         if full_path and file_path.is_file():
-            return FileResponse(file_path)
-        # Fallback para o index.html da SPA (Vue Router) servido a partir de memória
+            return _serve_ram_or_file(file_path, request)
+        # Fallback para o index.html da SPA (Vue Router) servido a partir de memória com CSS crítico inlined
         index_path = (frontend_dist / "index.html").resolve()
         if not index_path.is_relative_to(frontend_dist) or not index_path.is_file():
             raise HTTPException(status_code=404, detail="Not found")
-        return HTMLResponse(_read_cached_index_html(index_path))
+        html_str, gz_bytes = _read_cached_index_html(index_path)
+        accept_encoding = request.headers.get("accept-encoding", "") if request is not None else ""
+        if "gzip" in accept_encoding and len(gz_bytes) < len(html_str):
+            return Response(
+                content=gz_bytes,
+                media_type="text/html; charset=utf-8",
+                headers={"Content-Encoding": "gzip", "Vary": "Accept-Encoding"},
+            )
+        return HTMLResponse(html_str)

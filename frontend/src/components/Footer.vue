@@ -169,6 +169,7 @@
 </template>
 
 <script setup>
+import '@fortawesome/fontawesome-free/css/all.css'
 import logoWhite from '../assets/logo_provisory_white.png'
 import MbwayLogo from './icons/MbwayLogo.vue'
 

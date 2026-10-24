@@ -7,7 +7,7 @@ const BACKEND_ORIGIN = /^https?:\/\//i.test(process.env.VITE_API_BASE_URL || '')
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue()], build: { assetsInlineLimit: 12288 },
   server: {
     proxy: {
       '/api': {

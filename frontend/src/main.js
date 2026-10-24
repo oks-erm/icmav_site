@@ -1,5 +1,4 @@
 import './index.css'
-import '@fortawesome/fontawesome-free/css/all.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -15,12 +14,15 @@ function updateFavicon() {
         : '/logo_provisory_black.png'
 }
 
-updateFavicon()
-
-window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', updateFavicon)
-
 createApp(App)
     .use(router)
     .mount('#app')
+
+if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+        updateFavicon()
+        window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', updateFavicon)
+    }, { once: true })
+}
