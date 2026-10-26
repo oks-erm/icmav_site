@@ -3,6 +3,7 @@ main.py — Ponto de entrada da aplicação FastAPI com inicialização limpa, c
 """
 
 import gzip
+import json
 import mimetypes
 import os
 import re
@@ -226,19 +227,45 @@ async def health_check():
 
 # ─── Servir Frontend Vue SPA (Produção / Cloud Run) ──────────────────────────
 
-_spa_index_cache: tuple[str, int, str, bytes] | None = None
+_spa_index_cache: tuple[str, int, str, str, bytes] | None = None
 _static_ram_cache: dict[str, tuple[int, str, bytes, bytes | None]] = {}
 _CSS_LINK_RE = re.compile(r'<link\s+rel="stylesheet"\s+crossorigin\s+href="(/assets/[^"]+\.css)"\s*/?>')
 _COMPRESSIBLE_EXTS = {".js", ".css", ".svg", ".html", ".json", ".txt", ".xml"}
 _MAX_RAM_CACHE_FILE_BYTES = 2 * 1024 * 1024
 
 
+def _get_initial_donations_script() -> str:
+    try:
+        from .crud import _public_cache, get_setting
+        from .defaults import DEFAULT_DONATIONS_CONTENT
+        cached = _public_cache.get((id(engine), "donations_content"))
+        if cached is not None:
+            raw_val = cached[1]
+        else:
+            with Session(engine) as session:
+                setting = get_setting(session, "donations_content")
+                raw_val = setting.value if setting else json.dumps(DEFAULT_DONATIONS_CONTENT, ensure_ascii=False)
+        parsed = json.loads(raw_val)
+    except Exception:
+        from .defaults import DEFAULT_DONATIONS_CONTENT
+        parsed = DEFAULT_DONATIONS_CONTENT
+    payload = json.dumps({"key": "donations_content", "value": parsed}, ensure_ascii=False)
+    safe_payload = payload.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    return f"<script>window.__INITIAL_DONATIONS__={safe_payload};</script>"
+
+
 def _read_cached_index_html(index_path: Path) -> tuple[str, bytes]:
     global _spa_index_cache
     stat_mtime = index_path.stat().st_mtime_ns
     path_key = str(index_path)
-    if _spa_index_cache is not None and _spa_index_cache[0] == path_key and _spa_index_cache[1] == stat_mtime:
-        return _spa_index_cache[2], _spa_index_cache[3]
+    donations_script = _get_initial_donations_script()
+    if (
+        _spa_index_cache is not None
+        and _spa_index_cache[0] == path_key
+        and _spa_index_cache[1] == stat_mtime
+        and _spa_index_cache[2] == donations_script
+    ):
+        return _spa_index_cache[3], _spa_index_cache[4]
     content = index_path.read_text(encoding="utf-8")
     dist_root = index_path.parent.resolve()
 
@@ -255,9 +282,11 @@ def _read_cached_index_html(index_path: Path) -> tuple[str, bytes]:
         return match.group(0)
 
     content = _CSS_LINK_RE.sub(_inline_css, content)
+    if "</head>" in content:
+        content = content.replace("</head>", f"{donations_script}</head>", 1)
     raw_bytes = content.encode("utf-8")
     gz_bytes = gzip.compress(raw_bytes, compresslevel=9) if len(raw_bytes) >= 1000 else raw_bytes
-    _spa_index_cache = (path_key, stat_mtime, content, gz_bytes)
+    _spa_index_cache = (path_key, stat_mtime, donations_script, content, gz_bytes)
     return content, gz_bytes
 
 
