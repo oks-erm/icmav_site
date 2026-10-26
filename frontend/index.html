@@ -5,6 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ICMAV - Propósito para a vida</title>
+  <script>
+    window.__PERF_T0 = typeof performance !== 'undefined' ? Math.round(performance.now()) : 0;
+  </script>
   <link id="app-favicon" rel="icon" type="image/png" href="/logo_provisory_white.png" />
   <!-- Google Fonts - Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +26,7 @@
 <body class="antialiased">
   <div id="app"></div>
   <script>
+    window.__PERF_TBODY = typeof performance !== 'undefined' ? Math.round(performance.now()) : 0;
     if (window.location.pathname.startsWith('/donativos')) {
       var appEl = document.getElementById('app');
       if (appEl) {
