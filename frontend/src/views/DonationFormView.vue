@@ -4,14 +4,16 @@
   <div class="min-h-screen bg-slate-950 text-gray-100 flex flex-col justify-between relative overflow-hidden selection:bg-primary selection:text-white">
     
     <!-- Efeitos de Luz e Gradiente de Fundo (Atmosphere) -->
-    <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[140px] z-0"></div>
-    <div class="pointer-events-none absolute -bottom-40 right-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] z-0"></div>
+    <div
+      class="pointer-events-none absolute inset-0 z-0"
+      style="background: radial-gradient(360px circle at 50% 100px, rgba(14, 165, 233, 0.16), transparent 75%), radial-gradient(280px circle at 85% 90%, rgba(99, 102, 241, 0.12), transparent 75%);"
+    ></div>
 
     <!-- ══════════════════ TOPO / NAVEGAÇÃO ══════════════════ -->
     <header class="relative z-10 w-full max-w-4xl mx-auto px-4 pt-6 sm:pt-8 flex items-center justify-between">
       <router-link
         to="/"
-        class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-gray-300 bg-white/5 hover:bg-white/10 hover:text-white transition-all border border-white/10 backdrop-blur-md cursor-pointer group"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-gray-300 bg-white/5 hover:bg-white/10 hover:text-white transition-all border border-white/10 cursor-pointer group"
       >
         <svg class="w-3 h-3 fill-current group-hover:-translate-x-1 transition-transform" viewBox="0 0 448 512" aria-hidden="true"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
         <span>Voltar ao site</span>
@@ -34,16 +36,16 @@
           <img
             :src="logoWhite"
             alt="ICMAV Logo"
-            fetchpriority="high" decoding="async" class="w-full h-auto object-contain opacity-50 drop-shadow-2xl"
+            fetchpriority="high" decoding="async" class="w-full h-auto object-contain opacity-50"
           />
         </div>
 
         <!-- Títulos posicionados do meio para baixo do logótipo com espaçamento equilibrado -->
         <div class="relative z-10 pt-24 sm:pt-32 pb-3.5 sm:pb-4 space-y-1.5">
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight" style="text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);">
             Contribuição & Generosidade
           </h1>
-          <p class="text-xs sm:text-sm text-gray-200 max-w-xs mx-auto font-medium drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+          <p class="text-xs sm:text-sm text-gray-200 max-w-xs mx-auto font-medium" style="text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);">
             Apoia a missão, os projetos e a comunidade da ICMAV.
           </p>
         </div>
@@ -619,6 +621,11 @@ function handleClickOutside(event) {
   }
 }
 
+const initialDonations =
+  typeof window !== 'undefined' && window.__INITIAL_DONATIONS__
+    ? window.__INITIAL_DONATIONS__.value || window.__INITIAL_DONATIONS__
+    : null
+
 const donationsConfig = ref({
   beneficiary: 'Igreja Cristã Manancial de Águas Vivas',
   iban: 'PT50 0007 0246 0014 0750 0033 4',
@@ -630,7 +637,12 @@ const donationsConfig = ref({
     { id: 'Dízimos', name: 'Dízimos' },
     { id: 'Missões', name: 'Missões' },
   ],
+  ...(initialDonations && typeof initialDonations === 'object' ? initialDonations : {}),
 })
+
+if (Array.isArray(donationsConfig.value.categories) && donationsConfig.value.categories.length > 0) {
+  selectedCategory.value = donationsConfig.value.categories[0].name
+}
 
 const availableCategories = computed(() => {
   if (Array.isArray(donationsConfig.value.categories) && donationsConfig.value.categories.length > 0) {
@@ -872,20 +884,22 @@ onMounted(async () => {
     errorMessage.value = 'Não foi possível recuperar o pedido guardado. Contacta a tesouraria antes de repetir.'
   }
 
-  try {
-    const res = (typeof window !== 'undefined' && window.__INITIAL_DONATIONS__) || (await getDonationsContent())
-    const data = res?.value || res
-    if (data && typeof data === 'object') {
-      donationsConfig.value = {
-        ...donationsConfig.value,
-        ...data,
+  if (!initialDonations) {
+    try {
+      const res = await getDonationsContent()
+      const data = res?.value || res
+      if (data && typeof data === 'object') {
+        donationsConfig.value = {
+          ...donationsConfig.value,
+          ...data,
+        }
+        if (!savedAttempt.value && Array.isArray(data.categories) && data.categories.length > 0) {
+          selectedCategory.value = data.categories[0].name
+        }
       }
-      if (!savedAttempt.value && Array.isArray(data.categories) && data.categories.length > 0) {
-        selectedCategory.value = data.categories[0].name
-      }
+    } catch {
+      // Silenciosamente mantém os defaults
     }
-  } catch {
-    // Silenciosamente mantém os defaults
   }
 })
 
